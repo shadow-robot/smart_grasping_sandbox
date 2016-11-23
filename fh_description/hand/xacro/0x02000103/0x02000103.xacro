@@ -1,0 +1,87 @@
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="macro_0x02000103" params="part_id hand_id parent transmission *origin">
+    <link name="${hand_id}_${part_id}_wrist_base">
+      <inertial>
+        <origin xyz="0.00326865129997316 -4.64589898998213E-06 0.0112847129271115" rpy="0 0 0" />
+        <mass value="0.126266795472122" />
+        <inertia ixx="7.45469352483292E-05" ixy="6.02324465005139E-09" ixz="7.48046652661961E-07"
+                 iyy="0.000152711306761993" iyz="2.66777152755212E-09" izz="0.000201286651417327" />
+      </inertial>
+      <xacro:mesh_visual file_name="wrist_base.stl">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <xacro:light_grey/>
+      </xacro:mesh_visual>
+      <xacro:mesh_collision file_name="wrist_base.stl">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <xacro:light_grey/>
+      </xacro:mesh_collision>
+    </link>
+
+    <link name="${hand_id}_${part_id}_wrist">
+      <inertial>
+        <origin xyz="0.00160957599422527 -0.000629300457080406 0.0174740198321096" rpy="0 0 0" />
+        <mass value="0.111982108931474" />
+        <inertia ixx="7.18014678375949E-05" ixy="-9.11325601281988E-07" ixz="-2.80734883420538E-06"
+          iyy="0.000184429517814393" iyz="-2.43285388562761E-07" izz="0.000238392777579217" />
+      </inertial>
+      <xacro:mesh_visual file_name="wrist.stl">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <xacro:light_grey/>
+      </xacro:mesh_visual>
+      <xacro:mesh_collision file_name="wrist.stl">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <xacro:light_grey/>
+      </xacro:mesh_collision>
+    </link>
+
+    <joint name="${hand_id}_${part_id}J1" type="revolute">
+      <origin xyz="0 0 0.032" rpy="0 0 0" />
+      <parent link="${hand_id}_${part_id}_wrist_base" />
+      <child link="${hand_id}_${part_id}_wrist" />
+      <axis xyz="-1 0 0" />
+      <limit lower="-0.785" upper="0.785" effort="20" velocity="0.1" />
+      <dynamic damping="0.1"/>
+    </joint>
+
+    <link name="${hand_id}_${part_id}_force_torque_sensor">
+      <inertial>
+        <origin xyz="-2.94070736140857E-06 6.43877814287904E-05 0.0247092180043537" rpy="0 0 0" />
+        <mass value="0.0975991645938483" />
+        <inertia ixx="6.20729230428078E-05" ixy="-1.64643097783638E-08" ixz="-3.24429596458139E-08"
+          iyy="6.18050372756729E-05" iyz="1.29139184791137E-08" izz="8.23283621428637E-05" />
+      </inertial>
+      <xacro:mesh_visual file_name="force_torque_sensor.stl">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <xacro:light_grey/>
+      </xacro:mesh_visual>
+      <xacro:mesh_collision file_name="force_torque_sensor.stl">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <xacro:light_grey/>
+      </xacro:mesh_collision>
+    </link>
+
+    <link name="${hand_id}_${part_id}_face_plate"/>
+
+    <joint name="${hand_id}_${part_id}_wrist_to_ft_sensor" type="fixed">
+      <origin xyz="0 0 0.015" rpy="0 0 0" />
+      <parent link="${hand_id}_${part_id}_wrist" />
+      <child link="${hand_id}_${part_id}_force_torque_sensor" />
+    </joint>
+
+    <joint name="${hand_id}_${part_id}_wrist_base" type="fixed">
+      <insert_block name="origin"/>
+      <parent link="${parent}" />
+      <child link="${hand_id}_${part_id}_wrist_base" />
+    </joint>
+
+    <joint name="${hand_id}_${part_id}ft_sensor_to_faceplate" type="fixed">
+      <origin xyz="0 0 0.0505" rpy="0 0 0" />
+      <parent link="${hand_id}_${part_id}_force_torque_sensor" />
+      <child link="${hand_id}_${part_id}_face_plate" />
+    </joint>
+
+    <xacro:if value="${transmission}">
+      <xacro:transmission_ joint_name="${hand_id}_${part_id}J1" interface="EffortJointInterface"/>
+    </xacro:if>
+  </xacro:macro>
+</robot>

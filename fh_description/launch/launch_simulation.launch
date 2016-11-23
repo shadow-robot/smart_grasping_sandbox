@@ -1,0 +1,22 @@
+<launch>
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find fh_description)/other/worlds/hand_h.world"/> <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <param name="robot_description" command="$(find xacro)/xacro '$(find fh_description)/robots/right_H1_ur5.urdf'" />
+  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model hand_h -z 1." respawn="false" output="screen"/>
+
+  <include file="$(find ur_gazebo)/launch/controller_utils.launch"/>
+
+  <rosparam file="$(find ur_gazebo)/controller/arm_controller_ur10.yaml" command="load"/>
+  <node name="arm_controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn arm_controller" respawn="false" output="screen"/>
+
+  <rosparam command="load" file="$(find fh_description)/config/hand_H_gazebo_trajectory.yaml"/>
+  <node name="spawn_hand_controller" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="--shutdown-timeout=1.0 H1_trajectory_controller" />
+</launch>

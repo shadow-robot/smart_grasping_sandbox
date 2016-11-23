@@ -1,0 +1,124 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="light_grey" >
+    <material name="light_grey">
+      <color rgba="0.75 0.75 0.75 1.0" />
+    </material>
+  </xacro:macro>
+
+  <xacro:property name="pi" value="3.1415926535897931"/>
+  <xacro:property name="sqrt_2" value="1.414213562"/>
+
+  <xacro:macro name="cylinder_inertia" params="mass radius height *origin">
+    <inertial>
+      <xacro:insert_block name="origin" />
+      <mass value="${mass}" />
+      <inertia  ixx="${(3*radius*radius + height*height)*mass/12}" ixy="0.0" ixz="0.0"
+                iyy="${(3*radius*radius + height*height)*mass/12}" iyz="0.0"
+                izz="${radius*radius*mass/2}" />
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="cylinder_geometry" params="name radius height">
+    <geometry name="${name}">
+      <cylinder length="${height}" radius="${radius}"/>
+    </geometry>
+  </xacro:macro>
+
+  <xacro:macro name="cylinder_collision" params="name radius height *origin">
+    <collision>
+      <xacro:insert_block name="origin" />
+      <xacro:cylinder_geometry name="${name}" radius="${radius}" height="${height}"/>
+    </collision>
+  </xacro:macro>
+
+  <xacro:macro name="cylinder_visual" params="name radius height *origin *material">
+    <visual>
+      <xacro:insert_block name="origin" />
+      <xacro:cylinder_geometry name="${name}" radius="${radius}" height="${height}"/>
+      <xacro:insert_block name="material" />
+    </visual>
+  </xacro:macro>
+
+  <xacro:macro name="full_cylinder" params="name mass radius height *origin *material">
+    <xacro:cylinder_inertia mass="${mass}" radius="${radius}" height="${height}">
+      <xacro:insert_block name="origin"/>
+    </xacro:cylinder_inertia>
+
+    <xacro:cylinder_visual name="${name}_visual" radius="${radius}" height="${height}">
+      <xacro:insert_block name="origin"/>
+      <xacro:insert_block name="material"/>
+    </xacro:cylinder_visual>
+
+    <xacro:cylinder_collision name="${name}_collision" radius="${radius}" height="${height}">
+      <xacro:insert_block name="origin"/>
+    </xacro:cylinder_collision>
+  </xacro:macro>
+
+  <xacro:macro name="box_inertia" params="mass width depth height *origin">
+    <inertial>
+      <xacro:insert_block name="origin" />
+      <mass value="${mass}" />
+      <inertia  ixx="${(height*height + depth*depth)*mass/12}" ixy="0.0" ixz="0.0"
+                iyy="${(height*height + width*width)*mass/12}" iyz="0.0"
+                izz="${(width*width + depth*depth)*mass/12}" />
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="box_geometry" params="name width depth height">
+    <geometry name="${name}">
+      <box size="${width} ${depth} ${height}"/>
+    </geometry>
+  </xacro:macro>
+
+  <xacro:macro name="box_collision" params="name width depth height *origin">
+    <collision>
+      <xacro:insert_block name="origin" />
+      <xacro:box_geometry name="${name}" width="${width}" depth="${depth}" height="${height}"/>
+    </collision>
+  </xacro:macro>
+
+  <xacro:macro name="box_visual" params="name width depth height *origin *material">
+    <visual>
+      <xacro:insert_block name="origin" />
+      <xacro:box_geometry name="${name}" width="${width}" depth="${depth}" height="${height}"/>
+      <xacro:insert_block name="material" />
+    </visual>
+  </xacro:macro>
+
+  <xacro:macro name="mesh_geometry" params="file_name">
+    <geometry>
+      <mesh filename="package://fh_description/meshes/${file_name}"/>
+    </geometry>
+  </xacro:macro>
+
+  <xacro:macro name="mesh_visual" params="file_name *origin *material">
+    <visual>
+      <xacro:insert_block name="origin"/>
+      <xacro:mesh_geometry file_name="${file_name}"/>
+      <xacro:insert_block name="material"/>
+    </visual>
+  </xacro:macro>
+
+  <xacro:macro name="mesh_collision" params="file_name *origin *material">
+    <collision>
+      <xacro:insert_block name="origin"/>
+      <xacro:mesh_geometry file_name="${file_name}"/>
+      <xacro:insert_block name="material"/>
+    </collision>
+  </xacro:macro>
+  
+
+  <xacro:macro name="transmission_" params="joint_name interface">
+    <transmission name="${joint_name}_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+      <actuator name="${joint_name}">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    <joint name="${joint_name}">
+      <hardwareInterface>${interface}</hardwareInterface>
+    </joint>
+    </transmission>
+  </xacro:macro>
+
+</robot>
