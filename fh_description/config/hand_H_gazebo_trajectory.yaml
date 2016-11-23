@@ -1,4 +1,4 @@
-H1_trajectory_controller:
+hand_controller:
   gains:
     H1_F1J1:
       p: 10.0

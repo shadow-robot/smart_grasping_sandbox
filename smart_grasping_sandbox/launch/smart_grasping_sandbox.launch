@@ -1,0 +1,11 @@
+<launch>
+    <arg name="gui" value="true"/>
+
+    <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+    <include file="$(find fh_description)/launch/launch_simulation.launch"/>
+    <include file="$(find smart_grasp_moveit_config)/launch/move_group.launch"/>
+
+    <group if="$(arg gui)">
+        <include file="$(find smart_grasp_moveit_config)/launch/moveit_rviz.launch"/>
+    </group>
+</launch>
