@@ -29,7 +29,7 @@ install(DIRECTORY other/
 install(DIRECTORY robots/
    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/robots)
 
-install(PROGRAMS scripts/fh_description/urdf_loader.py
+install(PROGRAMS scripts/fh_desc/urdf_loader.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
