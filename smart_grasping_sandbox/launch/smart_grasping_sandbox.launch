@@ -8,10 +8,8 @@
     <include file="$(find smart_grasp_moveit_config)/launch/move_group.launch"/>
 
     <include file="$(find gazebo2rviz)/launch/gazebo2moveit.launch">
-        <!--
-        <env name="GAZEBO_MODEL_PATH" value="$(find smart_grasping_sandbox)/world/cafe/:$(optenv GAZEBO_MODEL_PATH)"/>
-        <env name="MESH_WORKSPACE_PATH" value="$(find smart_grasping_sandbox)/world/cafe/meshes"/>
-        -->
+        <env name="GAZEBO_MODEL_PATH" value="/root/.gazebo/models"/>
+        <env name="MESH_WORKSPACE_PATH" value="/root/.gazebo/models"/>
     </include>
 
     <group if="$(arg gui)">

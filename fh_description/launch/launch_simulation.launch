@@ -11,15 +11,13 @@
       <arg name="gui" default="$(arg gui)"/>
       <arg name="headless" value="false"/>
       <arg name="debug" value="false"/>
-      <!--
-      <env name="GAZEBO_MODEL_PATH" value="$(find smart_grasping_sandbox)/world/cafe/:$(optenv GAZEBO_MODEL_PATH)"/>
-      <env name="MESH_WORKSPACE_PATH" value="$(find smart_grasping_sandbox)/world/cafe/meshes"/>
-      -->
+      <env name="GAZEBO_MODEL_PATH" value="/root/.gazebo/models"/>
+      <env name="MESH_WORKSPACE_PATH" value="/root/.gazebo/models"/>
     </include>
   </group>
 
   <param name="robot_description" command="$(find xacro)/xacro '$(find fh_description)/robots/right_H1_ur5.urdf'" />
-  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model ur10 -z 1. -x 0.0 -y -1." respawn="false" output="screen"/>
+  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model ur10 -z 0 -x 0.0 -y 0." respawn="false" output="screen"/>
 
   <include file="$(find ur_gazebo)/launch/controller_utils.launch"/>
 
