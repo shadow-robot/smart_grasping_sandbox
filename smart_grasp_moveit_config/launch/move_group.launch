@@ -58,7 +58,6 @@
 				      move_group/MoveGroupGetPlanningSceneService
 				      move_group/ApplyPlanningSceneService
 				      move_group/ClearOctomapService
-                      move_group/MoveGroupGetPlanningSceneService
 				      " />
 
     <!-- Publish the planning scene of the physical robot so that rviz plugin can know actual robot -->
