@@ -19,7 +19,7 @@
   </group>
 
   <param name="robot_description" command="$(find xacro)/xacro '$(find fh_description)/robots/right_H1_ur5.urdf'" />
-  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model ur10 -z 1. -x 1.15 -y 3.5" respawn="false" output="screen"/>
+  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model ur10 -z 1. -x 0.0 -y -1." respawn="false" output="screen"/>
 
   <include file="$(find ur_gazebo)/launch/controller_utils.launch"/>
 
