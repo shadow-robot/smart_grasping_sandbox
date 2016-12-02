@@ -54,17 +54,17 @@
         <joint name="H1_WRJ1" value="0" />
     </group_state>
     <group_state name="close" group="hand">
-        <joint name="H1_F1J1" value="0" />
+        <joint name="H1_F1J1" value="0.1" />
         <joint name="H1_F1J2" value="0.3" />
-        <joint name="H1_F2J1" value="0" />
+        <joint name="H1_F2J1" value="0.1" />
         <joint name="H1_F2J2" value="0.3" />
-        <joint name="H1_F3J1" value="0" />
+        <joint name="H1_F3J1" value="0.1" />
         <joint name="H1_F3J2" value="0.3" />
         <joint name="H1_WRJ1" value="0" />
     </group_state>
     <group_state name="start" group="arm">
-        <joint name="elbow_joint" value="1.4774" />
-        <joint name="shoulder_lift_joint" value="-0.7302" />
+        <joint name="elbow_joint" value="1.8849" />
+        <joint name="shoulder_lift_joint" value="-1.6132" />
         <joint name="shoulder_pan_joint" value="0" />
         <joint name="wrist_1_joint" value="0" />
         <joint name="wrist_2_joint" value="0" />

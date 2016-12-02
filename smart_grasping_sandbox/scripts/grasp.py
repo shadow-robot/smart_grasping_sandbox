@@ -5,6 +5,7 @@ from visualization_msgs.msg import Marker
 from moveit_commander import MoveGroupCommander
 from tf.transformations import quaternion_from_euler
 from math import pi
+from copy import deepcopy
 
 class Grasp(object):
 
@@ -63,20 +64,25 @@ class Grasp(object):
     def pre_grasp(self, arm_target):
         self.__hand_commander.set_named_target("open")
         plan = self.__hand_commander.plan()
-        self.__hand_commander.execute(plan, wait=False)
+        self.__hand_commander.execute(plan, wait=True)
 
-        self.__arm_commander.set_start_state_to_current_state()
-        self.__arm_commander.set_pose_targets([arm_target])
-        plan = self.__arm_commander.plan()
-        if not self.__arm_commander.execute(plan):
-            return False
+        for _ in range(10):
+            self.__arm_commander.set_start_state_to_current_state()
+            self.__arm_commander.set_pose_targets([arm_target])
+            plan = self.__arm_commander.plan()
+            if self.__arm_commander.execute(plan):
+                return True
 
     def grasp(self, arm_target):
-        arm_target.position.z = 1.233
+        waypoints = []
+        waypoints.append(self.__arm_commander.get_current_pose(self.__arm_commander.get_end_effector_link()).pose)
+        arm_above_ball = deepcopy(arm_target)
+        arm_above_ball.position.z -= 0.1
+        waypoints.append(arm_above_ball)
 
         self.__arm_commander.set_start_state_to_current_state()
-        self.__arm_commander.set_pose_targets([arm_target])
-        plan = self.__arm_commander.plan()
+        (plan, fraction) = self.__arm_commander.compute_cartesian_path(waypoints, 0.01, 0.0)
+        print fraction
         if not self.__arm_commander.execute(plan):
             return False
 
@@ -86,23 +92,27 @@ class Grasp(object):
             return False
 
     def lift(self, arm_target):
-        arm_target.position.z += 0.1
+        waypoints = []
+        waypoints.append(self.__arm_commander.get_current_pose(self.__arm_commander.get_end_effector_link()).pose)
+        arm_above_ball = deepcopy(arm_target)
+        arm_above_ball.position.z += 0.1
+        waypoints.append(arm_above_ball)
 
         self.__arm_commander.set_start_state_to_current_state()
-        self.__arm_commander.set_pose_targets([arm_target])
-        plan = self.__arm_commander.plan()
+        (plan, fraction) = self.__arm_commander.compute_cartesian_path(waypoints, 0.01, 0.0)
+        print fraction
         if not self.__arm_commander.execute(plan):
             return False
 
     def go_to_start(self):
-        self.__hand_commander.set_named_target("open")
-        plan = self.__hand_commander.plan()
-        self.__hand_commander.execute(plan, wait=True)
-
         self.__arm_commander.set_named_target("start")
         plan = self.__arm_commander.plan()
         if not self.__arm_commander.execute(plan, wait=True):
             return False
+
+        self.__hand_commander.set_named_target("open")
+        plan = self.__hand_commander.plan()
+        self.__hand_commander.execute(plan, wait=True)
 
         self.__reset_world.call()
 
