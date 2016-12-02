@@ -725,7 +725,7 @@
     </model>
     <model name='kinect'>
       <static>1</static>
-      <pose frame=''>-0.419676 -0.447051 0.036 0 -0 0</pose>
+      <pose frame=''>1.35931 0.242068 1.04639 0 0 -2.6122</pose>
       <link name='link'>
         <inertial>
           <mass>0.1</mass>

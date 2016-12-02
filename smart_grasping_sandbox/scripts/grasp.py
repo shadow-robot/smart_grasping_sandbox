@@ -10,7 +10,6 @@ class Grasp(object):
 
     def __init__(self):
         self.__reset_world = rospy.ServiceProxy("/gazebo/reset_world", Empty)
-        self.__reset_world.call()
 
         self.__get_ball_pose = rospy.ServiceProxy("/gazebo/get_model_state", GetModelState)
 
@@ -27,6 +26,7 @@ class Grasp(object):
 
         self.pre_grasp(arm_target)
         self.grasp(arm_target)
+        self.lift(arm_target)
 
     def compute_arm_target(self):
         ball_pose = self.__get_ball_pose.call("cricket_ball", "world")
@@ -72,7 +72,7 @@ class Grasp(object):
             return False
 
     def grasp(self, arm_target):
-        arm_target.position.z -= 0.1
+        arm_target.position.z = 1.233
 
         self.__arm_commander.set_start_state_to_current_state()
         self.__arm_commander.set_pose_targets([arm_target])
@@ -85,9 +85,26 @@ class Grasp(object):
         if not self.__hand_commander.execute(plan, wait=True):
             return False
 
+    def lift(self, arm_target):
+        arm_target.position.z += 0.1
+
+        self.__arm_commander.set_start_state_to_current_state()
+        self.__arm_commander.set_pose_targets([arm_target])
+        plan = self.__arm_commander.plan()
+        if not self.__arm_commander.execute(plan):
+            return False
+
     def go_to_start(self):
-        #[0.587, -0.812, 1.330]
-        return False
+        self.__hand_commander.set_named_target("open")
+        plan = self.__hand_commander.plan()
+        self.__hand_commander.execute(plan, wait=True)
+
+        self.__arm_commander.set_named_target("start")
+        plan = self.__arm_commander.plan()
+        if not self.__arm_commander.execute(plan, wait=True):
+            return False
+
+        self.__reset_world.call()
 
 
 if __name__=="__main__":
