@@ -77,7 +77,7 @@ class Grasp(object):
         waypoints = []
         waypoints.append(self.__arm_commander.get_current_pose(self.__arm_commander.get_end_effector_link()).pose)
         arm_above_ball = deepcopy(arm_target)
-        arm_above_ball.position.z -= 0.1
+        arm_above_ball.position.z -= 0.12
         waypoints.append(arm_above_ball)
 
         self.__arm_commander.set_start_state_to_current_state()
@@ -90,6 +90,8 @@ class Grasp(object):
         plan = self.__hand_commander.plan()
         if not self.__hand_commander.execute(plan, wait=True):
             return False
+
+        self.__hand_commander.attach_object("cricket_ball__link")
 
     def lift(self, arm_target):
         waypoints = []

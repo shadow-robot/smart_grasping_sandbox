@@ -54,12 +54,12 @@
         <joint name="H1_WRJ1" value="0" />
     </group_state>
     <group_state name="close" group="hand">
-        <joint name="H1_F1J1" value="0.1" />
-        <joint name="H1_F1J2" value="0.3" />
-        <joint name="H1_F2J1" value="0.1" />
-        <joint name="H1_F2J2" value="0.3" />
-        <joint name="H1_F3J1" value="0.1" />
-        <joint name="H1_F3J2" value="0.3" />
+        <joint name="H1_F1J1" value="-0.05" />
+        <joint name="H1_F1J2" value="0.4" />
+        <joint name="H1_F2J1" value="-0.05" />
+        <joint name="H1_F2J2" value="0.4" />
+        <joint name="H1_F3J1" value="-0.05" />
+        <joint name="H1_F3J2" value="0.4" />
         <joint name="H1_WRJ1" value="0" />
     </group_state>
     <group_state name="start" group="arm">
