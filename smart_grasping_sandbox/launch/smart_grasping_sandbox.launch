@@ -2,7 +2,7 @@
     <arg name="gui" default="true"/>
 
     <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
-    <include file="$(find fh_description)/launch/launch_simulation.launch">
+    <include file="$(find fh_desc)/launch/launch_simulation.launch">
         <arg name="gui" default="$(arg gui)"/>
     </include>
     <include file="$(find smart_grasp_moveit_config)/launch/move_group.launch"/>

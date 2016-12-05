@@ -5,7 +5,7 @@ project(smart_grasping_sandbox)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  fh_description
+  fh_desc
   smart_grasp_moveit_config
 )
 
@@ -101,7 +101,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES smart_grasping_sandbox
-#  CATKIN_DEPENDS fh_description smart_grasp_moveit_config
+#  CATKIN_DEPENDS fh_desc smart_grasp_moveit_config
 #  DEPENDS system_lib
 )
 

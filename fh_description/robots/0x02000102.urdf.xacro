@@ -1,5 +1,0 @@
-<?xml version="1.0" ?>
-
-<robot name="0x02000102" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:include filename="$(find fh_description)/hand/xacro/0x02000102/0x02000102.xacro" />
-</robot>

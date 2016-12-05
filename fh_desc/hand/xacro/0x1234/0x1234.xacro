@@ -1,0 +1,41 @@
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find fh_desc)/common/common.xacro" />
+  <xacro:include filename="$(find fh_desc)/common/materials.xacro" />
+  <xacro:macro name="green_material" >
+    <color rgba="0.0 0.8 0.0 1.0" />
+  </xacro:macro>
+  <xacro:macro name="macro_0x1234" params="part_id parent transmission *origin">
+
+    <link name="finger_${part_id}_link_1">
+      <xacro:full_cylinder name="finger_${part_id}_link_1"
+                           mass="0.1" radius="0.002" height="0.1">
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+      	<xacro:green_material/>
+      </xacro:full_cylinder>
+    </link>
+
+    <link name="finger_${part_id}_link_2">
+      <xacro:full_cylinder name="finger_${part_id}_link_2"
+                           mass="0.1" radius="0.002" height="0.1">
+        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <xacro:green_material/>
+      </xacro:full_cylinder>
+    </link>
+
+    <joint name="finger_${part_id}_link_1_to_${parent}" type="fixed">
+      <parent link="${parent}"/>
+      <child link="finger_${part_id}_link_1"/>
+      <insert_block name="origin"/>
+    </joint>
+
+    <joint name="finger_${part_id}_J1" type="revolute">
+      <parent link="finger_${part_id}_link_1"/>
+      <child link="finger_${part_id}_link_2"/>
+      <insert_block name="origin"/>
+      <axis xyz="0 1 0" />
+      <limit lower="0.0" upper="${pi/2}" effort="2" velocity="1.0" />
+      <dynamics damping="0.1"/>
+    </joint>
+
+  </xacro:macro>
+</robot>
