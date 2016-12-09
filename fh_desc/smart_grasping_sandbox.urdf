@@ -5,8 +5,8 @@
 <!-- =================================================================================== -->
 <robot name="ur10" xmlns:xacro="http://ros.org/wiki/xacro">
   <!--
-  Author: Kelsey Hawkins 
-  Contributers: Jimmy Da Silva, Ajit Krisshna N L, Muhammad Asif Rana 
+  Author: Kelsey Hawkins
+  Contributers: Jimmy Da Silva, Ajit Krisshna N L, Muhammad Asif Rana
 -->
   <!-- Inertia parameters -->
   <!-- This mass might be incorrect -->
@@ -29,7 +29,7 @@
   <link name="base_link">
     <visual>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/visual/base.dae"/>
+        <mesh filename="model://ur_description/meshes/ur10/visual/base.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -37,7 +37,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/collision/base.stl"/>
+        <mesh filename="model://ur_description/meshes/ur10/collision/base.dae"/>
       </geometry>
     </collision>
     <inertial>
@@ -57,7 +57,7 @@
   <link name="shoulder_link">
     <visual>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/visual/shoulder.dae"/>
+        <mesh filename="model://ur_description/meshes/ur10/visual/shoulder.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -65,7 +65,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/collision/shoulder.stl"/>
+        <mesh filename="model://ur_description/meshes/ur10/collision/shoulder.dae"/>
       </geometry>
     </collision>
     <inertial>
@@ -85,7 +85,7 @@
   <link name="upper_arm_link">
     <visual>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/visual/upperarm.dae"/>
+        <mesh filename="model://ur_description/meshes/ur10/visual/upperarm.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -93,7 +93,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/collision/upperarm.stl"/>
+        <mesh filename="model://ur_description/meshes/ur10/collision/upperarm.dae"/>
       </geometry>
     </collision>
     <inertial>
@@ -113,7 +113,7 @@
   <link name="forearm_link">
     <visual>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/visual/forearm.dae"/>
+        <mesh filename="model://ur_description/meshes/ur10/visual/forearm.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -121,7 +121,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/collision/forearm.stl"/>
+        <mesh filename="model://ur_description/meshes/ur10/collision/forearm.dae"/>
       </geometry>
     </collision>
     <inertial>
@@ -141,7 +141,7 @@
   <link name="wrist_1_link">
     <visual>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/visual/wrist1.dae"/>
+        <mesh filename="model://ur_description/meshes/ur10/visual/wrist1.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -149,7 +149,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/collision/wrist1.stl"/>
+        <mesh filename="model://ur_description/meshes/ur10/collision/wrist1.dae"/>
       </geometry>
     </collision>
     <inertial>
@@ -169,7 +169,7 @@
   <link name="wrist_2_link">
     <visual>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/visual/wrist2.dae"/>
+        <mesh filename="model://ur_description/meshes/ur10/visual/wrist2.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -177,7 +177,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/collision/wrist2.stl"/>
+        <mesh filename="model://ur_description/meshes/ur10/collision/wrist2.dae"/>
       </geometry>
     </collision>
     <inertial>
@@ -197,7 +197,7 @@
   <link name="wrist_3_link">
     <visual>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/visual/wrist3.dae"/>
+        <mesh filename="model://ur_description/meshes/ur10/visual/wrist3.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -205,7 +205,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/collision/wrist3.stl"/>
+        <mesh filename="model://ur_description/meshes/ur10/collision/wrist3.dae"/>
       </geometry>
     </collision>
     <inertial>
@@ -336,7 +336,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/wrist_base.stl"/>
+        <mesh filename="model://fh_desc/meshes/wrist_base.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -345,7 +345,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/wrist_base.stl"/>
+        <mesh filename="model://fh_desc/meshes/wrist_base.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -361,7 +361,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/wrist.stl"/>
+        <mesh filename="model://fh_desc/meshes/wrist.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -370,7 +370,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/wrist.stl"/>
+        <mesh filename="model://fh_desc/meshes/wrist.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -394,7 +394,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/force_torque_sensor.stl"/>
+        <mesh filename="model://fh_desc/meshes/force_torque_sensor.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -403,7 +403,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/force_torque_sensor.stl"/>
+        <mesh filename="model://fh_desc/meshes/force_torque_sensor.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -444,7 +444,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/palm_base.stl"/>
+        <mesh filename="model://fh_desc/meshes/palm_base.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -453,7 +453,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/palm_base.stl"/>
+        <mesh filename="model://fh_desc/meshes/palm_base.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -498,7 +498,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/base_link.stl"/>
+        <mesh filename="model://fh_desc/meshes/base_link.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -507,7 +507,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/base_link.stl"/>
+        <mesh filename="model://fh_desc/meshes/base_link.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -523,7 +523,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/prox.stl"/>
+        <mesh filename="model://fh_desc/meshes/prox.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -532,7 +532,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/prox.stl"/>
+        <mesh filename="model://fh_desc/meshes/prox.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -548,7 +548,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/dist.stl"/>
+        <mesh filename="model://fh_desc/meshes/dist.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -557,7 +557,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/dist.stl"/>
+        <mesh filename="model://fh_desc/meshes/dist.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -613,7 +613,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/omd-d18-tip.stl"/>
+        <mesh filename="model://fh_desc/meshes/omd-d18-tip.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -622,7 +622,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/omd-d18-tip.stl"/>
+        <mesh filename="model://fh_desc/meshes/omd-d18-tip.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -648,7 +648,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/base_link.stl"/>
+        <mesh filename="model://fh_desc/meshes/base_link.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -657,7 +657,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/base_link.stl"/>
+        <mesh filename="model://fh_desc/meshes/base_link.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -673,7 +673,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/prox.stl"/>
+        <mesh filename="model://fh_desc/meshes/prox.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -682,7 +682,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/prox.stl"/>
+        <mesh filename="model://fh_desc/meshes/prox.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -698,7 +698,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/dist.stl"/>
+        <mesh filename="model://fh_desc/meshes/dist.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -707,7 +707,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/dist.stl"/>
+        <mesh filename="model://fh_desc/meshes/dist.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -763,7 +763,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/omd-d18-tip.stl"/>
+        <mesh filename="model://fh_desc/meshes/omd-d18-tip.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -772,7 +772,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/omd-d18-tip.stl"/>
+        <mesh filename="model://fh_desc/meshes/omd-d18-tip.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -798,7 +798,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/base_link.stl"/>
+        <mesh filename="model://fh_desc/meshes/base_link.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -807,7 +807,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/base_link.stl"/>
+        <mesh filename="model://fh_desc/meshes/base_link.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -823,7 +823,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/prox.stl"/>
+        <mesh filename="model://fh_desc/meshes/prox.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -832,7 +832,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/prox.stl"/>
+        <mesh filename="model://fh_desc/meshes/prox.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -848,7 +848,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/dist.stl"/>
+        <mesh filename="model://fh_desc/meshes/dist.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -857,7 +857,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/dist.stl"/>
+        <mesh filename="model://fh_desc/meshes/dist.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -913,7 +913,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/omd-d18-tip.stl"/>
+        <mesh filename="model://fh_desc/meshes/omd-d18-tip.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -922,7 +922,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/omd-d18-tip.stl"/>
+        <mesh filename="model://fh_desc/meshes/omd-d18-tip.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -945,4 +945,3 @@
     <origin rpy="1.57079632679 3.14159265359 1.57079632679" xyz="0.012 0.0 0.0"/>
   </joint>
 </robot>
-
