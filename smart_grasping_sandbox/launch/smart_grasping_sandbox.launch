@@ -13,7 +13,7 @@
 
     <include file="$(find gazebo2rviz)/launch/gazebo2moveit.launch">
         <env name="GAZEBO_MODEL_PATH" value="/workspace/src:/workspace/src/universal_robot:~/.gazebo/models:${GAZEBO_MODEL_PATH}"/>
-        <env name="MESH_WORKSPACE_PATH" value="/workspace/src:/workspace/src/universal_robot:~/.gazebo/models:${GAZEBO_MODEL_PATH}"/>
+        <env name="MESH_WORKSPACE_PATH" value="/workspace/src"/>
     </include>
 
     <group if="$(arg gui)">

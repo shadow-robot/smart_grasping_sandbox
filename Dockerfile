@@ -38,6 +38,12 @@ RUN /workspace/src/setup_gzweb.sh
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y byobu nano
 
+RUN cd /root && \
+    git clone git://github.com/c9/core.git c9sdk && \
+    cd c9sdk && \
+    scripts/install-sdk.sh && \
+    sed -i -e 's_127.0.0.1_0.0.0.0_g' /root/c9sdk/configs/standalone.js
+
 # cleanup
 RUN rm -rf /var/lib/apt/lists/*
 
@@ -49,4 +55,4 @@ CMD ["bash"]
 
 VOLUME /workspace
 
-EXPOSE 8080 7681
+EXPOSE 8080 7681 8181

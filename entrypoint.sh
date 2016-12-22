@@ -13,7 +13,10 @@ roslaunch smart_grasping_sandbox smart_grasping_sandbox.launch gui:=false gzweb:
 sleep 5
 
 cd ~/gzweb
-GAZEBO_MODEL_PATH=/workspace/src:/workspace/src/universal_robot:~/.gazebo/models:${GAZEBO_MODEL_PATH} ./start_gzweb.sh
+GAZEBO_MODEL_PATH=/workspace/src:/workspace/src/universal_robot:~/.gazebo/models:${GAZEBO_MODEL_PATH} ./start_gzweb.sh &
 
-# wait for any keu
+cd ~/c9sdk
+node server.js --listen 0.0.0.0 --port 8181 -w /workspace/src &
+
+# wait for any key
 read -n 1 -s
