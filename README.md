@@ -27,3 +27,9 @@ Once in the container, you can fire up the simulation with:
 ```
 
 Then connect your local browser to [localhost:8080](http://localhost:8080) to see the simulation and [localhost:8181](http://localhost:8181) for a web ide in the docker workspace.
+
+You can fire up the grasping script with:
+
+```
+python /workspace/src/smart_grasping_sandbox/smart_grasping_sandbox/scripts/smart_grasping_sandbox.py
+```
