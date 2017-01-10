@@ -24,6 +24,7 @@ class GraspEvaluator(object):
 
     grasp_joint_values = numpy.array(grasp)
     self.__robot.SetDOFValues(grasp_joint_values)
+    self.__target.SetVisible(True)
 
     #contacts,finalconfig,mindist,volume = grasp_model.testGrasp(grasp = grasp,
     #                                                            Ngraspingtries=1000,
@@ -43,12 +44,12 @@ class GraspEvaluator(object):
 
   def __create_target(self, target):
     #TODO Look at target.InitFromTrimesh and use target_path instead of target
-    openrave_target = openravepy.RaveCreateKinBody(self.__env, '')
-    openrave_target.SetName(target)
-    openrave_target.InitFromSpheres(numpy.array([[0, 0, 0, 0.0375]]), True)
+    self.__target = openravepy.RaveCreateKinBody(self.__env, '')
+    self.__target.SetName(target)
+    self.__target.InitFromSpheres(numpy.array([[0, 0, 0, 0.0375]]), True)
     # target = env.ReadKinBodyXMLFile('/usr/share/openrave-0.9/data/mug2.kinbody.xml')
 
-    self.__env.Add(openrave_target)
+    self.__env.Add(self.__target)
 
 if __name__=="__main__":
   urdf_path = "/code/workspace/src/smart_grasping_sandbox/fh_desc/hand_h.urdf"
