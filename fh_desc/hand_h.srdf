@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="hand_H">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="hand_base">
+        <joint name="H1_WR_wrist_base" />
+        <joint name="H1_WRJ1" />
+        <joint name="H1_WR_wrist_to_ft_sensor" />
+        <joint name="H1_WRft_sensor_to_faceplate" />
+        <joint name="H1Base" />
+        <joint name="H1_base_link_wrist_attach" />
+        <joint name="H1_dummy_joint_1" />
+    </group>
+    <group name="hand_h">
+        <joint name="H1_F1Base" />
+        <joint name="H1_F1J1" />
+        <joint name="H1_F1J2" />
+        <joint name="H1_F1_tip" />
+        <joint name="H1_F1_tip_to_optoforce" />
+        <joint name="H1_dummy_joint_2" />
+        <joint name="H1_F2Base" />
+        <joint name="H1_F2J1" />
+        <joint name="H1_F2J2" />
+        <joint name="H1_F2_tip" />
+        <joint name="H1_F2_tip_to_optoforce" />
+        <joint name="H1_dummy_joint_3" />
+        <joint name="H1_F3Base" />
+        <joint name="H1_F3J1" />
+        <joint name="H1_F3J2" />
+        <joint name="H1_F3_tip" />
+        <joint name="H1_F3_tip_to_optoforce" />
+    </group>
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <end_effector name="hand_H" parent_link="H1_WR_wrist_base" group="hand_h" parent_group="hand_base" />
+</robot>
