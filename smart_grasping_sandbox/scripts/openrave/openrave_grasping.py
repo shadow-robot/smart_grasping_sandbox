@@ -35,21 +35,18 @@ class GraspEvaluator(object):
     #gmodel.showgrasp(grasp)
 
   def generate_all_grasps(self, target):
-    self.__env.Add(target)
-    gmodel = openravepy.databases.grasping.GraspingModel(self.__robot, target)
+    self.__create_target(target)
+
+    gmodel = openravepy.databases.grasping.GraspingModel(self.__robot, self.__target)
     #gmodel.numthreads = multiprocessing.cpu_count()
     if not gmodel.load():
       gmodel.autogenerate()
       gmodel.save()
 
   def __create_target(self, target):
-    #TODO Look at target.InitFromTrimesh and use target_path instead of target
-    self.__target = openravepy.RaveCreateKinBody(self.__env, '')
-    self.__target.SetName(target)
-    self.__target.InitFromSpheres(numpy.array([[0, 0, 0, 0.0375]]), True)
-    # target = env.ReadKinBodyXMLFile('/usr/share/openrave-0.9/data/mug2.kinbody.xml')
-
+    self.__target = self.__env.ReadKinBodyURI(target)
     self.__env.Add(self.__target)
+
 
 if __name__=="__main__":
   urdf_path = "/code/workspace/src/smart_grasping_sandbox/fh_desc/hand_h.urdf"
@@ -58,7 +55,10 @@ if __name__=="__main__":
 
   grasp_evaluator = GraspEvaluator(urdf_path, srdf_path, chucking_direction)
 
-  target = 'cricket_ball'
+  target = '/home/ugo/Downloads/hammer.stl'
+
+  grasp_evaluator.generate_all_grasps(target)
+
   grasp = [-0.05, 0.4, -0.05, 0.4, -0.05, 0.4, 0]
   grasp_evaluator.evaluate(grasp, target)
   time.sleep(10.)
