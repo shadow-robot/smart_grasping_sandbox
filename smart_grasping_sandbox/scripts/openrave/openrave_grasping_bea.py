@@ -100,9 +100,9 @@ class GraspEvaluator(object):
 
 
 if __name__=="__main__":
-  urdf_path = "/code/workspace/src/smart_grasping_sandbox/fh_desc/hand_h.urdf"
-  srdf_path = "/code/workspace/src/smart_grasping_sandbox/fh_desc/hand_h.srdf"
-  chucking_direction = (1,1,1,1,1,1)
+  urdf_path = "~/projects/grasping/src/smart_grasping_sandbox/fh_desc/hand_h.urdf"
+  srdf_path = "~/projects/grasping/src/smart_grasping_sandbox/fh_desc/hand_h.srdf"
+  chucking_direction = (1,1,1,1)
 
   grasp_evaluator = GraspEvaluator(urdf_path, srdf_path, chucking_direction)
 
