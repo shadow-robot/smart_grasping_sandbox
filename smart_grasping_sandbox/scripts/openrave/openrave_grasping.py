@@ -3,6 +3,8 @@ import multiprocessing
 import numpy
 import time
 
+from tf.transformations import *
+from math import pi
 
 class GraspEvaluator(object):
   def __init__(self, urdf_path, srdf_path, chucking_direction, viewer=True):
@@ -17,22 +19,29 @@ class GraspEvaluator(object):
 
     self.__end_effector = self.__robot.GetManipulators()[0]
 
+    self.__chucking_direction = chucking_direction
     self.__end_effector.SetChuckingDirection(chucking_direction)
 
-  def evaluate(self, grasp, target):
+  def evaluate(self, DOFValues, translation, rotation, target):
+    transform = compose_matrix(translate=translation, angles=rotation)
+
     self.__create_target(target)
+    self.gmodel = openravepy.databases.grasping.GraspingModel(self.__robot, self.__target)
+    self.gmodel.init(friction=0.3, avoidlinks=None)
 
-    grasp_joint_values = numpy.array(grasp)
+    raw_input('Before testing grasp')
+    grasp_joint_values = numpy.array(DOFValues)
     self.__robot.SetDOFValues(grasp_joint_values)
-    self.__target.SetVisible(True)
+    self.__robot.SetTransform(transform)
+    grasp = numpy.zeros(self.gmodel.totaldof)
+    grasp[self.gmodel.graspindices.get('igrasppreshape')] = grasp_joint_values
 
-    #contacts,finalconfig,mindist,volume = grasp_model.testGrasp(grasp = grasp,
-    #                                                            Ngraspingtries=1000,
-    #                                                            translate=True,
-    #                                                            forceclosure=True) #graspingnoise
-
-
-    #gmodel.showgrasp(grasp)
+    contacts,finalconfig,mindist,volume = self.runGraspFromTrans(grasp)
+    contactgraph = self.gmodel.drawContacts(contacts) if len(contacts) > 0 else None
+    print finalconfig
+    print "Mindist: ", mindist
+    print "Volume:", volume
+    raw_input('After testing grasp')
 
   def generate_all_grasps(self, target):
     self.__create_target(target)
@@ -42,6 +51,23 @@ class GraspEvaluator(object):
     if not gmodel.load():
       gmodel.autogenerate()
       gmodel.save()
+
+  def runGraspFromTrans(self, grasp, finestep=None):
+    with self.__robot:
+      self.__robot.SetDOFValues(grasp[self.gmodel.graspindices.get('igrasppreshape')],
+                                self.gmodel.manip.GetGripperIndices())
+      Tmanip = self.gmodel.manip.GetTransform()
+      Tmanip[0:3, 3] += numpy.dot(Tmanip[0:3, 0:3], grasp[self.gmodel.graspindices.get('igrasptranslationoffset')])
+      self.__robot.SetTransform(numpy.dot(self.gmodel.getGlobalGraspTransform(grasp),
+                                          numpy.dot(numpy.linalg.inv(Tmanip), self.__robot.GetTransform())))
+      self.__robot.SetActiveDOFs(self.gmodel.manip.GetGripperIndices())
+      if len(self.gmodel.manip.GetGripperIndices()) == 0:
+        return [], [[], self.__robot.GetTransform()], None, None
+      finestep = None
+
+      return self.gmodel.grasper.Grasp(transformrobot=False, target=self.gmodel.target, onlycontacttarget=True,
+                                       forceclosure=True, execute=False, outputfinal=True, translationstepmult=None,
+                                       finestep=finestep, chuckingdirection=self.__chucking_direction)
 
   def __create_target(self, target):
     self.__target = self.__env.ReadKinBodyURI(target)
@@ -57,8 +83,10 @@ if __name__=="__main__":
 
   target = '/home/ugo/Downloads/hammer.stl'
 
-  grasp_evaluator.generate_all_grasps(target)
+  #grasp_evaluator.generate_all_grasps(target)
+  translation = (-0.25, -0.005, 0.)
+  rotation = (0.0, pi/2., 0.0)
 
-  grasp = [-0.05, 0.4, -0.05, 0.4, -0.05, 0.4, 0]
-  grasp_evaluator.evaluate(grasp, target)
+  DOFValues = [-0.05, 0.4, -0.05, 0.4, -0.05, 0.4, 0]
+  grasp_evaluator.evaluate(DOFValues, translation, rotation, target)
   time.sleep(10.)
