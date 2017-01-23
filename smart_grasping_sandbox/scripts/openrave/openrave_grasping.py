@@ -25,23 +25,41 @@ class GraspEvaluator(object):
   def evaluate(self, DOFValues, translation, rotation, target):
     transform = compose_matrix(translate=translation, angles=rotation)
 
-    self.__create_target(target)
-    self.gmodel = openravepy.databases.grasping.GraspingModel(self.__robot, self.__target)
-    self.gmodel.init(friction=0.3, avoidlinks=None)
-
     raw_input('Before testing grasp')
     grasp_joint_values = numpy.array(DOFValues)
     self.__robot.SetDOFValues(grasp_joint_values)
-    self.__robot.SetTransform(transform)
+    #self.__robot.SetTransform(transform)
+
+    self.__create_target(target)
+
+    self.__target.SetTransform(transform)
+
+    self.gmodel = openravepy.databases.grasping.GraspingModel(self.__robot, self.__target)
+
+
+    self.gmodel.init(friction=0.3, avoidlinks=None)
+
+    # Simply closing the fingers till they all touch the object for a quick optimisation.
+    taskmanip = openravepy.interfaces.TaskManipulation(self.__robot)
+    final, _ = taskmanip.ChuckFingers(outputfinal=True)
+
+    print "Final grasp after chucking fingers : ", final
+
     grasp = numpy.zeros(self.gmodel.totaldof)
-    grasp[self.gmodel.graspindices.get('igrasppreshape')] = grasp_joint_values
+
+    raw_input('Going to test grasp')
+    grasp[self.gmodel.graspindices.get('igrasppreshape')] = final
+
+    print grasp
 
     contacts,finalconfig,mindist,volume = self.runGraspFromTrans(grasp)
+
     contactgraph = self.gmodel.drawContacts(contacts) if len(contacts) > 0 else None
     print finalconfig
     print "Mindist: ", mindist
     print "Volume:", volume
     raw_input('After testing grasp')
+
 
   def generate_all_grasps(self, target):
     self.__create_target(target)
@@ -84,7 +102,7 @@ if __name__=="__main__":
   target = '/home/ugo/Downloads/hammer.stl'
 
   #grasp_evaluator.generate_all_grasps(target)
-  translation = (-0.25, -0.005, 0.)
+  translation = (0.0, 0.005, 0.25)
   rotation = (0.0, pi/2., 0.0)
 
   DOFValues = [-0.05, 0.4, -0.05, 0.4, -0.05, 0.4, 0]
