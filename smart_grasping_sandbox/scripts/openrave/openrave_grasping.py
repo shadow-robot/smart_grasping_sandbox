@@ -3,10 +3,12 @@ import multiprocessing
 import numpy
 import time
 
-from scipy.optimize import minimize
+from scipy.optimize import minimize, fminbound
 
 from tf.transformations import *
 from math import pi
+
+DEBUG = False
 
 class GraspEvaluator(object):
   def __init__(self, urdf_path, srdf_path, chucking_direction, target_path, viewer=True):
@@ -29,7 +31,13 @@ class GraspEvaluator(object):
   def evaluate(self, DOFValues, translation, rotation):
     transform = compose_matrix(translate=tuple(translation), angles=tuple(rotation))
 
-    print('Before testing grasp')
+    if True:
+      print "----------------"
+      print "Grasp: "
+      print " -> DOFs ", DOFValues
+      print " -> translation ", translation
+      print " -> rotation ", rotation
+
     grasp_joint_values = numpy.array(DOFValues)
     self.__robot.SetDOFValues(grasp_joint_values)
     #self.__robot.SetTransform(transform)
@@ -41,29 +49,35 @@ class GraspEvaluator(object):
 
     self.gmodel.init(friction=0.3, avoidlinks=None)
 
+    final = grasp_joint_values
     # Simply closing the fingers till they all touch the object for a quick optimisation.
-    taskmanip = openravepy.interfaces.TaskManipulation(self.__robot)
-    final, _ = taskmanip.ChuckFingers(outputfinal=True)
-    time.sleep(0.2)
-    print "Final grasp after chucking fingers : ", final
+    #taskmanip = openravepy.interfaces.TaskManipulation(self.__robot)
+    #final, _ = taskmanip.ChuckFingers(outputfinal=True)
+    #time.sleep(0.5)
+    #if DEBUG:  "Final grasp after chucking fingers : ", final
 
     grasp = numpy.zeros(self.gmodel.totaldof)
-
-    print('Going to test grasp')
     grasp[self.gmodel.graspindices.get('igrasppreshape')] = final
 
-    print grasp
 
-    contacts,finalconfig,mindist,volume = self.runGraspFromTrans(grasp)
-
+    try:
+      contacts,finalconfig,mindist,volume = self.runGraspFromTrans(grasp)
+    except openravepy.PlanningError:
+      return 1e-10, 1e-10
     contactgraph = self.gmodel.drawContacts(contacts) if len(contacts) > 0 else None
     time.sleep(0.2)
-    print finalconfig
-    print "Mindist: ", mindist
-    print "Volume:", volume
-    print('After testing grasp')
+
+    if DEBUG:
+      print finalconfig
+      print "Mindist: ", mindist
+      print"Volume:", volume
+      print "----------------"
 
     # returning the two grasp qualities
+    if mindist == 0.0:
+      mindist = 1e-10
+    if volume == 0.0:
+      volume = 1e-10
     return mindist, volume
 
 
@@ -106,27 +120,49 @@ class GraspImprover(object):
     self.__grasp_evaluator = GraspEvaluator(urdf_path, srdf_path, chucking_direction, target_path)
     self.__initial_grasp_len = len(initial_grasp)
 
-    initial_conditions = self.to_vector(initial_grasp, initial_translation, initial_rotation)
-    print "INPUT: " , initial_conditions
-    res = minimize(self.evaluate, initial_conditions, method='nelder-mead', options = {'xtol': 1e-5, 'disp': True})
+    initial_conditions, bounds = self.to_vector(initial_grasp, initial_translation, initial_rotation)
+
+    print "INPUT: "
+    print "Initial grasp:", initial_grasp
+    print "Initial translation: ", initial_translation
+    print "Initial rotation: ", initial_rotation
+
+    # bounds = bounds
+    res = minimize(self.evaluate, initial_conditions, method='nelder-mead', options = {'maxiter': 100, 'disp': True})
+
+    print res
 
 
   def evaluate(self, input_vector):
     initial_grasp, initial_translation, initial_rotation = self.from_vector(input_vector)
     mindist, volume = self.__grasp_evaluator.evaluate(initial_grasp, initial_translation, initial_rotation)
 
-    return 1.0/mindist
+    print "grasp quality: ", 1.0/volume
+
+    return 1.0/volume
 
   def to_vector(self, initial_grasp, initial_translation, initial_rotation):
     initial_conditions = initial_grasp + initial_translation + initial_rotation
-    return numpy.array(initial_conditions)
+    bounds = []
+
+    for dof in initial_grasp:
+      bounds += [[dof - 0.3, dof+0.3]]
+
+    for t in initial_translation:
+      bounds += [[t-0.05, t+0.05]]
+
+    for r in initial_rotation:
+      bounds += [[r-0.17, r+0.17]]
+
+    return numpy.array(initial_conditions), numpy.array(bounds)
 
   def from_vector(self, input_vector):
     initial_grasp = input_vector[:self.__initial_grasp_len]
     initial_translation = input_vector[self.__initial_grasp_len:self.__initial_grasp_len+3]
     initial_rotation = input_vector[self.__initial_grasp_len+3:]
 
-    print initial_grasp, initial_translation, initial_rotation
+    if DEBUG:
+      print initial_grasp, initial_translation, initial_rotation
 
     return initial_grasp, initial_translation, initial_rotation
 
