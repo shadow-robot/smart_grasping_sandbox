@@ -3,11 +3,13 @@ import multiprocessing
 import numpy
 import time
 
+from scipy.optimize import minimize
+
 from tf.transformations import *
 from math import pi
 
 class GraspEvaluator(object):
-  def __init__(self, urdf_path, srdf_path, chucking_direction, viewer=True):
+  def __init__(self, urdf_path, srdf_path, chucking_direction, target_path, viewer=True):
     self.__env = openravepy.Environment()
     plugin = openravepy.RaveCreateModule(self.__env, "urdf")
 
@@ -22,15 +24,15 @@ class GraspEvaluator(object):
     self.__chucking_direction = chucking_direction
     self.__end_effector.SetChuckingDirection(chucking_direction)
 
-  def evaluate(self, DOFValues, translation, rotation, target):
-    transform = compose_matrix(translate=translation, angles=rotation)
+    self.__create_target(target_path)
 
-    raw_input('Before testing grasp')
+  def evaluate(self, DOFValues, translation, rotation):
+    transform = compose_matrix(translate=tuple(translation), angles=tuple(rotation))
+
+    print('Before testing grasp')
     grasp_joint_values = numpy.array(DOFValues)
     self.__robot.SetDOFValues(grasp_joint_values)
     #self.__robot.SetTransform(transform)
-
-    self.__create_target(target)
 
     self.__target.SetTransform(transform)
 
@@ -42,12 +44,12 @@ class GraspEvaluator(object):
     # Simply closing the fingers till they all touch the object for a quick optimisation.
     taskmanip = openravepy.interfaces.TaskManipulation(self.__robot)
     final, _ = taskmanip.ChuckFingers(outputfinal=True)
-
+    time.sleep(0.2)
     print "Final grasp after chucking fingers : ", final
 
     grasp = numpy.zeros(self.gmodel.totaldof)
 
-    raw_input('Going to test grasp')
+    print('Going to test grasp')
     grasp[self.gmodel.graspindices.get('igrasppreshape')] = final
 
     print grasp
@@ -55,10 +57,14 @@ class GraspEvaluator(object):
     contacts,finalconfig,mindist,volume = self.runGraspFromTrans(grasp)
 
     contactgraph = self.gmodel.drawContacts(contacts) if len(contacts) > 0 else None
+    time.sleep(0.2)
     print finalconfig
     print "Mindist: ", mindist
     print "Volume:", volume
-    raw_input('After testing grasp')
+    print('After testing grasp')
+
+    # returning the two grasp qualities
+    return mindist, volume
 
 
   def generate_all_grasps(self, target):
@@ -92,19 +98,48 @@ class GraspEvaluator(object):
     self.__env.Add(self.__target)
 
 
+class GraspImprover(object):
+
+  def __init__(self, urdf_path, srdf_path, chucking_direction,
+               target_path, initial_translation, initial_rotation,
+               initial_grasp):
+    self.__grasp_evaluator = GraspEvaluator(urdf_path, srdf_path, chucking_direction, target_path)
+    self.__initial_grasp_len = len(initial_grasp)
+
+    initial_conditions = self.to_vector(initial_grasp, initial_translation, initial_rotation)
+    print "INPUT: " , initial_conditions
+    res = minimize(self.evaluate, initial_conditions, method='nelder-mead', options = {'xtol': 1e-5, 'disp': True})
+
+
+  def evaluate(self, input_vector):
+    initial_grasp, initial_translation, initial_rotation = self.from_vector(input_vector)
+    mindist, volume = self.__grasp_evaluator.evaluate(initial_grasp, initial_translation, initial_rotation)
+
+    return 1.0/mindist
+
+  def to_vector(self, initial_grasp, initial_translation, initial_rotation):
+    initial_conditions = initial_grasp + initial_translation + initial_rotation
+    return numpy.array(initial_conditions)
+
+  def from_vector(self, input_vector):
+    initial_grasp = input_vector[:self.__initial_grasp_len]
+    initial_translation = input_vector[self.__initial_grasp_len:self.__initial_grasp_len+3]
+    initial_rotation = input_vector[self.__initial_grasp_len+3:]
+
+    print initial_grasp, initial_translation, initial_rotation
+
+    return initial_grasp, initial_translation, initial_rotation
+
 if __name__=="__main__":
   urdf_path = "/code/workspace/src/smart_grasping_sandbox/fh_desc/hand_h.urdf"
   srdf_path = "/code/workspace/src/smart_grasping_sandbox/fh_desc/hand_h.srdf"
-  chucking_direction = (1,1,1,1,1,1)
-
-  grasp_evaluator = GraspEvaluator(urdf_path, srdf_path, chucking_direction)
+  chucking_direction = (1, 1, 1, 1, 1, 1)
 
   target = '/home/ugo/Downloads/hammer.stl'
+  initial_translation = [0.0, 0.005, 0.25]
+  initial_rotation = [0.0, pi/2., 0.0]
+  initial_grasp = [-0.05, 0.4, -0.05, 0.4, -0.05, 0.4, 0]
 
-  #grasp_evaluator.generate_all_grasps(target)
-  translation = (0.0, 0.005, 0.25)
-  rotation = (0.0, pi/2., 0.0)
-
-  DOFValues = [-0.05, 0.4, -0.05, 0.4, -0.05, 0.4, 0]
-  grasp_evaluator.evaluate(DOFValues, translation, rotation, target)
-  time.sleep(10.)
+  # improve the grasp
+  GraspImprover(urdf_path, srdf_path, chucking_direction, target,
+                initial_translation, initial_rotation, initial_grasp)
