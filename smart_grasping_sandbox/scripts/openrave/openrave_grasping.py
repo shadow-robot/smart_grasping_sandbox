@@ -53,6 +53,7 @@ class GraspEvaluator(object):
 
     self.gmodel = openravepy.databases.grasping.GraspingModel(self.__robot, self.__target)
     self.gmodel.init(friction=0.3, avoidlinks=None)
+    self.__robot.SetActiveDOFs(self.gmodel.manip.GetGripperIndices())
 
     final = grasp_joint_values
     # Simply closing the fingers till they all touch the object for a quick optimisation.
@@ -67,12 +68,19 @@ class GraspEvaluator(object):
 
 
     try:
-      contacts,finalconfig,mindist,volume = self.runGraspFromTrans(grasp)
+      with self.__robot:
+        contacts,finalconfig,mindist,volume = self.gmodel.grasper.Grasp(transformrobot=False, target=self.gmodel.target,
+                                                                        onlycontacttarget=True, forceclosure=True,
+                                                                        execute=False, outputfinal=True,
+                                                                        translationstepmult=None,
+                                                                        finestep=None,
+                                                                        chuckingdirection=self.__chucking_direction)
+      self.__env.UpdatePublishedBodies()
     except openravepy.PlanningError:
       return 0, 0
     contactgraph = self.gmodel.drawContacts(contacts) if len(contacts) > 0 else None
+    time.sleep(2.0)
 
-    self.__env.UpdatePublishedBodies()
     #print "CONTACTS: ", contacts
     #raw_input("CONTACTS")
 
@@ -83,10 +91,6 @@ class GraspEvaluator(object):
       print "----------------"
 
     # returning the two grasp qualities
-    if mindist == 0.0:
-      mindist = 1e-10
-    if volume == 0.0:
-      volume = 1e-10
     return mindist, volume
 
 
@@ -98,25 +102,6 @@ class GraspEvaluator(object):
     if not gmodel.load():
       gmodel.autogenerate()
       gmodel.save()
-
-  def runGraspFromTrans(self, grasp, finestep=None):
-    with self.__robot:
-      #self.__robot.SetDOFValues(grasp[self.gmodel.graspindices.get('igrasppreshape')],
-      #                          self.gmodel.manip.GetGripperIndices())
-      #Tmanip = self.gmodel.manip.GetTransform()
-      #Tmanip[0:3, 3] += numpy.dot(Tmanip[0:3, 0:3], grasp[self.gmodel.graspindices.get('igrasptranslationoffset')])
-      #self.__robot.SetTransform(numpy.dot(self.gmodel.getGlobalGraspTransform(grasp),
-      #                                    numpy.dot(numpy.linalg.inv(Tmanip), self.__robot.GetTransform())))
-      self.__robot.SetActiveDOFs(self.gmodel.manip.GetGripperIndices())
-      if len(self.gmodel.manip.GetGripperIndices()) == 0:
-        return [], [[], self.__robot.GetTransform()], None, None
-      finestep = None
-
-      self.__env.UpdatePublishedBodies()
-
-      return self.gmodel.grasper.Grasp(transformrobot=False, target=self.gmodel.target, onlycontacttarget=True,
-                                       forceclosure=True, execute=False, outputfinal=True, translationstepmult=None,
-                                       finestep=finestep, chuckingdirection=self.__chucking_direction)
 
   def __create_target(self, target):
     self.__target = self.__env.ReadKinBodyURI(target)
@@ -162,7 +147,7 @@ class GraspImprover(object):
     bounds = []
 
     for dof in initial_grasp:
-      bounds += [[dof - 0.2, dof+0.2]]
+      bounds += [[dof - 0.5, dof+0.5]]
 
     for t in initial_translation:
       bounds += [[t-0.1, t+0.1]]
@@ -190,7 +175,7 @@ if __name__=="__main__":
   target = '/home/ugo/Downloads/hammer.stl'
   initial_translation = [-0.10, 0.01, 0.3]
   initial_rotation = [0.05, pi/2., 0.0]
-  initial_grasp = [-0.05, 0.4, -0.05, 0.2, -0.05, 0.2, 0]
+  initial_grasp = [-0.05, 0.35, -0.05, 0.2, -0.05, 0.2, 0]
 
   # improve the grasp
   GraspImprover(urdf_path, srdf_path, chucking_direction, target,
