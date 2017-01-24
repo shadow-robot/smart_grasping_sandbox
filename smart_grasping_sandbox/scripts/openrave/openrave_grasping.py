@@ -33,75 +33,37 @@ class GraspEvaluator(object):
     if on:
       self.__env.SetViewer('qtcoin')
 
-  def evaluate(self, DOFValues, translation, rotation):
-    transform = compose_matrix(translate=tuple(translation), angles=tuple(rotation))
+  def generate_all_grasps(self, initial_grasp, initial_translation, initial_rotation):
+
+    transform = compose_matrix(translate=tuple(initial_translation), angles=tuple(initial_rotation))
 
     if True:
       print "----------------"
       print "Grasp: "
-      print " -> DOFs ", DOFValues
-      print " -> translation ", translation
-      print " -> rotation ", rotation
+      print " -> DOFs ", initial_grasp
+      print " -> translation ", initial_translation
+      print " -> rotation ", initial_rotation
 
-    grasp_joint_values = numpy.array(DOFValues)
+    grasp_joint_values = numpy.array(initial_grasp)
     self.__robot.SetDOFValues(grasp_joint_values)
     #self.__robot.SetTransform(transform)
 
     self.__target.SetTransform(transform)
 
-    self.__env.UpdatePublishedBodies()
-
-    self.gmodel = openravepy.databases.grasping.GraspingModel(self.__robot, self.__target)
-    self.gmodel.init(friction=0.3, avoidlinks=None)
-    self.__robot.SetActiveDOFs(self.gmodel.manip.GetGripperIndices())
-
-    #final = grasp_joint_values
-    # Simply closing the fingers till they all touch the object for a quick optimisation.
-    taskmanip = openravepy.interfaces.TaskManipulation(self.__robot)
-    final, _ = taskmanip.ChuckFingers(outputfinal=True)
-    self.__robot.WaitForController(0)
-    #time.sleep(0.5)
-    #if DEBUG:  "Final grasp after chucking fingers : ", final
-    self.__env.UpdatePublishedBodies()
-
-
-    grasp = numpy.zeros(self.gmodel.totaldof)
-    grasp[self.gmodel.graspindices.get('igrasppreshape')] = final
-
-
-    try:
-      with self.__robot:
-        contacts,finalconfig,mindist,volume = self.gmodel.grasper.Grasp(transformrobot=False, target=self.gmodel.target,
-                                                                        onlycontacttarget=True, forceclosure=True,
-                                                                        execute=False, outputfinal=True,
-                                                                        translationstepmult=None,
-                                                                        finestep=None,
-                                                                        chuckingdirection=self.__chucking_direction)
-      self.__env.UpdatePublishedBodies()
-    except openravepy.PlanningError:
-      return 0, 0
-    contactgraph = self.gmodel.drawContacts(contacts) if len(contacts) > 0 else None
-    #print "CONTACTS: ", contacts
-    #raw_input("CONTACTS")
-
-    if DEBUG:
-      print finalconfig
-      print "Mindist: ", mindist
-      print"Volume:", volume
-      print "----------------"
-
-    # returning the two grasp qualities
-    return mindist, volume
-
-
-  def generate_all_grasps(self, target):
-    self.__create_target(target)
-
     gmodel = openravepy.databases.grasping.GraspingModel(self.__robot, self.__target)
     #gmodel.numthreads = multiprocessing.cpu_count()
+
+    self.__robot.SetActiveDOFs(gmodel.manip.GetGripperIndices())
+    self.__env.UpdatePublishedBodies()
+
     if not gmodel.load():
-      gmodel.autogenerate()
+      options = {}
+      options["preshapes"] = initial_grasp
+
+      gmodel.autogenerate(options)
       gmodel.save()
+
+    gmodel.show()
 
   def __create_target(self, target):
     self.__target = self.__env.ReadKinBodyURI(target)
@@ -114,47 +76,13 @@ class GraspImprover(object):
                target_path, initial_translation, initial_rotation,
                initial_grasp):
     self.__grasp_evaluator = GraspEvaluator(urdf_path, srdf_path, chucking_direction, target_path, viewer=True)
-    self.__initial_grasp_len = len(initial_grasp)
-
-    initial_conditions = self.to_vector(initial_grasp, initial_translation, initial_rotation)
 
     print "INPUT: "
     print "Initial grasp:", initial_grasp
     print "Initial translation: ", initial_translation
     print "Initial rotation: ", initial_rotation
 
-    res = minimize(self.evaluate, initial_conditions, method='nelder-mead')#, options = {'maxiter': 1000, 'disp': True})
-
-    print res
-
-    self.__grasp_evaluator.set_viewer(True)
-    self.evaluate(res.x)
-    raw_input("Best grasp")
-
-
-  def evaluate(self, input_vector):
-    grasp, translation, rotation= self.from_vector(input_vector)
-    mindist, volume = self.__grasp_evaluator.evaluate(grasp, translation, rotation)
-
-    print "grasp quality: volume=", volume, " mindist=", mindist
-
-    # we're aiming to minimise so we return minus the metric
-    return -mindist
-
-  def to_vector(self, initial_grasp, initial_translation, initial_rotation):
-    initial_conditions = initial_grasp + initial_translation + initial_rotation
-
-    return numpy.array(initial_conditions)
-
-  def from_vector(self, input_vector):
-    initial_grasp = input_vector[:self.__initial_grasp_len]
-    initial_translation = input_vector[self.__initial_grasp_len:self.__initial_grasp_len+3]
-    initial_rotation = input_vector[self.__initial_grasp_len+3:]
-
-    if DEBUG:
-      print initial_grasp, initial_translation, initial_rotation
-
-    return initial_grasp, initial_translation, initial_rotation
+    self.__grasp_evaluator.generate_all_grasps(initial_grasp, initial_translation, initial_rotation)
 
 if __name__=="__main__":
   urdf_path = "/code/workspace/src/smart_grasping_sandbox/fh_desc/hand_h.urdf"
