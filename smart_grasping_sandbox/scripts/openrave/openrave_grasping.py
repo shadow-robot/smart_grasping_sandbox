@@ -3,7 +3,7 @@ import multiprocessing
 import numpy
 import time
 
-from scipy.optimize import minimize, fminbound
+from scipy.optimize import minimize
 
 from tf.transformations import *
 from math import pi
@@ -55,13 +55,15 @@ class GraspEvaluator(object):
     self.gmodel.init(friction=0.3, avoidlinks=None)
     self.__robot.SetActiveDOFs(self.gmodel.manip.GetGripperIndices())
 
-    final = grasp_joint_values
+    #final = grasp_joint_values
     # Simply closing the fingers till they all touch the object for a quick optimisation.
-    #taskmanip = openravepy.interfaces.TaskManipulation(self.__robot)
-    #final, _ = taskmanip.ChuckFingers(outputfinal=True)
-    #self.__robot.WaitForController(0)
+    taskmanip = openravepy.interfaces.TaskManipulation(self.__robot)
+    final, _ = taskmanip.ChuckFingers(outputfinal=True)
+    self.__robot.WaitForController(0)
     #time.sleep(0.5)
     #if DEBUG:  "Final grasp after chucking fingers : ", final
+    self.__env.UpdatePublishedBodies()
+
 
     grasp = numpy.zeros(self.gmodel.totaldof)
     grasp[self.gmodel.graspindices.get('igrasppreshape')] = final
@@ -79,8 +81,6 @@ class GraspEvaluator(object):
     except openravepy.PlanningError:
       return 0, 0
     contactgraph = self.gmodel.drawContacts(contacts) if len(contacts) > 0 else None
-    time.sleep(2.0)
-
     #print "CONTACTS: ", contacts
     #raw_input("CONTACTS")
 
@@ -116,15 +116,14 @@ class GraspImprover(object):
     self.__grasp_evaluator = GraspEvaluator(urdf_path, srdf_path, chucking_direction, target_path, viewer=True)
     self.__initial_grasp_len = len(initial_grasp)
 
-    initial_conditions, bounds = self.to_vector(initial_grasp, initial_translation, initial_rotation)
+    initial_conditions = self.to_vector(initial_grasp, initial_translation, initial_rotation)
 
     print "INPUT: "
     print "Initial grasp:", initial_grasp
     print "Initial translation: ", initial_translation
     print "Initial rotation: ", initial_rotation
 
-    # bounds = bounds
-    res = minimize(self.evaluate, initial_conditions, method='nelder-mead', options = {'maxiter': 1000, 'disp': True})
+    res = minimize(self.evaluate, initial_conditions, method='nelder-mead')#, options = {'maxiter': 1000, 'disp': True})
 
     print res
 
@@ -144,18 +143,8 @@ class GraspImprover(object):
 
   def to_vector(self, initial_grasp, initial_translation, initial_rotation):
     initial_conditions = initial_grasp + initial_translation + initial_rotation
-    bounds = []
 
-    for dof in initial_grasp:
-      bounds += [[dof - 0.5, dof+0.5]]
-
-    for t in initial_translation:
-      bounds += [[t-0.1, t+0.1]]
-
-    for r in initial_rotation:
-      bounds += [[r-0.5, r+0.5]]
-
-    return numpy.array(initial_conditions), numpy.array(bounds)
+    return numpy.array(initial_conditions)
 
   def from_vector(self, input_vector):
     initial_grasp = input_vector[:self.__initial_grasp_len]
@@ -175,7 +164,7 @@ if __name__=="__main__":
   target = '/home/ugo/Downloads/hammer.stl'
   initial_translation = [-0.10, 0.01, 0.3]
   initial_rotation = [0.05, pi/2., 0.0]
-  initial_grasp = [-0.05, 0.35, -0.05, 0.2, -0.05, 0.2, 0]
+  initial_grasp = [-0.05, 0.35, -0.05, 0.0, -0.05, 0.0, 0]
 
   # improve the grasp
   GraspImprover(urdf_path, srdf_path, chucking_direction, target,
