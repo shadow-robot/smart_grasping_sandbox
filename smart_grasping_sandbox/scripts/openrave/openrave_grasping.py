@@ -44,26 +44,50 @@ class GraspEvaluator(object):
       print " -> translation ", initial_translation
       print " -> rotation ", initial_rotation
 
-    grasp_joint_values = numpy.array(initial_grasp)
-    self.__robot.SetDOFValues(grasp_joint_values)
-    #self.__robot.SetTransform(transform)
-
-    self.__target.SetTransform(transform)
-
     gmodel = openravepy.databases.grasping.GraspingModel(self.__robot, self.__target)
-    #gmodel.numthreads = multiprocessing.cpu_count()
-
-    self.__robot.SetActiveDOFs(gmodel.manip.GetGripperIndices())
-    self.__env.UpdatePublishedBodies()
+    #gmodel.numthreads = 4
 
     if not gmodel.load():
       options = {}
-      options["preshapes"] = initial_grasp
-
+      standoffs = range(20, 30)
+      options["standoffs"] = [x / 100. for x in standoffs]
+      options["normalanglerange"] = pi/2.0
       gmodel.autogenerate(options)
       gmodel.save()
 
-    gmodel.show()
+    closest_grasp = None
+    closest_distance = None
+    for i, grasp in enumerate(gmodel.grasps):
+      print 'grasp %d/%d' % (i, len(gmodel.grasps))
+      try:
+        with self.__env:
+          contacts, finalconfig, mindist, volume = gmodel.testGrasp(grasp=grasp, translate=True,
+                                                                    forceclosure=True,
+                                                                    graspingnoise=None)
+          # contacts,finalconfig,mindist,volume = self.runGrasp(grasp=grasp,translate=True,forceclosure=True)
+          if mindist == 0:
+            print 'grasp is not in force closure!'
+            continue
+
+
+          grasp_distance = numpy.linalg.norm(finalconfig[1]-transform) + numpy.linalg.norm(finalconfig[0]-initial_grasp)
+          if closest_distance is None:
+            closest_distance = grasp_distance
+            closest_grasp = finalconfig
+          elif grasp_distance < closest_distance:
+            closest_distance = grasp_distance
+            closest_grasp = finalconfig
+            print "new best DISTANCE = ", grasp_distance
+
+      except openravepy.planning_error, e:
+        print 'bad grasp!', e
+        continue
+
+    self.__robot.GetController().Reset(0)
+    self.__robot.SetDOFValues(closest_grasp[0])
+    self.__robot.SetTransform(closest_grasp[1])
+    self.__env.UpdatePublishedBodies()
+    raw_input("TOTO")
 
   def __create_target(self, target):
     self.__target = self.__env.ReadKinBodyURI(target)
@@ -90,9 +114,9 @@ if __name__=="__main__":
   chucking_direction = (1, 1, 1, 1, 1, 1)
 
   target = '/home/ugo/Downloads/hammer.stl'
-  initial_translation = [-0.10, 0.01, 0.3]
-  initial_rotation = [0.05, pi/2., 0.0]
-  initial_grasp = [-0.05, 0.35, -0.05, 0.0, -0.05, 0.0, 0]
+  initial_translation = [0.0, 0.01, 0.3]
+  initial_rotation = [0.0, pi/2., 0.0]
+  initial_grasp = [-0.05, 0.35, -0.05, 0.1, -0.05, 0.1, 0]
 
   # improve the grasp
   GraspImprover(urdf_path, srdf_path, chucking_direction, target,
