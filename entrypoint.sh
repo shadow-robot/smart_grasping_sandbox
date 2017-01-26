@@ -16,7 +16,4 @@ cd ~/gzweb
 GAZEBO_MODEL_PATH=/workspace/src:/workspace/src/universal_robot:~/.gazebo/models:${GAZEBO_MODEL_PATH} ./start_gzweb.sh &
 
 cd ~/c9sdk
-node server.js --listen 0.0.0.0 --port 8181 -w /workspace/src &
-
-# wait for any key
-read -n 1 -s
+node server.js --listen 0.0.0.0 --port 8181 -w /workspace/src 
