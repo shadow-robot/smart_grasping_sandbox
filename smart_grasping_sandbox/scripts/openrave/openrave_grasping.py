@@ -45,11 +45,11 @@ class GraspEvaluator(object):
       print " -> rotation ", initial_rotation
 
     gmodel = openravepy.databases.grasping.GraspingModel(self.__robot, self.__target)
-    #gmodel.numthreads = 4
+    gmodel.numthreads = 3
 
     if not gmodel.load():
       options = {}
-      standoffs = range(20, 30)
+      standoffs = range(0, 40)
       options["standoffs"] = [x / 100. for x in standoffs]
       options["normalanglerange"] = pi/2.0
       gmodel.autogenerate(options)
@@ -63,7 +63,7 @@ class GraspEvaluator(object):
         with self.__env:
           contacts, finalconfig, mindist, volume = gmodel.testGrasp(grasp=grasp, translate=True,
                                                                     forceclosure=True,
-                                                                    graspingnoise=None)
+                                                                    graspingnoise=0.1)
           # contacts,finalconfig,mindist,volume = self.runGrasp(grasp=grasp,translate=True,forceclosure=True)
           if mindist == 0:
             print 'grasp is not in force closure!'
