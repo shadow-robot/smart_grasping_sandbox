@@ -6,6 +6,8 @@ RUN sh -c 'echo "deb http://packages.personalrobotics.ri.cmu.edu/public trusty m
         > /etc/apt/sources.list.d/personalrobotics.list' \
     && curl https://www.personalrobotics.ri.cmu.edu/files/personalrobotics.gpg | sudo apt-key add -
 
+COPY . /workspace/src/
+
 # Install OpenRAVE and clear cache.
 RUN apt-get update \
     && apt-get install -y pr-openrave python-scipy libtinyxml2-dev \
