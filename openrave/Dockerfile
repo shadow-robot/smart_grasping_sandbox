@@ -1,4 +1,4 @@
-FROM Boreas:5000/smart_grasping_sandbox
+FROM smart_grasping_sandbox
 
 # Add the personalrobotics APT repository
 RUN apt-get update && apt-get install -y curl

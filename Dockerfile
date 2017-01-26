@@ -5,7 +5,7 @@ ENV TERM xterm
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y python-catkin-tools ros-indigo-moveit-full wget && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y python-catkin-tools ros-indigo-moveit wget && \
     echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list && \
     wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add - && \
     apt-get update && \
