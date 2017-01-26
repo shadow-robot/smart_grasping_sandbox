@@ -109,11 +109,11 @@ class GraspImprover(object):
     self.__grasp_evaluator.generate_all_grasps(initial_grasp, initial_translation, initial_rotation)
 
 if __name__=="__main__":
-  urdf_path = "/code/workspace/src/smart_grasping_sandbox/fh_desc/hand_h.urdf"
-  srdf_path = "/code/workspace/src/smart_grasping_sandbox/fh_desc/hand_h.srdf"
+  urdf_path = "/workspace/src/smart_grasping_sandbox/fh_desc/hand_h.urdf"
+  srdf_path = "/workspace/src/smart_grasping_sandbox/fh_desc/hand_h.srdf"
   chucking_direction = (1, 1, 1, 1, 1, 1)
 
-  target = '/home/ugo/Downloads/hammer.stl'
+  target = '/workspace/src/smart_grasping_sandbox/openrave/hammer.stl'
   initial_translation = [0.0, 0.01, 0.3]
   initial_rotation = [0.0, pi/2., 0.0]
   initial_grasp = [-0.05, 0.35, -0.05, 0.1, -0.05, 0.1, 0]
