@@ -20,12 +20,7 @@
   <!-- measured from model -->
   <!-- measured from model -->
   <!-- link lengths used in model -->
-  <link name="world"/>
-  <joint name="world_joint" type="fixed">
-    <parent link="world"/>
-    <child link="base_link"/>
-    <origin rpy="0.0 0.0 0.0" xyz="0.0 -1.0 1.0"/>
-  </joint>
+
   <link name="base_link">
     <visual>
       <geometry>
@@ -51,7 +46,7 @@
     <child link="shoulder_link"/>
     <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.1273"/>
     <axis xyz="0 0 1"/>
-    <limit effort="330.0" lower="-3.14159265359" upper="3.14159265359" velocity="2.16"/>
+    <limit effort="330.0" lower="-6.28318530718" upper="6.28318530718" velocity="2.16"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <link name="shoulder_link">
@@ -79,7 +74,7 @@
     <child link="upper_arm_link"/>
     <origin rpy="0.0 1.57079632679 0.0" xyz="0.0 0.220941 0.0"/>
     <axis xyz="0 1 0"/>
-    <limit effort="330.0" lower="-3.14159265359" upper="3.14159265359" velocity="2.16"/>
+    <limit effort="330.0" lower="-6.28318530718" upper="6.28318530718" velocity="2.16"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <link name="upper_arm_link">
@@ -107,7 +102,7 @@
     <child link="forearm_link"/>
     <origin rpy="0.0 0.0 0.0" xyz="0.0 -0.1719 0.612"/>
     <axis xyz="0 1 0"/>
-    <limit effort="150.0" lower="-3.14159265359" upper="3.14159265359" velocity="3.15"/>
+    <limit effort="150.0" lower="-6.28318530718" upper="6.28318530718" velocity="3.15"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <link name="forearm_link">
@@ -135,7 +130,7 @@
     <child link="wrist_1_link"/>
     <origin rpy="0.0 1.57079632679 0.0" xyz="0.0 0.0 0.5723"/>
     <axis xyz="0 1 0"/>
-    <limit effort="54.0" lower="-3.14159265359" upper="3.14159265359" velocity="3.2"/>
+    <limit effort="54.0" lower="-6.28318530718" upper="6.28318530718" velocity="3.2"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <link name="wrist_1_link">
@@ -163,7 +158,7 @@
     <child link="wrist_2_link"/>
     <origin rpy="0.0 0.0 0.0" xyz="0.0 0.1149 0.0"/>
     <axis xyz="0 0 1"/>
-    <limit effort="54.0" lower="-3.14159265359" upper="3.14159265359" velocity="3.2"/>
+    <limit effort="54.0" lower="-6.28318530718" upper="6.28318530718" velocity="3.2"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <link name="wrist_2_link">
@@ -191,7 +186,7 @@
     <child link="wrist_3_link"/>
     <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.1157"/>
     <axis xyz="0 1 0"/>
-    <limit effort="54.0" lower="-3.14159265359" upper="3.14159265359" velocity="3.2"/>
+    <limit effort="54.0" lower="-6.28318530718" upper="6.28318530718" velocity="3.2"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <link name="wrist_3_link">
@@ -327,7 +322,7 @@
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
     </plugin>
   </gazebo>
-  <link name="H1_WR_wrist_base">
+  <link name="H1_WR_wrist_base_link">
     <inertial>
       <origin rpy="0 0 0" xyz="0.00326865129997316 -4.64589898998213E-06 0.0112847129271115"/>
       <mass value="0.126266795472122"/>
@@ -379,7 +374,7 @@
   </link>
   <joint name="H1_WRJ1" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0.032"/>
-    <parent link="H1_WR_wrist_base"/>
+    <parent link="H1_WR_wrist_base_link"/>
     <child link="H1_WR_wrist"/>
     <axis xyz="-1 0 0"/>
     <limit effort="50" lower="-0.785" upper="0.785" velocity="0.1"/>
@@ -419,7 +414,7 @@
   <joint name="H1_WR_wrist_base" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="H1_base_attach"/>
-    <child link="H1_WR_wrist_base"/>
+    <child link="H1_WR_wrist_base_link"/>
   </joint>
   <joint name="H1_WRft_sensor_to_faceplate" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0.0505"/>

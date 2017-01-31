@@ -16,14 +16,20 @@
         <joint name="wrist_1_joint" />
         <joint name="wrist_2_joint" />
         <joint name="wrist_3_joint" />
-    </group>
-    <group name="hand">
+        <joint name="ee_fixed_joint" />
+        <joint name="wrist_3_link-tool0_fixed_joint" />
         <joint name="H1_WRJ1" />
         <joint name="H1_WR_wrist_to_ft_sensor" />
+        <joint name="H1_WR_wrist_base" />
         <joint name="H1_WRft_sensor_to_faceplate" />
         <joint name="H1Base" />
-        <joint name="H1_base_link_wrist_attach" />
         <joint name="H1_dummy_joint_1" />
+        <joint name="H1_dummy_joint_2" />
+        <joint name="H1_dummy_joint_3" />
+        <joint name="H1_base_link_wrist_attach" />
+        <joint name="arm_to_hand" />
+    </group>
+    <group name="hand">
         <joint name="H1_F1Base" />
         <joint name="H1_F1J1" />
         <joint name="H1_F1J2" />
@@ -51,7 +57,6 @@
         <joint name="H1_F2J2" value="0" />
         <joint name="H1_F3J1" value="-0.8" />
         <joint name="H1_F3J2" value="0" />
-        <joint name="H1_WRJ1" value="0" />
     </group_state>
     <group_state name="close" group="hand">
         <joint name="H1_F1J1" value="-0.05" />
@@ -60,7 +65,6 @@
         <joint name="H1_F2J2" value="0.4" />
         <joint name="H1_F3J1" value="-0.05" />
         <joint name="H1_F3J2" value="0.4" />
-        <joint name="H1_WRJ1" value="0" />
     </group_state>
     <group_state name="start" group="arm">
         <joint name="elbow_joint" value="1.8849" />
@@ -69,9 +73,10 @@
         <joint name="wrist_1_joint" value="0" />
         <joint name="wrist_2_joint" value="0" />
         <joint name="wrist_3_joint" value="0" />
+        <joint name="H1_WRJ1" value="0" />
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="hand" parent_link="wrist_3_link" group="hand" parent_group="arm" />
+    <end_effector name="hand" parent_link="ee_link" group="hand" parent_group="arm" />
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="H1_F1_base_link" link2="H1_F1_link_1" reason="Adjacent" />
     <disable_collisions link1="H1_F1_base_link" link2="H1_F1_link_2" reason="Never" />

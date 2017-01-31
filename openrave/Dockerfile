@@ -4,7 +4,7 @@ FROM Boreas:5000/smart_grasping_sandbox
 RUN apt-get update && apt-get install -y curl
 RUN sh -c 'echo "deb http://packages.personalrobotics.ri.cmu.edu/public trusty main" \
         > /etc/apt/sources.list.d/personalrobotics.list' \
-    && curl https://www.personalrobotics.ri.cmu.edu/files/personalrobotics.gpg | sudo apt-key add -
+    && curl https://www.personalrobotics.ri.cmu.edu/files/personalrobotics.gpg | apt-key add -
 
 COPY hammer.stl /workspace/src/smart_grasping_sandbox/openrave/hammer.stl
 
@@ -15,9 +15,15 @@ RUN apt-get update && \
     git clone https://github.com/personalrobotics/or_urdf.git && \
     cd .. && \
     source devel/setup.bash && \
-    catkin build
+    catkin build && \
+    rm -rf /var/lib/apt/lists/*
 
-# cleanup
-RUN rm -rf /var/lib/apt/lists/*
+# TODO install sympy 0.7.1
+RUN cd /opt && \
+    apt-get remove -y python-sympy && \
+    wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/sympy/sympy-0.7.1.tar.gz && \
+    tar xzf sympy-*.tar.gz && \
+    cd sympy* && \
+    setup.py install
 
 ENTRYPOINT ["/bin/bash"]
