@@ -1,0 +1,27 @@
+language: python
+python:
+  - 2.7
+
+# codecov token and slack web hook URL (encrypted)
+env:
+  - secure: BCgpnH0qoAyPf3ScsgE6gMqAjmOjLmzwJdaCNvL8WrhsQ+8XDkCcq8Sto3w+U/0gbxWQ88RVLGvnzDzQk4xKP1W8vlAB1czllVs3PDV6grsL05FYBfOm4/tUmTRk/YhhGGgQDCi+zi83NNphjrYprPhvJM9HV1PDViXIkhiX5qi6GKmiG2xVWixdTcfDnRl2B8SciL8g4yCc5ByhOeMG2YlqdQa9Ph/sfOQ0aTed32wLI3YuZoTCnz+hP1L0PEi1/aupT/3+Pg1KmeJL+nd2L6517vEf6SIeqpPYkiwAx790Tx2sPY02G7EGbcrpiNceTHB7nqFMzyCRUUIBJ4oW6Q==
+
+build:
+  pre_ci_boot:
+    image_name: shadowrobot/build-tools
+    image_tag: trusty-indigo
+    pull: true
+  ci:
+    - export toolset_branch="master"
+    - export server_type="shippable"
+    - export used_modules="check_cache,check_build,code_style_check,check_deb_make,code_coverage"
+    - export remote_shell_script="https://raw.githubusercontent.com/shadow-robot/sr-build-tools/$toolset_branch/bin/sr-run-ci-build.sh"
+    - apt-get update
+    - apt-get install -y --no-install-recommends ca-certificates wget
+    - wget -O /tmp/oneliner "$( echo "$remote_shell_script" | sed 's/#/%23/g' )"
+    - chown -R $MY_USERNAME:$MY_USERNAME $SHIPPABLE_BUILD_DIR
+    - chmod 755 /tmp/oneliner
+    - cd /tmp
+    - gosu $MY_USERNAME /tmp/oneliner "$toolset_branch" $server_type $used_modules
+  on_failure:
+    - curl -X POST --data-urlencode "payload={\"channel\":\"#bots\", \"username\":\"shippable\", \"text\":\"[$SHIPPABLE_REPO_SLUG branch $BRANCH] <$BUILD_URL|Build $SHIPPABLE_BUILD_NUMBER> failed\", \"icon_emoji\":\":monkey_face:\"}" $SLACK_WEB_HOOK_URL
