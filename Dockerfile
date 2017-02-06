@@ -5,7 +5,7 @@ ENV TERM xterm
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y python-catkin-tools ros-indigo-moveit-full wget && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y python-catkin-tools ros-indigo-moveit wget && \
     echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list && \
     wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add - && \
     apt-get update && \
@@ -44,6 +44,9 @@ RUN cd /root && \
     scripts/install-sdk.sh && \
     sed -i -e 's_127.0.0.1_0.0.0.0_g' /root/c9sdk/configs/standalone.js
 
+RUn apt-get -y install ipython ipython-notebook  python-dev && \
+    pip install jupyter
+
 # cleanup
 RUN rm -rf /var/lib/apt/lists/*
 
@@ -55,4 +58,4 @@ CMD ["bash"]
 
 VOLUME /workspace
 
-EXPOSE 8080 7681 8181
+EXPOSE 8080 7681 8181 8888

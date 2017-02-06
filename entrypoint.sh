@@ -18,5 +18,5 @@ GAZEBO_MODEL_PATH=/workspace/src:/workspace/src/universal_robot:~/.gazebo/models
 cd ~/c9sdk
 node server.js --listen 0.0.0.0 --port 8181 -w /workspace/src &
 
-# wait for any key
-read -n 1 -s
+cd /workspace/src/smart_grasping_sandbox/notebooks
+jupyter notebook
