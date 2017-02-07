@@ -44,9 +44,10 @@ RUN cd /root && \
     scripts/install-sdk.sh && \
     sed -i -e 's_127.0.0.1_0.0.0.0_g' /root/c9sdk/configs/standalone.js
 
-RUn apt-get -y install ipython ipython-notebook  python-dev && \
-    pip install --upgrade pip && \
-    pip install packaging jupyter
+RUN apt-get remove python-pip && \
+    wget https://bootstrap.pypa.io/get-pip.py && \
+    python get-pip.py && \
+    pip2 install --upgrade packaging jupyter
 
 # cleanup
 RUN rm -rf /var/lib/apt/lists/*
