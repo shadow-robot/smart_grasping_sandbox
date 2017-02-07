@@ -1,3 +1,7 @@
+| Check  | Status |
+|---------------|--------|
+| Docker | [![Docker Automated build](https://img.shields.io/docker/automated/shadow-robot/smart_grasping_sandbox.svg)](https://hub.docker.com/r/shadowrobot/smart_grasping_sandbox) |
+
 # smart_grasping_sandbox
 
 This is a public simulation sandbox for [Shadow's Smart Grasping System](https://www.shadowrobot.com/shadow-smart-grasping-system/). We're aiming to provide you with a simplified simulation environment to play with different challenges in an autonomous pick and place problem.
