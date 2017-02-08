@@ -20,4 +20,5 @@ node server.js --listen 0.0.0.0 --port 8181 -w /workspace/src &
 
 mkdir -p /workspace/src/smart_grasping_sandbox/notebooks
 cd /workspace/src/smart_grasping_sandbox/notebooks
-jupyter notebook
+jupyter notebook --ip=0.0.0.0
+
