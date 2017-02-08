@@ -1,6 +1,6 @@
 | Check  | Status |
 |---------------|--------|
-| Docker | [![Docker Automated build](https://img.shields.io/docker/automated/shadow-robot/smart_grasping_sandbox.svg)](https://hub.docker.com/r/shadowrobot/smart_grasping_sandbox) |
+| Docker | [![Docker Automated build](https://img.shields.io/docker/automated/shadowrobot/smart_grasping_sandbox.svg)](https://hub.docker.com/r/shadowrobot/smart_grasping_sandbox) |
 
 # smart_grasping_sandbox
 
