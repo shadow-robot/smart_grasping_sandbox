@@ -70,4 +70,4 @@ COPY ./entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["bash"]
 
-EXPOSE 8080 8888
+EXPOSE 8080 8888 7681
