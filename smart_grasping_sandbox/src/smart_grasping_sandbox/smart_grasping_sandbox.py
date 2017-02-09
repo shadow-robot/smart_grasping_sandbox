@@ -6,7 +6,7 @@ from tf.transformations import quaternion_from_euler
 from math import pi
 from copy import deepcopy
 
-Class SmartGraspingSandbox(object):
+class SmartGraspingSandbox(object):
 
     def __init__(self):
         self.__reset_world = rospy.ServiceProxy("/gazebo/reset_world", Empty)
