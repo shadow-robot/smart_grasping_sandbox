@@ -5,6 +5,8 @@ from moveit_commander import MoveGroupCommander
 from tf.transformations import quaternion_from_euler
 from math import pi
 from copy import deepcopy
+from tf_conversions import posemath, toMsg
+import PyKDL
 
 class SmartGrasper(object):
 
@@ -44,6 +46,30 @@ class SmartGrasper(object):
 
         self.__reset_world.call()
 
+    def get_tip_pose(self):
+        """
+        Gets the current pose of the robot's tooltip in the world frame.
+        @return the tip pose
+        """
+        return self.arm_commander.get_current_pose(self.arm_commander.get_end_effector_link()).pose
+
+    def move_tip(self, x=0., y=0., z=0., roll=0., pitch=0., yaw=0., absolute=False):
+        transform = PyKDL.Frame(PyKDL.Rotation.RPY(pitch, roll, yaw),
+                                PyKDL.Vector(-x, -y, -z))
+        
+        final_pose = toMsg(transform)
+  
+        if not absolute:
+            tip_pose = self.get_tip_pose()
+            tip_pose_kdl = posemath.fromMsg(tip_pose)
+            final_pose = toMsg(tip_pose_kdl * transform)
+            
+        self.arm_commander.set_start_state_to_current_state()
+        self.arm_commander.set_pose_targets([final_pose])
+        plan = self.arm_commander.plan()
+        if self.arm_commander.execute(plan):
+            return True
+            
     def pick(self):
         """
         Does its best to pick the ball.
