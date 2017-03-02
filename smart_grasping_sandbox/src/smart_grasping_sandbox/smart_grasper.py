@@ -1,6 +1,8 @@
 import rospy
 from std_srvs.srv import Empty
 from gazebo_msgs.srv import GetModelState
+from moveit_msgs.msg import PlanningScene, PlanningSceneComponents
+from moveit_msgs.srv import GetPlanningScene
 from moveit_commander import MoveGroupCommander
 from tf.transformations import quaternion_from_euler
 from math import pi
@@ -13,8 +15,15 @@ class SmartGrasper(object):
     def __init__(self):
         rospy.init_node("smart_grasper")
 
+        rospy.wait_for_service("/gazebo/get_model_state", 10.0)
+        rospy.wait_for_service("/gazebo/reset_world", 10.0)
         self.__reset_world = rospy.ServiceProxy("/gazebo/reset_world", Empty)
         self.__get_pose_srv = rospy.ServiceProxy("/gazebo/get_model_state", GetModelState)
+
+        rospy.wait_for_service('/get_planning_scene', 10.0)
+        self.__get_planning_scene = rospy.ServiceProxy('/get_planning_scene', GetPlanningScene)
+        self.__pub_planning_scene = rospy.Publisher('/planning_scene', PlanningScene, queue_size=10, latch=True)
+
         self.arm_commander = MoveGroupCommander("arm")
         self.hand_commander = MoveGroupCommander("hand")
 
@@ -29,7 +38,7 @@ class SmartGrasper(object):
         Gets the pose of the ball in the world frame.
         :return: The pose of the ball.
         """
-        return self.__get_pose_srv.call("cricket_ball", "world")
+        return self.__get_pose_srv.call("cricket_ball", "world").pose
 
     def go_to_start(self):
         """
@@ -67,7 +76,6 @@ class SmartGrasper(object):
             return False
         return True
         
-
     def move_tip(self, x=0., y=0., z=0., roll=0., pitch=0., yaw=0.):
         """
         Moves the tooltip in the world frame by the given x,y,z / roll,pitch,yaw. 
@@ -87,7 +95,6 @@ class SmartGrasper(object):
         if not  self.arm_commander.execute(plan):
             return False
         return True
-
 
     def open_hand(self):
         """
@@ -112,7 +119,56 @@ class SmartGrasper(object):
             return False
 
         return True
-            
+
+    def check_fingers_collisions(self, enable=True):
+        """
+        Disables or enables the collisions check between the fingers and the objects / table
+        
+        @param enable set to True to enable / False to disable
+        @return True on success
+        """
+        objects = ["cricket_ball__link", "drill__link", "cafe_table__link"]
+
+        while self.__pub_planning_scene.get_num_connections() < 1:
+            rospy.loginfo("waiting for someone to subscribe to the /planning_scene")
+            rospy.sleep(0.1)
+
+        request = PlanningSceneComponents(components=PlanningSceneComponents.ALLOWED_COLLISION_MATRIX)
+        response = self.__get_planning_scene(request)
+        acm = response.scene.allowed_collision_matrix
+
+        for object_name in objects:
+            if object_name not in acm.entry_names:
+                # add object to allowed collision matrix
+                acm.entry_names += [object_name]
+                for row in range(len(acm.entry_values)):
+                    acm.entry_values[row].enabled += [False]
+
+                new_row = deepcopy(acm.entry_values[0])
+                acm.entry_values += {new_row}
+
+        for index_entry_values, entry_values in enumerate(acm.entry_values):
+            if "H1_F" in acm.entry_names[index_entry_values]:
+                for index_value, value in enumerate(entry_values.enabled):
+                    if acm.entry_names[index_value] in objects:
+                        if enable:
+                            acm.entry_values[index_entry_values].enabled[index_value] = False
+                        else:
+                            acm.entry_values[index_entry_values].enabled[index_value] = True
+            elif acm.entry_names[index_entry_values] in objects:
+                for index_value, value in enumerate(entry_values.enabled):
+                    if "H1_F" in acm.entry_names[index_value]:
+                        if enable:
+                            acm.entry_values[index_entry_values].enabled[index_value] = False
+                        else:
+                            acm.entry_values[index_entry_values].enabled[index_value] = True
+        
+        planning_scene_diff = PlanningScene(is_diff=True, allowed_collision_matrix=acm)
+        self.__pub_planning_scene.publish(planning_scene_diff)
+        rospy.sleep(1.0)
+
+        return True
+
     def pick(self):
         """
         Does its best to pick the ball.
@@ -129,7 +185,7 @@ class SmartGrasper(object):
         ball_pose = self.get_ball_pose()
 
         # come at it from the top
-        arm_target = ball_pose.pose
+        arm_target = ball_pose
         arm_target.position.z += 0.5
 
         quaternion = quaternion_from_euler(-pi/2., 0.0, 0.0)
