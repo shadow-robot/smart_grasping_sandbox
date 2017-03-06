@@ -17,10 +17,12 @@ This stack contains:
 The fastest way to get started is using Docker. If you haven't done so already head over to the [Docker website](https://www.docker.com/) and follow the instructions over there. Once installed you can simply fire up the pre-built Docker container (it will be downloaded automatically for you):
 
 ```
-docker run -it --name sgs -p 8080:8080 -p 8888:8888 -p 7681:7681 shadowrobot/smart_grasping_sandbox
+docker run -it --name sgs -p 8080:8080 -p 8888:8888 -p 8181:8181 -p 7681:7681 shadowrobot/smart_grasping_sandbox
 ```
 
 Then connect your local browser to [localhost:8080](http://localhost:8080) to see the simulation and [localhost:8888](http://localhost:8888) to get access to an ipython notebook which you can tinker with. The password for the ipython notebook is `shadow`.
+
+A Cloud9IDE editor is also available for the more advanced user on [localhost:8181](http://localhost:8181).
 
 ## Restarting the container
 
