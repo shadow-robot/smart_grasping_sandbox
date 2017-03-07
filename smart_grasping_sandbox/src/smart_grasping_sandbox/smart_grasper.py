@@ -15,8 +15,16 @@ from threading import Timer
 
 
 class SmartGrasper(object):
+    """
+    This is the helper library to easily access the different functionalities of the simulated robot
+    from python.
+    """
 
     def __init__(self):
+        """
+        This constructor initialises the different necessary connections to the topics and services
+        and resets the world to start in a good position.
+        """
         rospy.init_node("smart_grasper")
 
         rospy.wait_for_service("/gazebo/get_model_state", 10.0)
@@ -71,7 +79,8 @@ class SmartGrasper(object):
     def get_ball_pose(self):
         """
         Gets the pose of the ball in the world frame.
-        :return: The pose of the ball.
+        
+        @return The pose of the ball.
         """
         return self.__get_pose_srv.call("cricket_ball", "world").pose
 
@@ -119,6 +128,7 @@ class SmartGrasper(object):
     def open_hand(self):
         """
         Opens the hand.
+        
         @return True on success
         """
         self.hand_commander.set_named_target("open")
@@ -131,6 +141,7 @@ class SmartGrasper(object):
     def close_hand(self):
         """
         Closes the hand.
+        
         @return True on success
         """
         self.hand_commander.set_named_target("close")
@@ -144,7 +155,7 @@ class SmartGrasper(object):
         """
         Disables or enables the collisions check between the fingers and the objects / table
         
-        @param enable set to True to enable / False to disable
+        @param enable: set to True to enable / False to disable
         @return True on success
         """
         objects = ["cricket_ball__link", "drill__link", "cafe_table__link"]
