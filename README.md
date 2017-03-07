@@ -13,6 +13,8 @@ This stack contains:
 * **smart_grasp_moveit_config**: a MoveIt! config for the motion planning
 * **smart_grasping_sandbox**: the main point of entrance, includes the launch file and the main python files.
 
+![Smart Grasping Sandbox screenshot](doc/img/smart_grasping_sandbox.png)
+
 ## Getting started
 
 The fastest way to get started is using Docker. If you haven't done so already head over to the [Docker website](https://www.docker.com/) and follow the instructions over there. Once installed you can simply fire up the pre-built Docker container (it will be downloaded automatically for you):
