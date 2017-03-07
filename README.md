@@ -25,7 +25,12 @@ docker run -it --name sgs -p 8080:8080 -p 8888:8888 -p 8181:8181 -p 7681:7681 sh
 
 Then connect your local browser to [localhost:8080](http://localhost:8080) to see the simulation and [localhost:8888](http://localhost:8888) to get access to an ipython notebook which you can tinker with. The password for the ipython notebook is `shadow`.
 
-A Cloud9IDE editor is also available for the more advanced user on [localhost:8181](http://localhost:8181).
+The [ipython notebook]((http://localhost:8888) contains an example of interaction with the sandbox to help you get started. If you want to check which functions are available in the `SmartGrasper` helper library, you can run from python:
+
+```python
+from smart_grasping_sandbox.smart_grasper import SmartGrasper
+help(SmartGrasper)
+```
 
 ## Restarting the container
 
@@ -36,3 +41,7 @@ docker start sgs
 ```
 
 And you will be able to connect to [localhost:8080](http://localhost:8080) and [localhost:8888](http://localhost:8888) again.
+
+## More advanced use
+
+A Cloud9IDE editor is also available for the more advanced user on [localhost:8181](http://localhost:8181).
