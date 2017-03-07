@@ -1,14 +1,18 @@
 import rospy
 from std_srvs.srv import Empty
-from gazebo_msgs.srv import GetModelState
+from gazebo_msgs.srv import GetModelState, SetModelConfiguration
+from controller_manager_msgs.srv import SwitchController, SwitchControllerRequest
 from moveit_msgs.msg import PlanningScene, PlanningSceneComponents
 from moveit_msgs.srv import GetPlanningScene
 from moveit_commander import MoveGroupCommander
 from tf.transformations import quaternion_from_euler
 from math import pi
 from copy import deepcopy
+import time
 from tf_conversions import posemath, toMsg
 import PyKDL
+from threading import Timer
+
 
 class SmartGrasper(object):
 
@@ -20,17 +24,48 @@ class SmartGrasper(object):
         self.__reset_world = rospy.ServiceProxy("/gazebo/reset_world", Empty)
         self.__get_pose_srv = rospy.ServiceProxy("/gazebo/get_model_state", GetModelState)
 
+        rospy.wait_for_service("/gazebo/pause_physics")
+        self.__pause_physics = rospy.ServiceProxy("/gazebo/pause_physics", Empty)
+        rospy.wait_for_service("/gazebo/unpause_physics")
+        self.__unpause_physics = rospy.ServiceProxy("/gazebo/unpause_physics", Empty)
+        rospy.wait_for_service("/controller_manager/switch_controller")
+        self.__switch_ctrl = rospy.ServiceProxy("/controller_manager/switch_controller", SwitchController)
+        rospy.wait_for_service("/gazebo/set_model_configuration")
+        self.__set_model = rospy.ServiceProxy("/gazebo/set_model_configuration", SetModelConfiguration)
+
         rospy.wait_for_service('/get_planning_scene', 10.0)
         self.__get_planning_scene = rospy.ServiceProxy('/get_planning_scene', GetPlanningScene)
         self.__pub_planning_scene = rospy.Publisher('/planning_scene', PlanningScene, queue_size=10, latch=True)
 
         self.arm_commander = MoveGroupCommander("arm")
         self.hand_commander = MoveGroupCommander("hand")
+        
+        self.reset_world()
 
     def reset_world(self):
         """
-        Resets the object poses in the world.
+        Resets the object poses in the world and the robot joint angles.
         """
+        self.__switch_ctrl.call(start_controllers=[], 
+                                stop_controllers=["hand_controller", "arm_controller", "joint_state_controller"], 
+                                strictness=SwitchControllerRequest.BEST_EFFORT)
+        self.__pause_physics.call()
+        
+        joint_names = ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 
+                       'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint', 'H1_WRJ1']
+        joint_positions = [1.2, 0.5, -1.5, -0.5, -1.6, -0.3, 0.]
+        
+        self.__set_model.call(model_name="smart_grasping_sandbox", 
+                              urdf_param_name="robot_description",
+                              joint_names=joint_names, 
+                              joint_positions=joint_positions)
+        
+        timer = Timer(0.0, self.__start_ctrl)
+        timer.start()
+        
+        time.sleep(0.1)
+        self.__unpause_physics.call()
+
         self.__reset_world.call()
 
     def get_ball_pose(self):
@@ -39,21 +74,6 @@ class SmartGrasper(object):
         :return: The pose of the ball.
         """
         return self.__get_pose_srv.call("cricket_ball", "world").pose
-
-    def go_to_start(self):
-        """
-        Resets the world and goes back to the start pose with the robot.
-        """
-        self.arm_commander.set_named_target("start")
-        plan = self.arm_commander.plan()
-        if not self.arm_commander.execute(plan, wait=True):
-            return False
-
-        self.hand_commander.set_named_target("open")
-        plan = self.hand_commander.plan()
-        self.hand_commander.execute(plan, wait=True)
-
-        self.__reset_world.call()
 
     def get_tip_pose(self):
         """
@@ -149,14 +169,14 @@ class SmartGrasper(object):
 
         for index_entry_values, entry_values in enumerate(acm.entry_values):
             if "H1_F" in acm.entry_names[index_entry_values]:
-                for index_value, value in enumerate(entry_values.enabled):
+                for index_value, _ in enumerate(entry_values.enabled):
                     if acm.entry_names[index_value] in objects:
                         if enable:
                             acm.entry_values[index_entry_values].enabled[index_value] = False
                         else:
                             acm.entry_values[index_entry_values].enabled[index_value] = True
             elif acm.entry_names[index_entry_values] in objects:
-                for index_value, value in enumerate(entry_values.enabled):
+                for index_value, _ in enumerate(entry_values.enabled):
                     if "H1_F" in acm.entry_names[index_value]:
                         if enable:
                             acm.entry_values[index_entry_values].enabled[index_value] = False
@@ -173,13 +193,33 @@ class SmartGrasper(object):
         """
         Does its best to pick the ball.
         """
-        self.go_to_start()
-
-        arm_target = self.__compute_arm_target_for_ball()
-
-        self.__pre_grasp(arm_target)
-        self.__grasp(arm_target)
-        self.__lift(arm_target)
+        rospy.loginfo("Moving to Pregrasp")
+        self.open_hand()
+        time.sleep(0.1)
+        
+        ball_pose = self.get_ball_pose()
+        ball_pose.position.z += 0.5
+        
+        #setting an absolute orientation (from the top)
+        quaternion = quaternion_from_euler(-pi/2., 0.0, 0.0)
+        ball_pose.orientation.x = quaternion[0]
+        ball_pose.orientation.y = quaternion[1]
+        ball_pose.orientation.z = quaternion[2]
+        ball_pose.orientation.w = quaternion[3]
+        
+        self.move_tip_absolute(ball_pose)
+        
+        rospy.loginfo("Grasping")
+        self.move_tip(y=-0.093)
+        self.check_fingers_collisions(False)
+        self.close_hand()
+        
+        rospy.loginfo("Lifting")
+        for _ in range(50):
+            self.move_tip(y=0.001)
+            time.sleep(0.1)
+            
+        self.check_fingers_collisions(True)
 
     def __compute_arm_target_for_ball(self):
         ball_pose = self.get_ball_pose()
@@ -240,3 +280,8 @@ class SmartGrasper(object):
         print fraction
         if not self.arm_commander.execute(plan):
             return False
+
+    def __start_ctrl(self):
+        rospy.loginfo("STARTING CONTROLLERS")
+        self.__switch_ctrl.call(start_controllers=["hand_controller", "arm_controller", "joint_state_controller"], 
+                                stop_controllers=[], strictness=1)
