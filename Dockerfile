@@ -24,6 +24,7 @@ RUN source /opt/ros/indigo/setup.bash && \
     git clone https://github.com/shadow-robot/pysdf.git && \
     git clone -b F_add_moveit_funtionallity https://github.com/shadow-robot/gazebo2rviz.git && \
     git clone -b F_gazebo_7_docker https://github.com/shadow-robot/universal_robot.git && \
+    git clone -b F#182_partial_trajectory_mod  https://github.com/shadow-robot/ros_controllers.git && \
     cd /workspace/src && \
     wget https://raw.githubusercontent.com/osrf/osrf-rosdep/master/gazebo7/00-gazebo7.list -O /etc/ros/rosdep/sources.list.d/00-gazebo7.list && \
     rosdep update && \

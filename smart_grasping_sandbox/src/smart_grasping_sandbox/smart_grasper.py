@@ -5,6 +5,11 @@ from controller_manager_msgs.srv import SwitchController, SwitchControllerReques
 from moveit_msgs.msg import PlanningScene, PlanningSceneComponents
 from moveit_msgs.srv import GetPlanningScene
 from moveit_commander import MoveGroupCommander
+from actionlib import SimpleActionClient
+from control_msgs.msg import FollowJointTrajectoryAction, \
+    FollowJointTrajectoryGoal
+from sensor_msgs.msg import JointState
+from trajectory_msgs.msg import JointTrajectoryPoint, JointTrajectory
 from tf.transformations import quaternion_from_euler
 from math import pi
 from copy import deepcopy
@@ -20,12 +25,17 @@ class SmartGrasper(object):
     from python.
     """
 
+    __last_joint_state = None
+    
     def __init__(self):
         """
         This constructor initialises the different necessary connections to the topics and services
         and resets the world to start in a good position.
         """
         rospy.init_node("smart_grasper")
+        
+        self.__joint_state_sub = rospy.Subscriber("/joint_states", JointState, 
+                                                  self.__joint_state_cb, queue_size=1)
 
         rospy.wait_for_service("/gazebo/get_model_state", 10.0)
         rospy.wait_for_service("/gazebo/reset_world", 10.0)
@@ -47,6 +57,20 @@ class SmartGrasper(object):
 
         self.arm_commander = MoveGroupCommander("arm")
         self.hand_commander = MoveGroupCommander("hand")
+        
+        self.__hand_traj_client = SimpleActionClient("/hand_controller/follow_joint_trajectory", 
+                                                     FollowJointTrajectoryAction)
+        self.__arm_traj_client = SimpleActionClient("/arm_controller/follow_joint_trajectory", 
+                                                    FollowJointTrajectoryAction)
+                                              
+        if self.__hand_traj_client.wait_for_server(timeout=rospy.Duration(4.0)) is False:
+            rospy.logfatal("Failed to connect to /hand_controller/follow_joint_trajectory in 4sec.")
+            raise Exception("Failed to connect to /hand_controller/follow_joint_trajectory in 4sec.")
+                                              
+        if self.__arm_traj_client.wait_for_server(timeout=rospy.Duration(4.0)) is False:
+            rospy.logfatal("Failed to connect to /arm_controller/follow_joint_trajectory in 4sec.")
+            raise Exception("Failed to connect to /arm_controller/follow_joint_trajectory in 4sec.")
+
         
         self.reset_world()
 
@@ -124,6 +148,54 @@ class SmartGrasper(object):
         if not  self.arm_commander.execute(plan):
             return False
         return True
+
+    def send_command(self, command, duration=0.2):
+        """
+        Send a dictionnary of joint targets to the arm and hand directly.
+        
+        @param command: a dictionnary of joint names associated with a target:
+                        {"H1_F1J1": -1.0, "shoulder_pan_joint": 1.0}
+        @param duration: the amount of time it will take to get there in seconds. Needs to be bigger than 0.0
+        """
+        hand_goal = None
+        arm_goal = None
+        
+        for joint, target in command.items():
+            point = JointTrajectoryPoint()
+            point.time_from_start = rospy.Duration.from_sec(duration)
+            point.positions.append(target)
+            if "H1" in joint:
+                if not hand_goal:
+                    hand_goal = FollowJointTrajectoryGoal()
+                hand_goal.trajectory.joint_names.append(joint)
+                hand_goal.trajectory.points.append(point)
+            else:
+                if not arm_goal:
+                    arm_goal = FollowJointTrajectoryGoal()
+                arm_goal.trajectory.joint_names.append(joint)
+                arm_goal.trajectory.points.append(point)
+        
+        if arm_goal:
+            self.__arm_traj_client.send_goal_and_wait(arm_goal)
+        if hand_goal:
+            self.__hand_traj_client.send_goal_and_wait(hand_goal)
+
+    def get_current_joint_state(self):
+        """
+        Gets the current state of the robot. 
+        
+        @return joint positions, velocity and efforts as three dictionnaries
+        """
+        joints_position = {n: p for n, p in
+                           zip(self.__last_joint_state.name,
+                               self.__last_joint_state.position)}
+        joints_velocity = {n: v for n, v in
+                           zip(self.__last_joint_state.name,
+                           self.__last_joint_state.velocity)}
+        joints_effort = {n: v for n, v in
+                         zip(self.__last_joint_state.name, 
+                         self.__last_joint_state.effort)}
+        return joints_position, joints_velocity, joints_effort
 
     def open_hand(self):
         """
@@ -296,3 +368,6 @@ class SmartGrasper(object):
         rospy.loginfo("STARTING CONTROLLERS")
         self.__switch_ctrl.call(start_controllers=["hand_controller", "arm_controller", "joint_state_controller"], 
                                 stop_controllers=[], strictness=1)
+                                
+    def __joint_state_cb(self, msg):
+        self.__last_joint_state = msg
