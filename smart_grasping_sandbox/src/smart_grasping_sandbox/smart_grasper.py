@@ -9,7 +9,7 @@ from actionlib import SimpleActionClient
 from control_msgs.msg import FollowJointTrajectoryAction, \
     FollowJointTrajectoryGoal
 from sensor_msgs.msg import JointState
-from trajectory_msgs.msg import JointTrajectoryPoint, JointTrajectory
+from trajectory_msgs.msg import JointTrajectoryPoint
 from tf.transformations import quaternion_from_euler
 from math import pi
 from copy import deepcopy
