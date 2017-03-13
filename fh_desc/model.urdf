@@ -944,4 +944,87 @@
     <child link="H1_base_attach"/>
     <origin rpy="1.57079632679 3.14159265359 1.57079632679" xyz="0.012 0.0 0.0"/>
   </joint>
+  
+  
+  <gazebo reference="H1_F1J1">
+    <implicitSpringDamper>1</implicitSpringDamper>
+  </gazebo>
+  <gazebo reference="H1_F1J2">
+    <implicitSpringDamper>1</implicitSpringDamper>
+  </gazebo>
+  <gazebo reference="H1_F2J1">
+    <implicitSpringDamper>1</implicitSpringDamper>
+  </gazebo>
+  <gazebo reference="H1_F2J2">
+    <implicitSpringDamper>1</implicitSpringDamper>
+  </gazebo>
+  <gazebo reference="H1_F3J1">
+    <implicitSpringDamper>1</implicitSpringDamper>
+  </gazebo>
+  <gazebo reference="H1_F3J2">
+    <implicitSpringDamper>1</implicitSpringDamper>
+  </gazebo>
+  
+  <gazebo reference="H1_F1_link_1">
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+  </gazebo>
+  <gazebo reference="H1_F1_link_2">
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+  </gazebo><gazebo reference="H1_F1_tip">
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+  </gazebo>
+  
+  <gazebo reference="H1_F2_link_1">
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+  </gazebo>
+  <gazebo reference="H1_F2_link_2">
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+  </gazebo><gazebo reference="H1_F2_tip">
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+  </gazebo>
+  
+  <gazebo reference="H1_F3_link_1">
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+  </gazebo>
+  <gazebo reference="H1_F3_link_2">
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+  </gazebo><gazebo reference="H1_F3_tip">
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+  </gazebo>
 </robot>
