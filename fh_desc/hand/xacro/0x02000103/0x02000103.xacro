@@ -40,7 +40,7 @@
       <child link="${hand_id}_${part_id}_wrist" />
       <axis xyz="-1 0 0" />
       <limit lower="-0.785" upper="0.785" effort="20" velocity="0.1" />
-      <dynamic damping="0.1"/>
+      <dynamic  damping="0.005" friction="0.005"/>
     </joint>
 
     <link name="${hand_id}_${part_id}_force_torque_sensor">

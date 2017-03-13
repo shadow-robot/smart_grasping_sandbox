@@ -33,8 +33,8 @@
       <child link="finger_${part_id}_link_2"/>
       <insert_block name="origin"/>
       <axis xyz="0 1 0" />
-      <limit lower="0.0" upper="${pi/2}" effort="2" velocity="1.0" />
-      <dynamics damping="0.1"/>
+      <limit lower="0.0" upper="${pi/2}" effort="5." velocity="1.0" />
+      <dynamics  damping="0.005" friction="0.005"/>
     </joint>
 
   </xacro:macro>

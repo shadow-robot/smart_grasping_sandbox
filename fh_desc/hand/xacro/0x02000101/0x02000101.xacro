@@ -65,7 +65,7 @@
       <child link="${hand_id}_${part_id}_link_1"/>
       <axis xyz="1 0 0" />
       <limit lower="-${pi/2}" upper="1.0472" effort="2" velocity="1.0" />
-      <dynamics damping="0.1"/>
+      <dynamics  damping="0.005" friction="0.005"/>
     </joint>
 
     <joint name="${hand_id}_${part_id}J2" type="revolute">
@@ -73,8 +73,8 @@
       <axis xyz="1 0 0" />
       <parent link="${hand_id}_${part_id}_link_1"/>
       <child link="${hand_id}_${part_id}_link_2"/>
-      <limit lower="-1.04716" upper="1.57075" effort="2" velocity="1.0" />
-      <dynamics damping="0.01"/>
+      <limit lower="-1.04716" upper="1.57075" effort="5." velocity="1.0" />
+      <dynamics  damping="0.005" friction="0.005"/>
     </joint>
 
     <xacro:if value="${transmission}">
