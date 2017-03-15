@@ -161,19 +161,28 @@ class SmartGrasper(object):
         arm_goal = None
         
         for joint, target in command.items():
-            point = JointTrajectoryPoint()
-            point.time_from_start = rospy.Duration.from_sec(duration)
-            point.positions.append(target)
             if "H1" in joint:
                 if not hand_goal:
                     hand_goal = FollowJointTrajectoryGoal()
+                    
+                    point = JointTrajectoryPoint()
+                    point.time_from_start = rospy.Duration.from_sec(duration)
+                    
+                    hand_goal.trajectory.points.append(point)
+                    
                 hand_goal.trajectory.joint_names.append(joint)
-                hand_goal.trajectory.points.append(point)
+                hand_goal.trajectory.points[0].positions.append(target)
             else:
                 if not arm_goal:
                     arm_goal = FollowJointTrajectoryGoal()
+                    
+                    point = JointTrajectoryPoint()
+                    point.time_from_start = rospy.Duration.from_sec(duration)
+                    
+                    arm_goal.trajectory.points.append(point)
+                    
                 arm_goal.trajectory.joint_names.append(joint)
-                arm_goal.trajectory.points.append(point)
+                arm_goal.trajectory.points[0].positions.append(target)
         
         if arm_goal:
             self.__arm_traj_client.send_goal_and_wait(arm_goal)
