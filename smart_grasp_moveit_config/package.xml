@@ -8,7 +8,7 @@
   <author email="assistant@moveit.ros.org">MoveIt Setup Assistant</author>
   <maintainer email="assistant@moveit.ros.org">MoveIt Setup Assistant</maintainer>
 
-  <license>BSD</license>
+  <license>GPLv3</license>
 
   <url type="website">http://moveit.ros.org/</url>
   <url type="bugtracker">https://github.com/ros-planning/moveit_setup_assistant/issues</url>
@@ -25,5 +25,5 @@
 
 
   <buildtool_depend>catkin</buildtool_depend>
-  
+
 </package>
