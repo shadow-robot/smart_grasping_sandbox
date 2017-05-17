@@ -84,7 +84,7 @@ class SmartGrasper(object):
         self.__pause_physics.call()
         
         joint_names = ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 
-                       'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint', 'H1_WRJ1']
+                       'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']
         joint_positions = [1.2, 0.5, -1.5, -0.5, -1.6, -0.3, 0.]
         
         self.__set_model.call(model_name="smart_grasping_sandbox", 
