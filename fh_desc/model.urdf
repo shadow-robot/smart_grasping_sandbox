@@ -300,6 +300,10 @@
     <parent link="wrist_3_link"/>
     <child link="tool0"/>
   </joint>
+  
+  
+  
+  
   <link name="H1_base_attach"/>
   <material name="Blue">
     <color rgba="0.0 0.0 0.8 1.0"/>
@@ -327,124 +331,16 @@
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
     </plugin>
   </gazebo>
-  <link name="H1_WR_wrist_base">
-    <inertial>
-      <origin rpy="0 0 0" xyz="0.00326865129997316 -4.64589898998213E-06 0.0112847129271115"/>
-      <mass value="0.126266795472122"/>
-      <inertia ixx="7.45469352483292E-05" ixy="6.02324465005139E-09" ixz="7.48046652661961E-07" iyy="0.000152711306761993" iyz="2.66777152755212E-09" izz="0.000201286651417327"/>
-    </inertial>
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://fh_desc/meshes/wrist_base.dae"/>
-      </geometry>
-      <material name="light_grey">
-        <color rgba="0.75 0.75 0.75 1.0"/>
-      </material>
-    </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://fh_desc/meshes/wrist_base.dae"/>
-      </geometry>
-      <material name="light_grey">
-        <color rgba="0.75 0.75 0.75 1.0"/>
-      </material>
-    </collision>
-  </link>
-  <link name="H1_WR_wrist">
-    <inertial>
-      <origin rpy="0 0 0" xyz="0.00160957599422527 -0.000629300457080406 0.0174740198321096"/>
-      <mass value="0.111982108931474"/>
-      <inertia ixx="7.18014678375949E-05" ixy="-9.11325601281988E-07" ixz="-2.80734883420538E-06" iyy="0.000184429517814393" iyz="-2.43285388562761E-07" izz="0.000238392777579217"/>
-    </inertial>
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://fh_desc/meshes/wrist.dae"/>
-      </geometry>
-      <material name="light_grey">
-        <color rgba="0.75 0.75 0.75 1.0"/>
-      </material>
-    </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://fh_desc/meshes/wrist.dae"/>
-      </geometry>
-      <material name="light_grey">
-        <color rgba="0.75 0.75 0.75 1.0"/>
-      </material>
-    </collision>
-  </link>
-  <joint name="H1_WRJ1" type="revolute">
-    <origin rpy="0 0 0" xyz="0 0 0.032"/>
-    <parent link="H1_WR_wrist_base"/>
-    <child link="H1_WR_wrist"/>
-    <axis xyz="-1 0 0"/>
-    <limit effort="50" lower="-0.785" upper="0.785" velocity="0.1"/>
-    <dynamics damping="0.0" friction="0.0"/>
-  </joint>
-  <link name="H1_WR_force_torque_sensor">
-    <inertial>
-      <origin rpy="0 0 0" xyz="-2.94070736140857E-06 6.43877814287904E-05 0.0247092180043537"/>
-      <mass value="0.0975991645938483"/>
-      <inertia ixx="6.20729230428078E-05" ixy="-1.64643097783638E-08" ixz="-3.24429596458139E-08" iyy="6.18050372756729E-05" iyz="1.29139184791137E-08" izz="8.23283621428637E-05"/>
-    </inertial>
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://fh_desc/meshes/force_torque_sensor.dae"/>
-      </geometry>
-      <material name="light_grey">
-        <color rgba="0.75 0.75 0.75 1.0"/>
-      </material>
-    </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://fh_desc/meshes/force_torque_sensor.dae"/>
-      </geometry>
-      <material name="light_grey">
-        <color rgba="0.75 0.75 0.75 1.0"/>
-      </material>
-    </collision>
-  </link>
-  <link name="H1_WR_face_plate"/>
-  <joint name="H1_WR_wrist_to_ft_sensor" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 0.015"/>
-    <parent link="H1_WR_wrist"/>
-    <child link="H1_WR_force_torque_sensor"/>
-  </joint>
-  <joint name="H1_WR_wrist_base" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 0"/>
-    <parent link="H1_base_attach"/>
-    <child link="H1_WR_wrist_base"/>
-  </joint>
-  <joint name="H1_WRft_sensor_to_faceplate" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 0.0505"/>
-    <parent link="H1_WR_force_torque_sensor"/>
-    <child link="H1_WR_face_plate"/>
-  </joint>
-  <transmission name="H1_WRJ1_transmission">
-    <type>transmission_interface/SimpleTransmission</type>
-    <actuator name="H1_WRJ1">
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-    <joint name="H1_WRJ1">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
-    </joint>
-  </transmission>
   <link name="H1_base_link">
     <inertial>
-      <origin rpy="0 0 0" xyz="0.000167074827019974 0.017647639199748 0.0354392421665256"/>
-      <mass value="0.802291302622713"/>
-      <inertia ixx="0.00268740968940699" ixy="-2.63877052807301E-06" ixz="8.21876760057436E-06" iyy="0.00273884664780255" iyz="0.000454017867570455" izz="0.00145589837379105"/>
+      <origin rpy="0 0 0" xyz="-8.6116E-06 -0.0058125 0.028294"/>
+      <mass value="0.07527"/>
+      <inertia ixx="0.00014442" ixy="1.2033E-08" ixz="-5.9646E-10" iyy="0.00014979" iyz="-1.0288E-05" izz="5.2943E-05"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/palm_base.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/palm_link.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -453,7 +349,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/palm_base.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/palm_link_simple.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -462,24 +358,27 @@
   </link>
   <joint name="H1Base" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
-    <parent link="H1_WR_face_plate"/>
+    <parent link="H1_base_attach"/>
     <child link="H1_wrist_attach"/>
   </joint>
   <link name="H1_insert_F1"/>
   <joint name="H1_dummy_joint_1" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0.045 0.002"/>
+    <origin rpy="0 0 2.3562" xyz="-0.045 -0.025981 0"/>
+    <axis xyz="0 -1 0"/>
     <parent link="H1_base_link"/>
     <child link="H1_insert_F1"/>
   </joint>
   <link name="H1_insert_F2"/>
   <joint name="H1_dummy_joint_2" type="fixed">
-    <origin rpy="0 0 3.14159265359" xyz="0.038971 -0.0225 0.002"/>
+    <origin rpy="0 0 0" xyz="0 0.029019 0"/>
+    <axis xyz="0 -1 0"/>
     <parent link="H1_base_link"/>
     <child link="H1_insert_F2"/>
   </joint>
   <link name="H1_insert_F3"/>
   <joint name="H1_dummy_joint_3" type="fixed">
-    <origin rpy="0 0 3.14159265359" xyz="-0.038971 -0.0225 0.002"/>
+    <origin rpy="0 0 -2.3562" xyz="0.045 -0.025981 0"/>
+    <axis xyz="0 -1 0"/>
     <parent link="H1_base_link"/>
     <child link="H1_insert_F3"/>
   </joint>
@@ -489,16 +388,37 @@
     <child link="H1_base_link"/>
     <parent link="H1_wrist_attach"/>
   </joint>
-  <link name="H1_F1_base_link">
+  <link name="H1_F1_palm_link">
     <inertial>
-      <origin rpy="0 0 0" xyz="-0.00016975101978813 0.00197421910589327 0.0561457825889687"/>
-      <mass value="0.206184327436554"/>
-      <inertia ixx="0.000196208681085273" ixy="7.25965267883658E-08" ixz="-1.42989296818671E-06" iyy="0.00022500240306659" iyz="-8.62726850629812E-06" izz="7.34501911009421E-05"/>
+      <origin rpy="0 0 0" xyz="-0.00681802120880393 -0.00947020456878004 0.067587996682422"/>
+      <mass value="0.0341482312344481"/>
+      <inertia ixx="2.79747833772125E-05" ixy="-5.50900644725373E-08" ixz="-2.82072424927723E-07" iyy="2.67800858812928E-05" iyz="3.1953125069394E-06" izz="9.86122271726361E-06"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/base_link.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_palm_link.stl"/>
+      </geometry>
+      <material name="light_grey">
+        <color rgba="0.75 0.75 0.75 1.0"/>
+      </material>
+    </visual>
+    <!-- Collision mesh no needed as it is part of palm_link_simple.stl collision mesh -->
+    <!--xacro:mesh_collision file_name="v2/finger_palm_link.stl">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <xacro:light_grey/>
+      </xacro:mesh_collision-->
+  </link>
+  <link name="H1_F1_base_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="-0.000142856770000038 0.0265691681336443 0.0538751581621436"/>
+      <mass value="0.174652229503358"/>
+      <inertia ixx="0.000298372741514267" ixy="-5.05751882577435E-07" ixz="1.94982779411417E-07" iyy="0.000299629589232877" iyz="2.79565205733806E-05" izz="0.000134889645145365"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://fh_desc/meshes/v2/finger_base_link.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -507,7 +427,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/base_link.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_base_link_simple.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -516,14 +436,14 @@
   </link>
   <link name="H1_F1_link_1">
     <inertial>
-      <origin rpy="0 0 0" xyz="-0.000237426002648366 -0.000311474464416824 0.02717870175844"/>
-      <mass value="0.148439137620102"/>
-      <inertia ixx="7.87590932011867E-05" ixy="-2.09812809718026E-08" ixz="-4.7018912298647E-07" iyy="9.21180950643254E-05" iyz="1.02291530412464E-06" izz="4.38404666397581E-05"/>
+      <origin rpy="0 0 0" xyz="-0.000141876508729455 -0.00135409566494088 0.0277606215980989"/>
+      <mass value="0.0827759744227546"/>
+      <inertia ixx="4.61070151157777E-05" ixy="7.47741111557837E-08" ixz="-2.25165057702697E-07" iyy="5.27678327317508E-05" iyz="-3.64603343546298E-07" izz="2.89599551320955E-05"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/prox.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_prox_link.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -532,7 +452,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/prox.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_prox_link_simple.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -541,14 +461,14 @@
   </link>
   <link name="H1_F1_link_2">
     <inertial>
-      <origin rpy="0 0 0" xyz="0.000688458734451483 -0.00121669160147178 0.0179379664791534"/>
-      <mass value="0.0468986964963515"/>
-      <inertia ixx="1.66577929038936E-05" ixy="1.91370536767985E-09" ixz="-7.90963473136566E-07" iyy="1.65880289089031E-05" iyz="-2.10962265976158E-06" izz="5.79382496615135E-06"/>
+      <origin rpy="0 0 0" xyz="0.000506812071918918 -0.00091292934992606 0.0156620851768385"/>
+      <mass value="0.0270049614151599"/>
+      <inertia ixx="1.06942730265546E-05" ixy="-7.1810089794211E-09" ixz="-3.49957211410822E-07" iyy="1.05772889540593E-05" iyz="-8.38595987731518E-07" izz="3.27173446995846E-06"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/dist.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_dist_link.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -557,33 +477,41 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/dist.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_dist_link_simple.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
       </material>
     </collision>
   </link>
-  <joint name="H1_F1Base" type="fixed">
+  <joint name="H1_F1Palm" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="H1_insert_F1"/>
-    <child link="H1_F1_base_link"/>
+    <child link="H1_F1_palm_link"/>
   </joint>
   <joint name="H1_F1J1" type="revolute">
-    <origin rpy="0 0 0" xyz="0 0 0.096"/>
-    <parent link="H1_F1_base_link"/>
-    <child link="H1_F1_link_1"/>
-    <axis xyz="1 0 0"/>
-    <limit effort="50" lower="-1.57079632679" upper="1.0472" velocity="1.0"/>
-    <dynamics damping="0.0" friction="0.0"/>
+    <origin rpy="-8.8818E-16 -1.0061E-16 0.022402" xyz="0 0 0.00016528"/>
+    <axis xyz="0 0 1"/>
+    <parent link="H1_F1_palm_link"/>
+    <child link="H1_F1_base_link"/>
+    <limit effort="2" lower="-0.785398163397" upper="0.785398163397" velocity="1.0"/>
+    <dynamics damping="0.01"/>
   </joint>
   <joint name="H1_F1J2" type="revolute">
-    <origin rpy="0 0 0" xyz="0 0 0.06"/>
+    <origin rpy="0.070695 6.9389E-16 2.0947E-16" xyz="0 0.035 0.11683"/>
+    <axis xyz="1 0 0"/>
+    <parent link="H1_F1_base_link"/>
+    <child link="H1_F1_link_1"/>
+    <limit effort="2" lower="-1.3962634016" upper="1.0471975512" velocity="1.0"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <joint name="H1_F1J3" type="revolute">
+    <origin rpy="-0.0068649 1.7347E-18 1.6176E-16" xyz="0 0 0.06"/>
     <axis xyz="1 0 0"/>
     <parent link="H1_F1_link_1"/>
     <child link="H1_F1_link_2"/>
-    <limit effort="50" lower="-1.04716" upper="1.57075" velocity="1.0"/>
-    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="2" lower="-1.0471975512" upper="1.57079632679" velocity="1.0"/>
+    <dynamics damping="0.01"/>
   </joint>
   <transmission name="H1_F1J1_transmission">
     <type>transmission_interface/SimpleTransmission</type>
@@ -603,6 +531,15 @@
       <hardwareInterface>EffortJointInterface</hardwareInterface>
     </joint>
   </transmission>
+  <transmission name="H1_F1J3_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="H1_F1J3">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="H1_F1J3">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
   <!-- finger tip -->
   <link name="H1_F1_tip">
     <inertial>
@@ -613,7 +550,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/omd-d18-tip.dae"/>
+        <mesh filename="package://fh_desc/meshes/omd-d18-tip.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -622,7 +559,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/omd-d18-tip.dae"/>
+        <mesh filename="package://fh_desc/meshes/omd-d18-tip.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -639,16 +576,37 @@
     <parent link="H1_F1_link_2"/>
     <child link="H1_F1_tip"/>
   </joint>
-  <link name="H1_F2_base_link">
+  <link name="H1_F2_palm_link">
     <inertial>
-      <origin rpy="0 0 0" xyz="-0.00016975101978813 0.00197421910589327 0.0561457825889687"/>
-      <mass value="0.206184327436554"/>
-      <inertia ixx="0.000196208681085273" ixy="7.25965267883658E-08" ixz="-1.42989296818671E-06" iyy="0.00022500240306659" iyz="-8.62726850629812E-06" izz="7.34501911009421E-05"/>
+      <origin rpy="0 0 0" xyz="-0.00681802120880393 -0.00947020456878004 0.067587996682422"/>
+      <mass value="0.0341482312344481"/>
+      <inertia ixx="2.79747833772125E-05" ixy="-5.50900644725373E-08" ixz="-2.82072424927723E-07" iyy="2.67800858812928E-05" iyz="3.1953125069394E-06" izz="9.86122271726361E-06"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/base_link.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_palm_link.stl"/>
+      </geometry>
+      <material name="light_grey">
+        <color rgba="0.75 0.75 0.75 1.0"/>
+      </material>
+    </visual>
+    <!-- Collision mesh no needed as it is part of palm_link_simple.stl collision mesh -->
+    <!--xacro:mesh_collision file_name="v2/finger_palm_link.stl">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <xacro:light_grey/>
+      </xacro:mesh_collision-->
+  </link>
+  <link name="H1_F2_base_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="-0.000142856770000038 0.0265691681336443 0.0538751581621436"/>
+      <mass value="0.174652229503358"/>
+      <inertia ixx="0.000298372741514267" ixy="-5.05751882577435E-07" ixz="1.94982779411417E-07" iyy="0.000299629589232877" iyz="2.79565205733806E-05" izz="0.000134889645145365"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://fh_desc/meshes/v2/finger_base_link.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -657,7 +615,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/base_link.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_base_link_simple.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -666,14 +624,14 @@
   </link>
   <link name="H1_F2_link_1">
     <inertial>
-      <origin rpy="0 0 0" xyz="-0.000237426002648366 -0.000311474464416824 0.02717870175844"/>
-      <mass value="0.148439137620102"/>
-      <inertia ixx="7.87590932011867E-05" ixy="-2.09812809718026E-08" ixz="-4.7018912298647E-07" iyy="9.21180950643254E-05" iyz="1.02291530412464E-06" izz="4.38404666397581E-05"/>
+      <origin rpy="0 0 0" xyz="-0.000141876508729455 -0.00135409566494088 0.0277606215980989"/>
+      <mass value="0.0827759744227546"/>
+      <inertia ixx="4.61070151157777E-05" ixy="7.47741111557837E-08" ixz="-2.25165057702697E-07" iyy="5.27678327317508E-05" iyz="-3.64603343546298E-07" izz="2.89599551320955E-05"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/prox.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_prox_link.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -682,7 +640,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/prox.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_prox_link_simple.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -691,14 +649,14 @@
   </link>
   <link name="H1_F2_link_2">
     <inertial>
-      <origin rpy="0 0 0" xyz="0.000688458734451483 -0.00121669160147178 0.0179379664791534"/>
-      <mass value="0.0468986964963515"/>
-      <inertia ixx="1.66577929038936E-05" ixy="1.91370536767985E-09" ixz="-7.90963473136566E-07" iyy="1.65880289089031E-05" iyz="-2.10962265976158E-06" izz="5.79382496615135E-06"/>
+      <origin rpy="0 0 0" xyz="0.000506812071918918 -0.00091292934992606 0.0156620851768385"/>
+      <mass value="0.0270049614151599"/>
+      <inertia ixx="1.06942730265546E-05" ixy="-7.1810089794211E-09" ixz="-3.49957211410822E-07" iyy="1.05772889540593E-05" iyz="-8.38595987731518E-07" izz="3.27173446995846E-06"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/dist.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_dist_link.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -707,33 +665,41 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/dist.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_dist_link_simple.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
       </material>
     </collision>
   </link>
-  <joint name="H1_F2Base" type="fixed">
+  <joint name="H1_F2Palm" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="H1_insert_F2"/>
-    <child link="H1_F2_base_link"/>
+    <child link="H1_F2_palm_link"/>
   </joint>
   <joint name="H1_F2J1" type="revolute">
-    <origin rpy="0 0 0" xyz="0 0 0.096"/>
-    <parent link="H1_F2_base_link"/>
-    <child link="H1_F2_link_1"/>
-    <axis xyz="1 0 0"/>
-    <limit effort="30" lower="-1.57079632679" upper="1.0472" velocity="1.0"/>
-    <dynamics damping="0.0" friction="0.0"/>
+    <origin rpy="-8.8818E-16 -1.0061E-16 0.022402" xyz="0 0 0.00016528"/>
+    <axis xyz="0 0 1"/>
+    <parent link="H1_F2_palm_link"/>
+    <child link="H1_F2_base_link"/>
+    <limit effort="2" lower="-0.785398163397" upper="0.785398163397" velocity="1.0"/>
+    <dynamics damping="0.01"/>
   </joint>
   <joint name="H1_F2J2" type="revolute">
-    <origin rpy="0 0 0" xyz="0 0 0.06"/>
+    <origin rpy="0.070695 6.9389E-16 2.0947E-16" xyz="0 0.035 0.11683"/>
+    <axis xyz="1 0 0"/>
+    <parent link="H1_F2_base_link"/>
+    <child link="H1_F2_link_1"/>
+    <limit effort="2" lower="-1.3962634016" upper="1.0471975512" velocity="1.0"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <joint name="H1_F2J3" type="revolute">
+    <origin rpy="-0.0068649 1.7347E-18 1.6176E-16" xyz="0 0 0.06"/>
     <axis xyz="1 0 0"/>
     <parent link="H1_F2_link_1"/>
     <child link="H1_F2_link_2"/>
-    <limit effort="30" lower="-1.04716" upper="1.57075" velocity="1.0"/>
-    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="2" lower="-1.0471975512" upper="1.57079632679" velocity="1.0"/>
+    <dynamics damping="0.01"/>
   </joint>
   <transmission name="H1_F2J1_transmission">
     <type>transmission_interface/SimpleTransmission</type>
@@ -753,6 +719,15 @@
       <hardwareInterface>EffortJointInterface</hardwareInterface>
     </joint>
   </transmission>
+  <transmission name="H1_F2J3_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="H1_F2J3">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="H1_F2J3">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
   <!-- finger tip -->
   <link name="H1_F2_tip">
     <inertial>
@@ -763,7 +738,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/omd-d18-tip.dae"/>
+        <mesh filename="package://fh_desc/meshes/omd-d18-tip.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -772,7 +747,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/omd-d18-tip.dae"/>
+        <mesh filename="package://fh_desc/meshes/omd-d18-tip.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -789,16 +764,37 @@
     <parent link="H1_F2_link_2"/>
     <child link="H1_F2_tip"/>
   </joint>
-  <link name="H1_F3_base_link">
+  <link name="H1_F3_palm_link">
     <inertial>
-      <origin rpy="0 0 0" xyz="-0.00016975101978813 0.00197421910589327 0.0561457825889687"/>
-      <mass value="0.206184327436554"/>
-      <inertia ixx="0.000196208681085273" ixy="7.25965267883658E-08" ixz="-1.42989296818671E-06" iyy="0.00022500240306659" iyz="-8.62726850629812E-06" izz="7.34501911009421E-05"/>
+      <origin rpy="0 0 0" xyz="-0.00681802120880393 -0.00947020456878004 0.067587996682422"/>
+      <mass value="0.0341482312344481"/>
+      <inertia ixx="2.79747833772125E-05" ixy="-5.50900644725373E-08" ixz="-2.82072424927723E-07" iyy="2.67800858812928E-05" iyz="3.1953125069394E-06" izz="9.86122271726361E-06"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/base_link.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_palm_link.stl"/>
+      </geometry>
+      <material name="light_grey">
+        <color rgba="0.75 0.75 0.75 1.0"/>
+      </material>
+    </visual>
+    <!-- Collision mesh no needed as it is part of palm_link_simple.stl collision mesh -->
+    <!--xacro:mesh_collision file_name="v2/finger_palm_link.stl">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <xacro:light_grey/>
+      </xacro:mesh_collision-->
+  </link>
+  <link name="H1_F3_base_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="-0.000142856770000038 0.0265691681336443 0.0538751581621436"/>
+      <mass value="0.174652229503358"/>
+      <inertia ixx="0.000298372741514267" ixy="-5.05751882577435E-07" ixz="1.94982779411417E-07" iyy="0.000299629589232877" iyz="2.79565205733806E-05" izz="0.000134889645145365"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://fh_desc/meshes/v2/finger_base_link.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -807,7 +803,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/base_link.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_base_link_simple.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -816,14 +812,14 @@
   </link>
   <link name="H1_F3_link_1">
     <inertial>
-      <origin rpy="0 0 0" xyz="-0.000237426002648366 -0.000311474464416824 0.02717870175844"/>
-      <mass value="0.148439137620102"/>
-      <inertia ixx="7.87590932011867E-05" ixy="-2.09812809718026E-08" ixz="-4.7018912298647E-07" iyy="9.21180950643254E-05" iyz="1.02291530412464E-06" izz="4.38404666397581E-05"/>
+      <origin rpy="0 0 0" xyz="-0.000141876508729455 -0.00135409566494088 0.0277606215980989"/>
+      <mass value="0.0827759744227546"/>
+      <inertia ixx="4.61070151157777E-05" ixy="7.47741111557837E-08" ixz="-2.25165057702697E-07" iyy="5.27678327317508E-05" iyz="-3.64603343546298E-07" izz="2.89599551320955E-05"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/prox.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_prox_link.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -832,7 +828,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/prox.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_prox_link_simple.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -841,14 +837,14 @@
   </link>
   <link name="H1_F3_link_2">
     <inertial>
-      <origin rpy="0 0 0" xyz="0.000688458734451483 -0.00121669160147178 0.0179379664791534"/>
-      <mass value="0.0468986964963515"/>
-      <inertia ixx="1.66577929038936E-05" ixy="1.91370536767985E-09" ixz="-7.90963473136566E-07" iyy="1.65880289089031E-05" iyz="-2.10962265976158E-06" izz="5.79382496615135E-06"/>
+      <origin rpy="0 0 0" xyz="0.000506812071918918 -0.00091292934992606 0.0156620851768385"/>
+      <mass value="0.0270049614151599"/>
+      <inertia ixx="1.06942730265546E-05" ixy="-7.1810089794211E-09" ixz="-3.49957211410822E-07" iyy="1.05772889540593E-05" iyz="-8.38595987731518E-07" izz="3.27173446995846E-06"/>
     </inertial>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/dist.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_dist_link.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -857,33 +853,41 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/dist.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_dist_link_simple.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
       </material>
     </collision>
   </link>
-  <joint name="H1_F3Base" type="fixed">
+  <joint name="H1_F3Palm" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="H1_insert_F3"/>
-    <child link="H1_F3_base_link"/>
+    <child link="H1_F3_palm_link"/>
   </joint>
   <joint name="H1_F3J1" type="revolute">
-    <origin rpy="0 0 0" xyz="0 0 0.096"/>
-    <parent link="H1_F3_base_link"/>
-    <child link="H1_F3_link_1"/>
-    <axis xyz="1 0 0"/>
-    <limit effort="30" lower="-1.57079632679" upper="1.0472" velocity="1.0"/>
-    <dynamics damping="0.0" friction="0.0"/>
+    <origin rpy="-8.8818E-16 -1.0061E-16 0.022402" xyz="0 0 0.00016528"/>
+    <axis xyz="0 0 1"/>
+    <parent link="H1_F3_palm_link"/>
+    <child link="H1_F3_base_link"/>
+    <limit effort="2" lower="-0.785398163397" upper="0.785398163397" velocity="1.0"/>
+    <dynamics damping="0.01"/>
   </joint>
   <joint name="H1_F3J2" type="revolute">
-    <origin rpy="0 0 0" xyz="0 0 0.06"/>
+    <origin rpy="0.070695 6.9389E-16 2.0947E-16" xyz="0 0.035 0.11683"/>
+    <axis xyz="1 0 0"/>
+    <parent link="H1_F3_base_link"/>
+    <child link="H1_F3_link_1"/>
+    <limit effort="2" lower="-1.3962634016" upper="1.0471975512" velocity="1.0"/>
+    <dynamics damping="0.1"/>
+  </joint>
+  <joint name="H1_F3J3" type="revolute">
+    <origin rpy="-0.0068649 1.7347E-18 1.6176E-16" xyz="0 0 0.06"/>
     <axis xyz="1 0 0"/>
     <parent link="H1_F3_link_1"/>
     <child link="H1_F3_link_2"/>
-    <limit effort="30" lower="-1.04716" upper="1.57075" velocity="1.0"/>
-    <dynamics damping="0.0" friction="0.0"/>
+    <limit effort="2" lower="-1.0471975512" upper="1.57079632679" velocity="1.0"/>
+    <dynamics damping="0.01"/>
   </joint>
   <transmission name="H1_F3J1_transmission">
     <type>transmission_interface/SimpleTransmission</type>
@@ -903,6 +907,15 @@
       <hardwareInterface>EffortJointInterface</hardwareInterface>
     </joint>
   </transmission>
+  <transmission name="H1_F3J3_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="H1_F3J3">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="H1_F3J3">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
   <!-- finger tip -->
   <link name="H1_F3_tip">
     <inertial>
@@ -913,7 +926,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/omd-d18-tip.dae"/>
+        <mesh filename="package://fh_desc/meshes/omd-d18-tip.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -922,7 +935,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/omd-d18-tip.dae"/>
+        <mesh filename="package://fh_desc/meshes/omd-d18-tip.stl"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -939,6 +952,8 @@
     <parent link="H1_F3_link_2"/>
     <child link="H1_F3_tip"/>
   </joint>
+  
+  
   <joint name="arm_to_hand" type="fixed">
     <parent link="ee_link"/>
     <child link="H1_base_attach"/>
