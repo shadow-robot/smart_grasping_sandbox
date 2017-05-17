@@ -631,7 +631,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/v2/finger_prox_link.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_prox_link_simple.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
@@ -794,7 +794,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://fh_desc/meshes/v2/finger_base_link.dae"/>
+        <mesh filename="package://fh_desc/meshes/v2/finger_base_link_simple.dae"/>
       </geometry>
       <material name="light_grey">
         <color rgba="0.75 0.75 0.75 1.0"/>
