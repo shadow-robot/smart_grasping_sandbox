@@ -18,49 +18,38 @@
         <joint name="wrist_3_joint" />
     </group>
     <group name="hand">
-        <joint name="H1_WRJ1" />
-        <joint name="H1_WR_wrist_to_ft_sensor" />
-        <joint name="H1_WRft_sensor_to_faceplate" />
-        <joint name="H1Base" />
-        <joint name="H1_base_link_wrist_attach" />
-        <joint name="H1_dummy_joint_1" />
-        <joint name="H1_F1Base" />
         <joint name="H1_F1J1" />
         <joint name="H1_F1J2" />
-        <joint name="H1_F1_tip" />
-        <joint name="H1_F1_tip_to_optoforce" />
-        <joint name="H1_dummy_joint_2" />
-        <joint name="H1_F2Base" />
+        <joint name="H1_F1J3" />
         <joint name="H1_F2J1" />
         <joint name="H1_F2J2" />
-        <joint name="H1_F2_tip" />
-        <joint name="H1_F2_tip_to_optoforce" />
-        <joint name="H1_dummy_joint_3" />
-        <joint name="H1_F3Base" />
+        <joint name="H1_F2J3" />
         <joint name="H1_F3J1" />
         <joint name="H1_F3J2" />
-        <joint name="H1_F3_tip" />
-        <joint name="H1_F3_tip_to_optoforce" />
-        <joint name="wrist_3_link-tool0_fixed_joint" />
+        <joint name="H1_F3J3" />
     </group>
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
     <group_state name="open" group="hand">
         <joint name="H1_F1J1" value="-0.8" />
         <joint name="H1_F1J2" value="0" />
+        <joint name="H1_F1J3" value="0" />
         <joint name="H1_F2J1" value="-0.8" />
         <joint name="H1_F2J2" value="0" />
+        <joint name="H1_F2J3" value="0" />
         <joint name="H1_F3J1" value="-0.8" />
         <joint name="H1_F3J2" value="0" />
-        <joint name="H1_WRJ1" value="0" />
+        <joint name="H1_F3J3" value="0" />
     </group_state>
     <group_state name="close" group="hand">
         <joint name="H1_F1J1" value="-0.05" />
         <joint name="H1_F1J2" value="0.4" />
+        <joint name="H1_F1J3" value="0" />
         <joint name="H1_F2J1" value="-0.05" />
         <joint name="H1_F2J2" value="0.4" />
+        <joint name="H1_F2J3" value="0" />
         <joint name="H1_F3J1" value="-0.05" />
         <joint name="H1_F3J2" value="0.4" />
-        <joint name="H1_WRJ1" value="0" />
+        <joint name="H1_F3J3" value="0" />
     </group_state>
     <group_state name="start" group="arm">
         <joint name="elbow_joint" value="1.8849" />
