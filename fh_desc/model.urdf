@@ -988,6 +988,7 @@
     <fdir1>1 0 0</fdir1>
     <maxVel>1.0</maxVel>
     <minDepth>0.002</minDepth>
+    <material>Gazebo/Grey</material>
   </gazebo>
   <gazebo reference="H1_F1_link_2">
     <kp>1000000.0</kp>
@@ -997,6 +998,7 @@
     <fdir1>1 0 0</fdir1>
     <maxVel>1.0</maxVel>
     <minDepth>0.002</minDepth>
+    <material>Gazebo/Grey</material>
   </gazebo><gazebo reference="H1_F1_tip">
     <kp>1000000.0</kp>
     <kd>100.0</kd>
@@ -1005,6 +1007,7 @@
     <fdir1>1 0 0</fdir1>
     <maxVel>1.0</maxVel>
     <minDepth>0.002</minDepth>
+    <material>Gazebo/FlatBlack</material>
   </gazebo>
   
   <gazebo reference="H1_F2_link_1">
@@ -1015,6 +1018,7 @@
     <fdir1>1 0 0</fdir1>
     <maxVel>1.0</maxVel>
     <minDepth>0.002</minDepth>
+    <material>Gazebo/Grey</material>
   </gazebo>
   <gazebo reference="H1_F2_link_2">
     <kp>1000000.0</kp>
@@ -1024,6 +1028,7 @@
     <fdir1>1 0 0</fdir1>
     <maxVel>1.0</maxVel>
     <minDepth>0.002</minDepth>
+    <material>Gazebo/Grey</material>
   </gazebo><gazebo reference="H1_F2_tip">
     <kp>1000000.0</kp>
     <kd>100.0</kd>
@@ -1032,6 +1037,7 @@
     <fdir1>1 0 0</fdir1>
     <maxVel>1.0</maxVel>
     <minDepth>0.002</minDepth>
+    <material>Gazebo/FlatBlack</material>
   </gazebo>
   
   <gazebo reference="H1_F3_link_1">
@@ -1042,6 +1048,7 @@
     <fdir1>1 0 0</fdir1>
     <maxVel>1.0</maxVel>
     <minDepth>0.002</minDepth>
+    <material>Gazebo/Grey</material>
   </gazebo>
   <gazebo reference="H1_F3_link_2">
     <kp>1000000.0</kp>
@@ -1051,6 +1058,7 @@
     <fdir1>1 0 0</fdir1>
     <maxVel>1.0</maxVel>
     <minDepth>0.002</minDepth>
+    <material>Gazebo/Grey</material>
   </gazebo><gazebo reference="H1_F3_tip">
     <kp>1000000.0</kp>
     <kd>100.0</kd>
@@ -1059,5 +1067,31 @@
     <fdir1>1 0 0</fdir1>
     <maxVel>1.0</maxVel>
     <minDepth>0.002</minDepth>
+    <material>Gazebo/FlatBlack</material>
   </gazebo>
+  
+  <gazebo reference="H1_F1_base_link">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  <gazebo reference="H1_F2_base_link">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  <gazebo reference="H1_F3_base_link">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  
+  <gazebo reference="H1_F1_palm_link">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  <gazebo reference="H1_F2_palm_link">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  <gazebo reference="H1_F3_palm_link">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  
+  <gazebo reference="H1_base_link">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  
 </robot>
