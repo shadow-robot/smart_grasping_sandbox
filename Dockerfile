@@ -29,7 +29,7 @@ RUN source /opt/ros/indigo/setup.bash && \
     wget https://raw.githubusercontent.com/osrf/osrf-rosdep/master/gazebo7/00-gazebo7.list -O /etc/ros/rosdep/sources.list.d/00-gazebo7.list && \
     rosdep update && \
     rosdep install --default-yes --all --ignore-src && \
-    catkin build
+    catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 # installing gzweb
 RUN curl -sL https://deb.nodesource.com/setup | bash - && \
