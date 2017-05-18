@@ -81,3 +81,5 @@ hand:
     - TRRTkConfigDefault
     - PRMkConfigDefault
     - PRMstarkConfigDefault
+  longest_valid_segment_fraction: 0.05
+  default_planner_config: RRTkConfigDefault
