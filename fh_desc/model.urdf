@@ -494,24 +494,24 @@
     <axis xyz="0 0 1"/>
     <parent link="H1_F1_palm_link"/>
     <child link="H1_F1_base_link"/>
-    <limit effort="2" lower="-0.785398163397" upper="0.785398163397" velocity="1.0"/>
-    <dynamics damping="0.01"/>
+    <limit effort="50" lower="-0.785398163397" upper="0.785398163397" velocity="1.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="H1_F1J2" type="revolute">
     <origin rpy="0.070695 6.9389E-16 2.0947E-16" xyz="0 0.035 0.11683"/>
     <axis xyz="1 0 0"/>
     <parent link="H1_F1_base_link"/>
     <child link="H1_F1_link_1"/>
-    <limit effort="2" lower="-1.3962634016" upper="1.0471975512" velocity="1.0"/>
-    <dynamics damping="0.1"/>
+    <limit effort="50" lower="-1.3962634016" upper="1.0471975512" velocity="1.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="H1_F1J3" type="revolute">
     <origin rpy="-0.0068649 1.7347E-18 1.6176E-16" xyz="0 0 0.06"/>
     <axis xyz="1 0 0"/>
     <parent link="H1_F1_link_1"/>
     <child link="H1_F1_link_2"/>
-    <limit effort="2" lower="-1.0471975512" upper="1.57079632679" velocity="1.0"/>
-    <dynamics damping="0.01"/>
+    <limit effort="50" lower="-1.0471975512" upper="1.57079632679" velocity="1.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <transmission name="H1_F1J1_transmission">
     <type>transmission_interface/SimpleTransmission</type>
@@ -682,24 +682,24 @@
     <axis xyz="0 0 1"/>
     <parent link="H1_F2_palm_link"/>
     <child link="H1_F2_base_link"/>
-    <limit effort="2" lower="-0.785398163397" upper="0.785398163397" velocity="1.0"/>
-    <dynamics damping="0.01"/>
+    <limit effort="50" lower="-0.785398163397" upper="0.785398163397" velocity="1.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="H1_F2J2" type="revolute">
     <origin rpy="0.070695 6.9389E-16 2.0947E-16" xyz="0 0.035 0.11683"/>
     <axis xyz="1 0 0"/>
     <parent link="H1_F2_base_link"/>
     <child link="H1_F2_link_1"/>
-    <limit effort="2" lower="-1.3962634016" upper="1.0471975512" velocity="1.0"/>
-    <dynamics damping="0.1"/>
+    <limit effort="50" lower="-1.3962634016" upper="1.0471975512" velocity="1.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="H1_F2J3" type="revolute">
     <origin rpy="-0.0068649 1.7347E-18 1.6176E-16" xyz="0 0 0.06"/>
     <axis xyz="1 0 0"/>
     <parent link="H1_F2_link_1"/>
     <child link="H1_F2_link_2"/>
-    <limit effort="2" lower="-1.0471975512" upper="1.57079632679" velocity="1.0"/>
-    <dynamics damping="0.01"/>
+    <limit effort="50" lower="-1.0471975512" upper="1.57079632679" velocity="1.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <transmission name="H1_F2J1_transmission">
     <type>transmission_interface/SimpleTransmission</type>
@@ -870,24 +870,24 @@
     <axis xyz="0 0 1"/>
     <parent link="H1_F3_palm_link"/>
     <child link="H1_F3_base_link"/>
-    <limit effort="2" lower="-0.785398163397" upper="0.785398163397" velocity="1.0"/>
-    <dynamics damping="0.01"/>
+    <limit effort="50" lower="-0.785398163397" upper="0.785398163397" velocity="1.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="H1_F3J2" type="revolute">
     <origin rpy="0.070695 6.9389E-16 2.0947E-16" xyz="0 0.035 0.11683"/>
     <axis xyz="1 0 0"/>
     <parent link="H1_F3_base_link"/>
     <child link="H1_F3_link_1"/>
-    <limit effort="2" lower="-1.3962634016" upper="1.0471975512" velocity="1.0"/>
-    <dynamics damping="0.1"/>
+    <limit effort="50" lower="-1.3962634016" upper="1.0471975512" velocity="1.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="H1_F3J3" type="revolute">
     <origin rpy="-0.0068649 1.7347E-18 1.6176E-16" xyz="0 0 0.06"/>
     <axis xyz="1 0 0"/>
     <parent link="H1_F3_link_1"/>
     <child link="H1_F3_link_2"/>
-    <limit effort="2" lower="-1.0471975512" upper="1.57079632679" velocity="1.0"/>
-    <dynamics damping="0.01"/>
+    <limit effort="50" lower="-1.0471975512" upper="1.57079632679" velocity="1.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <transmission name="H1_F3J1_transmission">
     <type>transmission_interface/SimpleTransmission</type>
