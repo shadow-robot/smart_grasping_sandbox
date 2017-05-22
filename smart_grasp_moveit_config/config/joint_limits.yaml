@@ -12,12 +12,22 @@ joint_limits:
     max_velocity: 1
     has_acceleration_limits: false
     max_acceleration: 0
+  H1_F1J3:
+    has_velocity_limits: true
+    max_velocity: 1
+    has_acceleration_limits: false
+    max_acceleration: 0
   H1_F2J1:
     has_velocity_limits: true
     max_velocity: 1
     has_acceleration_limits: false
     max_acceleration: 0
   H1_F2J2:
+    has_velocity_limits: true
+    max_velocity: 1
+    has_acceleration_limits: false
+    max_acceleration: 0
+  H1_F2J3:
     has_velocity_limits: true
     max_velocity: 1
     has_acceleration_limits: false
@@ -32,9 +42,9 @@ joint_limits:
     max_velocity: 1
     has_acceleration_limits: false
     max_acceleration: 0
-  H1_WRJ1:
+  H1_F3J3:
     has_velocity_limits: true
-    max_velocity: 0.1
+    max_velocity: 1
     has_acceleration_limits: false
     max_acceleration: 0
   elbow_joint:

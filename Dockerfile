@@ -29,7 +29,7 @@ RUN source /opt/ros/indigo/setup.bash && \
     wget https://raw.githubusercontent.com/osrf/osrf-rosdep/master/gazebo7/00-gazebo7.list -O /etc/ros/rosdep/sources.list.d/00-gazebo7.list && \
     rosdep update && \
     rosdep install --default-yes --all --ignore-src && \
-    catkin build
+    catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 # installing gzweb
 RUN curl -sL https://deb.nodesource.com/setup | bash - && \
@@ -44,6 +44,7 @@ RUN cd /root && \
     cd c9sdk && \
     scripts/install-sdk.sh && \
     sed -i -e 's_127.0.0.1_0.0.0.0_g' /root/c9sdk/configs/standalone.js
+    
 
 RUN apt-get remove -y python-pip && \
     wget https://bootstrap.pypa.io/get-pip.py && \
@@ -51,11 +52,10 @@ RUN apt-get remove -y python-pip && \
     pip2 install --upgrade packaging jupyter && \
     pip2 install --upgrade jupyter_contrib_nbextensions && \
     jupyter contrib nbextension install --system --symlink && \
-    jupyter notebook --generate-config && \
-    sed -i "s/\#c.NotebookApp.token = '<generated>'/c.NotebookApp.token = ''/g" /root/.jupyter/jupyter_notebook_config.py && \
-    sed -i "s/\#c.NotebookApp.password = u''/c.NotebookApp.password = u'sha1:dab3f87b6e86:4f8c054221008ed851ff491f307adb8a2a7f868f'/g" /root/.jupyter/jupyter_notebook_config.py && \
-    sed -i "s/\#c.NotebookApp.ip = 'localhost'/c.NotebookApp.ip = '0.0.0.0'/g" /root/.jupyter/jupyter_notebook_config.py &&\
+    mkdir -p /root/.jupyter && \
     jupyter nbextension enable toc2/main
+    
+COPY jupyter_notebook_config.py /root/.jupyter/
 
 RUN apt-get remove -y python-pip && \
     wget https://bootstrap.pypa.io/get-pip.py && \

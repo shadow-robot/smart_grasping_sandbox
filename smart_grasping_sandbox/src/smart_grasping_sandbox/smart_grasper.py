@@ -84,7 +84,7 @@ class SmartGrasper(object):
         self.__pause_physics.call()
         
         joint_names = ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 
-                       'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint', 'H1_WRJ1']
+                       'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']
         joint_positions = [1.2, 0.5, -1.5, -0.5, -1.6, -0.3, 0.]
         
         self.__set_model.call(model_name="smart_grasping_sandbox", 
@@ -300,11 +300,15 @@ class SmartGrasper(object):
         ball_pose.orientation.w = quaternion[3]
         
         self.move_tip_absolute(ball_pose)
+        time.sleep(0.1)
         
         rospy.loginfo("Grasping")
-        self.move_tip(y=-0.093)
+        self.move_tip(y=-0.16)
+        time.sleep(0.1)
         self.check_fingers_collisions(False)
+        time.sleep(0.1)
         self.close_hand()
+        time.sleep(0.1)
         
         rospy.loginfo("Lifting")
         for _ in range(50):
