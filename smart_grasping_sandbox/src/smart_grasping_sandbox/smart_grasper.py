@@ -300,11 +300,15 @@ class SmartGrasper(object):
         ball_pose.orientation.w = quaternion[3]
         
         self.move_tip_absolute(ball_pose)
+        time.sleep(0.1)
         
         rospy.loginfo("Grasping")
-        self.move_tip(y=-0.093)
+        self.move_tip(y=-0.16)
+        time.sleep(0.1)
         self.check_fingers_collisions(False)
+        time.sleep(0.1)
         self.close_hand()
+        time.sleep(0.1)
         
         rospy.loginfo("Lifting")
         for _ in range(50):

@@ -494,7 +494,7 @@
     <axis xyz="0 0 1"/>
     <parent link="H1_F1_palm_link"/>
     <child link="H1_F1_base_link"/>
-    <limit effort="50" lower="-0.785398163397" upper="0.785398163397" velocity="1.0"/>
+    <limit effort="300" lower="-0.785398163397" upper="0.785398163397" velocity="1.0"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="H1_F1J2" type="revolute">
@@ -502,7 +502,7 @@
     <axis xyz="1 0 0"/>
     <parent link="H1_F1_base_link"/>
     <child link="H1_F1_link_1"/>
-    <limit effort="50" lower="-1.3962634016" upper="1.0471975512" velocity="1.0"/>
+    <limit effort="300" lower="-1.3962634016" upper="1.0471975512" velocity="1.0"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="H1_F1J3" type="revolute">
@@ -510,7 +510,7 @@
     <axis xyz="1 0 0"/>
     <parent link="H1_F1_link_1"/>
     <child link="H1_F1_link_2"/>
-    <limit effort="50" lower="-1.0471975512" upper="1.57079632679" velocity="1.0"/>
+    <limit effort="300" lower="-1.0471975512" upper="1.57079632679" velocity="1.0"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <transmission name="H1_F1J1_transmission">
@@ -682,7 +682,7 @@
     <axis xyz="0 0 1"/>
     <parent link="H1_F2_palm_link"/>
     <child link="H1_F2_base_link"/>
-    <limit effort="50" lower="-0.785398163397" upper="0.785398163397" velocity="1.0"/>
+    <limit effort="300" lower="-0.785398163397" upper="0.785398163397" velocity="1.0"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="H1_F2J2" type="revolute">
@@ -690,7 +690,7 @@
     <axis xyz="1 0 0"/>
     <parent link="H1_F2_base_link"/>
     <child link="H1_F2_link_1"/>
-    <limit effort="50" lower="-1.3962634016" upper="1.0471975512" velocity="1.0"/>
+    <limit effort="300" lower="-1.3962634016" upper="1.0471975512" velocity="1.0"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="H1_F2J3" type="revolute">
@@ -698,7 +698,7 @@
     <axis xyz="1 0 0"/>
     <parent link="H1_F2_link_1"/>
     <child link="H1_F2_link_2"/>
-    <limit effort="50" lower="-1.0471975512" upper="1.57079632679" velocity="1.0"/>
+    <limit effort="300" lower="-1.0471975512" upper="1.57079632679" velocity="1.0"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <transmission name="H1_F2J1_transmission">
@@ -870,7 +870,7 @@
     <axis xyz="0 0 1"/>
     <parent link="H1_F3_palm_link"/>
     <child link="H1_F3_base_link"/>
-    <limit effort="50" lower="-0.785398163397" upper="0.785398163397" velocity="1.0"/>
+    <limit effort="300" lower="-0.785398163397" upper="0.785398163397" velocity="1.0"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="H1_F3J2" type="revolute">
@@ -878,7 +878,7 @@
     <axis xyz="1 0 0"/>
     <parent link="H1_F3_base_link"/>
     <child link="H1_F3_link_1"/>
-    <limit effort="50" lower="-1.3962634016" upper="1.0471975512" velocity="1.0"/>
+    <limit effort="300" lower="-1.3962634016" upper="1.0471975512" velocity="1.0"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="H1_F3J3" type="revolute">
@@ -886,7 +886,7 @@
     <axis xyz="1 0 0"/>
     <parent link="H1_F3_link_1"/>
     <child link="H1_F3_link_2"/>
-    <limit effort="50" lower="-1.0471975512" upper="1.57079632679" velocity="1.0"/>
+    <limit effort="300" lower="-1.0471975512" upper="1.57079632679" velocity="1.0"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <transmission name="H1_F3J1_transmission">
@@ -991,165 +991,149 @@
   
   <gazebo reference="H1_F1_link_1">
     <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <mu1>1.5</mu1>
-    <mu2>1.5</mu2>
-    <fdir1>1 0 0</fdir1>
-    <maxVel>1.0</maxVel>
-    <minDepth>0.002</minDepth>
-    <material>Gazebo/Grey</material>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+    
+    <material>Gazebo/DarkGrey</material>
   </gazebo>
   <gazebo reference="H1_F1_link_2">
     <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <mu1>1.5</mu1>
-    <mu2>1.5</mu2>
-    <fdir1>1 0 0</fdir1>
-    <maxVel>1.0</maxVel>
-    <minDepth>0.002</minDepth>
-    <material>Gazebo/Grey</material>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+    
+    <material>Gazebo/DarkGrey</material>
   </gazebo><gazebo reference="H1_F1_tip">
     <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <mu1>1.5</mu1>
-    <mu2>1.5</mu2>
-    <fdir1>1 0 0</fdir1>
-    <maxVel>1.0</maxVel>
-    <minDepth>0.002</minDepth>
-    <material>Gazebo/FlatBlack</material>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+    
+    <material>Gazebo/DarkGrey</material>
   </gazebo>
   
   <gazebo reference="H1_F2_link_1">
     <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <mu1>1.5</mu1>
-    <mu2>1.5</mu2>
-    <fdir1>1 0 0</fdir1>
-    <maxVel>1.0</maxVel>
-    <minDepth>0.002</minDepth>
-    <material>Gazebo/Grey</material>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+    
+    <material>Gazebo/DarkGrey</material>
   </gazebo>
   <gazebo reference="H1_F2_link_2">
     <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <mu1>1.5</mu1>
-    <mu2>1.5</mu2>
-    <fdir1>1 0 0</fdir1>
-    <maxVel>1.0</maxVel>
-    <minDepth>0.002</minDepth>
-    <material>Gazebo/Grey</material>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+    
+    <material>Gazebo/DarkGrey</material>
   </gazebo><gazebo reference="H1_F2_tip">
     <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <mu1>1.5</mu1>
-    <mu2>1.5</mu2>
-    <fdir1>1 0 0</fdir1>
-    <maxVel>1.0</maxVel>
-    <minDepth>0.002</minDepth>
-    <material>Gazebo/FlatBlack</material>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+    
+    <material>Gazebo/DarkGrey</material>
   </gazebo>
   
   <gazebo reference="H1_F3_link_1">
     <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <mu1>1.5</mu1>
-    <mu2>1.5</mu2>
-    <fdir1>1 0 0</fdir1>
-    <maxVel>1.0</maxVel>
-    <minDepth>0.002</minDepth>
-    <material>Gazebo/Grey</material>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+    
+    <material>Gazebo/DarkGrey</material>
   </gazebo>
   <gazebo reference="H1_F3_link_2">
     <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <mu1>1.5</mu1>
-    <mu2>1.5</mu2>
-    <fdir1>1 0 0</fdir1>
-    <maxVel>1.0</maxVel>
-    <minDepth>0.002</minDepth>
-    <material>Gazebo/Grey</material>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+    
+    <material>Gazebo/DarkGrey</material>
   </gazebo><gazebo reference="H1_F3_tip">
     <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <mu1>1.5</mu1>
-    <mu2>1.5</mu2>
-    <fdir1>1 0 0</fdir1>
-    <maxVel>1.0</maxVel>
-    <minDepth>0.002</minDepth>
-    <material>Gazebo/FlatBlack</material>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+    
+    <material>Gazebo/DarkGrey</material>
   </gazebo>
   
   <gazebo reference="H1_F1_base_link">
     <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <mu1>1.5</mu1>
-    <mu2>1.5</mu2>
-    <fdir1>1 0 0</fdir1>
-    <maxVel>1.0</maxVel>
-    <minDepth>0.002</minDepth>
-    <material>Gazebo/Grey</material>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+    
+    <material>Gazebo/DarkGrey</material>
   </gazebo>
   <gazebo reference="H1_F2_base_link">
     <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <mu1>1.5</mu1>
-    <mu2>1.5</mu2>
-    <fdir1>1 0 0</fdir1>
-    <maxVel>1.0</maxVel>
-    <minDepth>0.002</minDepth>
-    <material>Gazebo/Grey</material>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+    
+    <material>Gazebo/DarkGrey</material>
   </gazebo>
   <gazebo reference="H1_F3_base_link">
     <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <mu1>1.5</mu1>
-    <mu2>1.5</mu2>
-    <fdir1>1 0 0</fdir1>
-    <maxVel>1.0</maxVel>
-    <minDepth>0.002</minDepth>
-    <material>Gazebo/Grey</material>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+    
+    <material>Gazebo/DarkGrey</material>
   </gazebo>
   
   <gazebo reference="H1_F1_palm_link">
     <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <mu1>1.5</mu1>
-    <mu2>1.5</mu2>
-    <fdir1>1 0 0</fdir1>
-    <maxVel>1.0</maxVel>
-    <minDepth>0.002</minDepth>
-    <material>Gazebo/Grey</material>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+    
+    <material>Gazebo/DarkGrey</material>
   </gazebo>
   <gazebo reference="H1_F2_palm_link">
     <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <mu1>1.5</mu1>
-    <mu2>1.5</mu2>
-    <fdir1>1 0 0</fdir1>
-    <maxVel>1.0</maxVel>
-    <minDepth>0.002</minDepth>
-    <material>Gazebo/Grey</material>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+    
+    <material>Gazebo/DarkGrey</material>
   </gazebo>
   <gazebo reference="H1_F3_palm_link">
     <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <mu1>1.5</mu1>
-    <mu2>1.5</mu2>
-    <fdir1>1 0 0</fdir1>
-    <maxVel>1.0</maxVel>
-    <minDepth>0.002</minDepth>
-    <material>Gazebo/Grey</material>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+    
+    <material>Gazebo/DarkGrey</material>
   </gazebo>
   
   <gazebo reference="H1_base_link">
     <kp>1000000.0</kp>
-    <kd>100.0</kd>
-    <mu1>1.5</mu1>
-    <mu2>1.5</mu2>
-    <fdir1>1 0 0</fdir1>
-    <maxVel>1.0</maxVel>
-    <minDepth>0.002</minDepth>
-    <material>Gazebo/Grey</material>
+    <kd>1.0</kd>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <minDepth>0.001</minDepth>
+    
+    <material>Gazebo/DarkGrey</material>
   </gazebo>
   
 </robot>
