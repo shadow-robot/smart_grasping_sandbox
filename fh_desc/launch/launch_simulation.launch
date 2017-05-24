@@ -13,6 +13,8 @@
       <arg name="paused" value="$(arg paused)"/>
       <arg name="gui" value="$(arg gui)"/>
       <arg name="verbose" value="$(arg verbose)"/>
+      
+      <arg name="physics" value="ode"/>
       <env name="GAZEBO_MODEL_PATH" value="~/.gazebo/models:/workspace/src:/workspace/src/universal_robot:${GAZEBO_MODEL_PATH}"/>
     </include>
   </group>
