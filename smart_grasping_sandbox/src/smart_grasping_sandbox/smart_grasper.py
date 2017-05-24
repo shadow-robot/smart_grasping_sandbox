@@ -85,13 +85,13 @@ class SmartGrasper(object):
         
         joint_names = ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 
                        'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']
-        joint_positions = [1.2, 0.5, -1.5, -0.5, -1.6, -0.3, 0.]
+        joint_positions = [1.2, 0.5, -1.5, -0.5, -1.5, 0.0]
         
         self.__set_model.call(model_name="smart_grasping_sandbox", 
                               urdf_param_name="robot_description",
                               joint_names=joint_names, 
                               joint_positions=joint_positions)
-        
+            
         timer = Timer(0.0, self.__start_ctrl)
         timer.start()
         
