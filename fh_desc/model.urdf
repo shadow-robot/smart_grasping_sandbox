@@ -365,12 +365,12 @@
   <gazebo>
     <plugin name="imu_controller" filename="libgazebo_ros_imu.so">
       <alwaysOn>true</alwaysOn>
-      <updateRate>30</updateRate>
+      <updateRate>50</updateRate>
       <bodyName>H1_base_link</bodyName>
       <!--imu_link -->
       <topicName>imu/data</topicName>
       <serviceName>imu/is_calibrated</serviceName>
-      <gaussianNoise>0.1</gaussianNoise>
+      <gaussianNoise>2.89e-08</gaussianNoise>
       <xyzOffsets>0 0 0</xyzOffsets>
       <rpyOffsets>0 0 0</rpyOffsets>
     </plugin>
