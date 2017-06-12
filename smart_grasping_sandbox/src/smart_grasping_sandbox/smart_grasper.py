@@ -109,13 +109,13 @@ class SmartGrasper(object):
 
         self.__reset_world.call()
 
-    def get_ball_pose(self):
+    def get_object_pose(self):
         """
         Gets the pose of the ball in the world frame.
         
         @return The pose of the ball.
         """
-        return self.__get_pose_srv.call("cricket_ball", "world").pose
+        return self.__get_pose_srv.call(self.__current_model_name, "world").pose
 
     def get_tip_pose(self):
         """
@@ -298,7 +298,7 @@ class SmartGrasper(object):
         self.open_hand()
         time.sleep(0.1)
         
-        ball_pose = self.get_ball_pose()
+        ball_pose = self.get_object_pose()
         ball_pose.position.z += 0.5
         
         #setting an absolute orientation (from the top)
@@ -354,7 +354,7 @@ class SmartGrasper(object):
    
 
     def __compute_arm_target_for_ball(self):
-        ball_pose = self.get_ball_pose()
+        ball_pose = self.get_object_pose()
 
         # come at it from the top
         arm_target = ball_pose
