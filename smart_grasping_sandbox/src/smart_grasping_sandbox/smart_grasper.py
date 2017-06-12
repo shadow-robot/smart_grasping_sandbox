@@ -1,6 +1,8 @@
 import rospy
 from std_srvs.srv import Empty
-from gazebo_msgs.srv import GetModelState, SetModelConfiguration
+from gazebo_msgs.srv import GetModelState, SetModelConfiguration, DeleteModel, \
+    SpawnModel
+from geometry_msgs.msg import Pose
 from controller_manager_msgs.srv import SwitchController, SwitchControllerRequest
 from moveit_msgs.msg import PlanningScene, PlanningSceneComponents
 from moveit_msgs.srv import GetPlanningScene
@@ -26,6 +28,8 @@ class SmartGrasper(object):
     """
 
     __last_joint_state = None
+    __current_model_name = "cricket_ball"
+    __path_to_models = "/root/.gazebo/models/"
     
     def __init__(self):
         """
@@ -50,7 +54,12 @@ class SmartGrasper(object):
         self.__switch_ctrl = rospy.ServiceProxy("/controller_manager/switch_controller", SwitchController)
         rospy.wait_for_service("/gazebo/set_model_configuration")
         self.__set_model = rospy.ServiceProxy("/gazebo/set_model_configuration", SetModelConfiguration)
-
+        
+        rospy.wait_for_service("/gazebo/delete_model")
+        self.__delete_model = rospy.ServiceProxy("/gazebo/delete_model", DeleteModel)
+        rospy.wait_for_service("/gazebo/spawn_sdf_model")
+        self.__spawn_model = rospy.ServiceProxy("/gazebo/spawn_sdf_model", SpawnModel)
+        
         rospy.wait_for_service('/get_planning_scene', 10.0)
         self.__get_planning_scene = rospy.ServiceProxy('/get_planning_scene', GetPlanningScene)
         self.__pub_planning_scene = rospy.Publisher('/planning_scene', PlanningScene, queue_size=10, latch=True)
@@ -85,7 +94,7 @@ class SmartGrasper(object):
         
         joint_names = ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 
                        'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']
-        joint_positions = [1.2, 0.5, -1.5, -0.5, -1.5, 0.0]
+        joint_positions = [1.2, 0.3, -1.5, -0.5, -1.5, 0.0]
         
         self.__set_model.call(model_name="smart_grasping_sandbox", 
                               urdf_param_name="robot_description",
@@ -100,13 +109,13 @@ class SmartGrasper(object):
 
         self.__reset_world.call()
 
-    def get_ball_pose(self):
+    def get_object_pose(self):
         """
         Gets the pose of the ball in the world frame.
         
         @return The pose of the ball.
         """
-        return self.__get_pose_srv.call("cricket_ball", "world").pose
+        return self.__get_pose_srv.call(self.__current_model_name, "world").pose
 
     def get_tip_pose(self):
         """
@@ -289,7 +298,7 @@ class SmartGrasper(object):
         self.open_hand()
         time.sleep(0.1)
         
-        ball_pose = self.get_ball_pose()
+        ball_pose = self.get_object_pose()
         ball_pose.position.z += 0.5
         
         #setting an absolute orientation (from the top)
@@ -316,9 +325,36 @@ class SmartGrasper(object):
             time.sleep(0.1)
             
         self.check_fingers_collisions(True)
+        
+    def swap_object(self, new_model_name):
+        """
+        Replaces the current object with a new one.Replaces
+        
+        @new_model_name the name of the folder in which the object is (e.g. beer)
+        """
+        try:
+            self.__delete_model(self.__current_model_name)
+        except:
+            rospy.logwarn("Failed to delete: " + self.__current_model_name)
+        
+        try:
+            sdf = None
+            initial_pose = Pose()
+            initial_pose.position.x = 0.15
+            initial_pose.position.z = 0.82
+            
+            with open(self.__path_to_models + new_model_name + "/model.sdf", "r") as model:
+                sdf = model.read()
+            res = self.__spawn_model(new_model_name, sdf, "", initial_pose, "world")
+            rospy.logerr( "RES: " + str(res) )
+            self.__current_model_name = new_model_name
+        except:
+            rospy.logwarn("Failed to delete: " + self.__current_model_name)
+   
+   
 
     def __compute_arm_target_for_ball(self):
-        ball_pose = self.get_ball_pose()
+        ball_pose = self.get_object_pose()
 
         # come at it from the top
         arm_target = ball_pose
