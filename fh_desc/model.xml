@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Robot name="SmartGraspingSandbox">
+
+  <robot  file="model.dae">
+  </robot>
+
+  <Manipulator name="HandH">
+    <base>base_link</base>
+    <effector>H1_base_attach</effector>
+    <Translation>0.0 0.0 0.1</Translation>
+    <joints>H1_F1J1 H1_F1J2 H1_F1J3 H1_F2J1 H1_F2J2 H1_F2J3 H1_F3J1 H1_F3J2 H1_F3J3 </joints>
+    <closingdirection>0 1 1 0 1 1 0 1 1</closingdirection>
+    <direction>0 0 1</direction>
+  </Manipulator>
+</Robot>
