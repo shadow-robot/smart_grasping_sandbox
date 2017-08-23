@@ -5,6 +5,12 @@
     <atmosphere type='adiabatic'/>
     <physics type="ode">
       <gravity>0.000000 0.000000 -9.810000</gravity>
+      
+      <!-- <max_step_size>0.01</max_step_size>
+      <real_time_factor>0.2</real_time_factor>
+      <real_time_update_rate>1</real_time_update_rate> -->
+      <max_contacts>5</max_contacts>
+      
       <ode> 
         <solver> 
           <type>quick</type> 

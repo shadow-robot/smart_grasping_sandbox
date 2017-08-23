@@ -312,7 +312,7 @@ class SmartGrasper(object):
         time.sleep(0.1)
         
         rospy.loginfo("Grasping")
-        self.move_tip(y=-0.16)
+        self.move_tip(y=-0.164)
         time.sleep(0.1)
         self.check_fingers_collisions(False)
         time.sleep(0.1)
@@ -320,8 +320,8 @@ class SmartGrasper(object):
         time.sleep(0.1)
         
         rospy.loginfo("Lifting")
-        for _ in range(50):
-            self.move_tip(y=0.001)
+        for _ in range(5):
+            self.move_tip(y=0.01)
             time.sleep(0.1)
             
         self.check_fingers_collisions(True)
