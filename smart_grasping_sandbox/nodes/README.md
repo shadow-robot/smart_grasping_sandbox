@@ -12,3 +12,9 @@ To run it, you can use (first number is the distance you go down towards the bal
 ```
 python grasp_quality.py -0.164 10
 ```
+
+However to properly run it I really recommend creating a new Docker container with  
+`grasp_quality.py` as its entrypoint. This way you can run it multiple times in 
+parallel on a server for example. 
+
+You can find an example entrypoint in `nodes/grasp_quality_entrypoint.sh`.
