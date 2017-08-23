@@ -61,7 +61,7 @@ class GraspQuality(object):
         return robustness, positions, velocities, efforts
 
     def __compute_euclidean_distance(self):
-        ball_pose = self.sgs.get_ball_pose()
+        ball_pose = self.sgs.get_object_pose()
         hand_pose = self.sgs.get_tip_pose()
         dist = sqrt((hand_pose.position.x - ball_pose.position.x)**2 + \
                      (hand_pose.position.y - ball_pose.position.y)**2 + \
@@ -81,7 +81,7 @@ def experiment(grasp_distance=-0.163):
     sgs.open_hand()
     time.sleep(0.1)
 
-    ball_pose = sgs.get_ball_pose()
+    ball_pose = sgs.get_object_pose()
     ball_pose.position.z += 0.5
 
     #setting an absolute orientation (from the top)
