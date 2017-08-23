@@ -18,3 +18,9 @@ However to properly run it I really recommend creating a new Docker container wi
 parallel on a server for example. 
 
 You can find an example entrypoint in `nodes/grasp_quality_entrypoint.sh`.
+
+The following command will run quite a few iterations with different approach distances from the ball:
+
+```
+for j in `seq 100`; do for i in -0.1645 -0.164 -0.1635 -0.163 -0.162 -0.161 -0.140; do docker run --rm -it -v /big/grasp_results_latest:/results --entrypoint /workspace/src/smart_grasping_sandbox/nodes/grasp_quality_entrypoint.sh shadowrobot/smart_grasping_sandbox $i 100 ; done; done
+```
