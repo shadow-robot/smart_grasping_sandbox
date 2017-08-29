@@ -54,13 +54,15 @@ RUN apt-get remove -y python-pip && \
     jupyter contrib nbextension install --system --symlink && \
     mkdir -p /root/.jupyter && \
     jupyter nbextension enable toc2/main
-    
+
 COPY jupyter_notebook_config.py /root/.jupyter/
 
 RUN apt-get remove -y python-pip && \
     wget https://bootstrap.pypa.io/get-pip.py && \
     python get-pip.py && \
     pip2 install --upgrade packaging jupyter
+
+RUN pip2 install --upgrade tensorflow keras h5py sklearn bokeh
 
 # cleanup
 RUN rm -rf /var/lib/apt/lists/*
