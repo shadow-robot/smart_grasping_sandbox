@@ -62,7 +62,7 @@ RUN apt-get remove -y python-pip && \
     python get-pip.py && \
     pip2 install --upgrade packaging jupyter
 
-RUN pip2 install --upgrade tensorflow keras h5py sklearn bokeh
+RUN pip2 install --upgrade tensorflow keras h5py sklearn bokeh bayesian-optimization
 
 # cleanup
 RUN rm -rf /var/lib/apt/lists/*
