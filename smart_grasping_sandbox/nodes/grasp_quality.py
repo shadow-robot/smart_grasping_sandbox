@@ -116,7 +116,7 @@ def experiment(grasp_distance=-0.163):
     return joint_names, joint_targets, robustness, positions, velocities, efforts
 
 
-with open("/tmp/results.txt", "wb") as txt_file:
+with open("/results/headers.txt", "wb") as txt_file:
     headers = "experiment_number; robustness; "
     for name in JOINT_NAMES:
         headers += name+"_pos ; "+name+"_vel ; "+name+"_eff ; "
@@ -130,14 +130,13 @@ print "Running the grasp script with the distances: ", grasp_distances, " / numb
 
 import uuid
 
-experiment_number = 0
 for dist in grasp_distances:
     for _ in range(number_of_tests_per_distance):
-        rospy.loginfo("---- grasping ["+str(experiment_number+1)+"/"+str(len(grasp_distances*number_of_tests_per_distance))+"] - dist="+str(dist))
+        rospy.loginfo("---- grasping ["+str(uuid.uuid4().hex)+"/"+str(len(grasp_distances*number_of_tests_per_distance))+"] - dist="+str(dist))
         joint_names, joint_targets, robustness, positions, velocities, efforts = experiment(dist)
 
         with open("/results/"+str(uuid.uuid4())+".txt", "a") as txt_file:
-            base_line = str(experiment_number)+" ; "+str(robustness)
+            base_line = str(uuid.uuid4().hex)+" ; "+str(robustness)
 
             for measurement_number in range(len(positions)):
                 pos = positions[measurement_number]
@@ -151,4 +150,3 @@ for dist in grasp_distances:
 
                 txt_file.write(measurement_line)
                 measurement_number += 1
-        experiment_number += 1
