@@ -49,8 +49,7 @@ RUN cd /root && \
 RUN apt-get remove -y python-pip && \
     wget https://bootstrap.pypa.io/get-pip.py && \
     python get-pip.py && \
-    pip install tornado==4.1 && \
-    pip2 install --upgrade packaging jupyter --ignore-installed pyparsing && \
+    pip2 install --upgrade packaging jupyter && \
     pip2 install --upgrade jupyter_contrib_nbextensions && \
     jupyter contrib nbextension install --system --symlink && \
     mkdir -p /root/.jupyter && \
