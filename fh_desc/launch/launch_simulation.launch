@@ -35,7 +35,9 @@
       <param name="dummy_to_convert_package_to_model"
         command="sed -i s@package://@model://@g /tmp/smart_grasping_sandbox.gazebo.urdf" />
     </node>
-  </group>
+
+    <node name="spawn_kinect_ros" pkg="gazebo_ros" type="spawn_model" args="-file $(find smart_grasping_sandbox)/models/kinect_ros/model.sdf -sdf -x 1.35931 -y 0.242068 -z 1.04638 -R 0 -P 0 -Y -2.6122 -model kinect" respawn="false" output="screen" />
+ </group>
 
   <node name="world_to_arm_base" pkg="tf" type="static_transform_publisher" args="0 -1 1 0 0 0 world base_link 100" />
   <include file="$(find ur_gazebo)/launch/controller_utils.launch"/>
