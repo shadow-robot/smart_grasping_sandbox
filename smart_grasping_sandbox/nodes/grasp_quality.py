@@ -1,3 +1,6 @@
+# Copyright (C) 2018 Shadow Robot Company Ltd - All Rights Reserved.
+# Proprietary and Confidential. Unauthorized copying of the content in this file, via any medium is strictly prohibited.
+
 from smart_grasping_sandbox.smart_grasper import SmartGrasper
 from tf.transformations import quaternion_from_euler
 from math import pi

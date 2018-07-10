@@ -1,3 +1,6 @@
+# Copyright (C) 2018 Shadow Robot Company Ltd - All Rights Reserved.
+# Proprietary and Confidential. Unauthorized copying of the content in this file, via any medium is strictly prohibited.
+
 import rospy
 from std_srvs.srv import Empty
 from gazebo_msgs.srv import GetModelState, SetModelConfiguration, DeleteModel, \
