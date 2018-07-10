@@ -9,6 +9,7 @@ import rospy
 from math import sqrt, pow
 import random
 from sys import argv
+import uuid
 
 sgs = SmartGrasper()
 
@@ -28,6 +29,7 @@ CLOSED_HAND["H1_F3J2"] = 0.25
 CLOSED_HAND["H1_F3J3"] = 0.4
 
 JOINT_NAMES = CLOSED_HAND.keys()
+
 
 class GraspQuality(object):
     def __init__(self, sgs):
@@ -66,9 +68,9 @@ class GraspQuality(object):
     def __compute_euclidean_distance(self):
         ball_pose = self.sgs.get_object_pose()
         hand_pose = self.sgs.get_tip_pose()
-        dist = sqrt((hand_pose.position.x - ball_pose.position.x)**2 + \
-                     (hand_pose.position.y - ball_pose.position.y)**2 + \
-                     (hand_pose.position.z - ball_pose.position.z)**2)
+        dist = sqrt((hand_pose.position.x - ball_pose.position.x)**2 +
+                    (hand_pose.position.y - ball_pose.position.y)**2 +
+                    (hand_pose.position.z - ball_pose.position.z)**2)
         return dist
 
 quality = GraspQuality(sgs)
@@ -87,7 +89,7 @@ def experiment(grasp_distance=-0.163):
     ball_pose = sgs.get_object_pose()
     ball_pose.position.z += 0.5
 
-    #setting an absolute orientation (from the top)
+    # setting an absolute orientation (from the top)
     quaternion = quaternion_from_euler(-pi/2., 0.0, 0.0)
     ball_pose.orientation.x = quaternion[0]
     ball_pose.orientation.y = quaternion[1]
@@ -129,13 +131,14 @@ with open("/results/headers.txt", "wb") as txt_file:
 
 grasp_distances = [float(i) for i in argv[1:-1]]
 number_of_tests_per_distance = int(argv[-1])
-print "Running the grasp script with the distances: ", grasp_distances, " / number of tests: ", number_of_tests_per_distance
-
-import uuid
+print "Running the grasp script with the distances: ", \
+grasp_distances, " / number of tests: ", number_of_tests_per_distance
 
 for dist in grasp_distances:
     for _ in range(number_of_tests_per_distance):
-        rospy.loginfo("---- grasping ["+str(uuid.uuid4().hex)+"/"+str(len(grasp_distances*number_of_tests_per_distance))+"] - dist="+str(dist))
+        rospy.loginfo("---- grasping ["+str(uuid.uuid4().hex)+"/"+
+                                        str(len(grasp_distances*number_of_tests_per_distance))+
+                                     "] - dist="+str(dist))
         joint_names, joint_targets, robustness, positions, velocities, efforts = experiment(dist)
 
         with open("/results/"+str(uuid.uuid4())+".txt", "a") as txt_file:
