@@ -179,7 +179,7 @@ class SmartGrasper(object):
                 hand_goal.trajectory.points[0].positions.append(target)
             else:
                 if not arm_goal:
-                    arm_goal = FollowJointTrajectoryGoal()                  
+                    arm_goal = FollowJointTrajectoryGoal()
                     point = JointTrajectoryPoint()
                     point.time_from_start = rospy.Duration.from_sec(duration)
                     arm_goal.trajectory.points.append(point)
