@@ -152,7 +152,7 @@ for dist in grasp_distances:
 
                 measurement_line = base_line + " ; "
                 for id_name, _ in enumerate(joint_names):
-                    measurement_line += str(pos[id_name]) + " ; " + str(vel[id_name]) + " ; " + str(eff[id_name]) + " ; "
+                    measurement_line += str(pos[id_name]) + " ; " + str(vel[id_name]) + " ; " + str(eff[id_name]) + " ;"
                 measurement_line += str(measurement_number) + "\n"
 
                 txt_file.write(measurement_line)
