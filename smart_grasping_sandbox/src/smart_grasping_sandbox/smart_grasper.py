@@ -141,7 +141,7 @@ class SmartGrasper(object):
 
     def move_tip(self, x=0., y=0., z=0., roll=0., pitch=0., yaw=0.):
         """
-        Moves the tooltip in the world frame by the given x,y,z / roll,pitch,yaw. 
+        Moves the tooltip in the world frame by the given x,y,z / roll,pitch,yaw.
         @return True on success
         """
         transform = PyKDL.Frame(PyKDL.Rotation.RPY(pitch, roll, yaw),
@@ -154,7 +154,7 @@ class SmartGrasper(object):
         self.arm_commander.set_start_state_to_current_state()
         self.arm_commander.set_pose_targets([final_pose])
         plan = self.arm_commander.plan()
-        if not  self.arm_commander.execute(plan):
+        if not self.arm_commander.execute(plan):
             return False
         return True
 
@@ -179,9 +179,9 @@ class SmartGrasper(object):
                 hand_goal.trajectory.points[0].positions.append(target)
             else:
                 if not arm_goal:
-                    arm_goal = FollowJointTrajectoryGoal()                    
+                    arm_goal = FollowJointTrajectoryGoal()                   
                     point = JointTrajectoryPoint()
-                    point.time_from_start = rospy.Duration.from_sec(duration)                    
+                    point.time_from_start = rospy.Duration.from_sec(duration)                   
                     arm_goal.trajectory.points.append(point)
                 arm_goal.trajectory.joint_names.append(joint)
                 arm_goal.trajectory.points[0].positions.append(target)
@@ -192,7 +192,7 @@ class SmartGrasper(object):
 
     def get_current_joint_state(self):
         """
-        Gets the current state of the robot. 
+        Gets the current state of the robot.
         @return joint positions, velocity and efforts as three dictionnaries
         """
         joints_position = {n: p for n, p in
@@ -200,10 +200,10 @@ class SmartGrasper(object):
                                self.__last_joint_state.position)}
         joints_velocity = {n: v for n, v in
                            zip(self.__last_joint_state.name,
-                           self.__last_joint_state.velocity)}
+                               self.__last_joint_state.velocity)}
         joints_effort = {n: v for n, v in
                          zip(self.__last_joint_state.name,
-                         self.__last_joint_state.effort)}
+                             self.__last_joint_state.effort)}
         return joints_position, joints_velocity, joints_effort
 
     def open_hand(self):
@@ -326,7 +326,7 @@ class SmartGrasper(object):
             with open(self.__path_to_models + new_model_name + "/model.sdf", "r") as model:
                 sdf = model.read()
             res = self.__spawn_model(new_model_name, sdf, "", initial_pose, "world")
-            rospy.logerr( "RES: " + str(res) )
+            rospy.logerr("RES: " + str(res))
             self.__current_model_name = new_model_name
         except:
             rospy.logwarn("Failed to delete: " + self.__current_model_name)
@@ -395,6 +395,6 @@ class SmartGrasper(object):
         rospy.loginfo("STARTING CONTROLLERS")
         self.__switch_ctrl.call(start_controllers=["hand_controller", "arm_controller", "joint_state_controller"],
                                 stop_controllers=[], strictness=1)
-                                
+
     def __joint_state_cb(self, msg):
         self.__last_joint_state = msg

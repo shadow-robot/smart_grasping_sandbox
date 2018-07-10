@@ -75,6 +75,7 @@ class GraspQuality(object):
 
 quality = GraspQuality(sgs)
 
+
 def experiment(grasp_distance=-0.163):
     sgs.reset_world()
     time.sleep(0.1)
@@ -132,13 +133,13 @@ with open("/results/headers.txt", "wb") as txt_file:
 grasp_distances = [float(i) for i in argv[1:-1]]
 number_of_tests_per_distance = int(argv[-1])
 print "Running the grasp script with the distances: ", \
-grasp_distances, " / number of tests: ", number_of_tests_per_distance
+      grasp_distances, " / number of tests: ", number_of_tests_per_distance
 
 for dist in grasp_distances:
     for _ in range(number_of_tests_per_distance):
-        rospy.loginfo("---- grasping ["+str(uuid.uuid4().hex)+"/"+
-                                        str(len(grasp_distances*number_of_tests_per_distance))+
-                                     "] - dist="+str(dist))
+        rospy.loginfo("---- grasping [" + str(uuid.uuid4().hex) + "/" +
+                      str(len(grasp_distances*number_of_tests_per_distance)) +
+                      "] - dist="+str(dist))
         joint_names, joint_targets, robustness, positions, velocities, efforts = experiment(dist)
 
         with open("/results/"+str(uuid.uuid4())+".txt", "a") as txt_file:
@@ -151,7 +152,7 @@ for dist in grasp_distances:
 
                 measurement_line = base_line + " ; "
                 for id_name, _ in enumerate(joint_names):
-                    measurement_line += str(pos[id_name]) + " ; " + str(vel[id_name])+" ; "+str(eff[id_name])+ " ; "
+                    measurement_line += str(pos[id_name]) + " ; " + str(vel[id_name]) + " ; " + str(eff[id_name]) + " ; "
                 measurement_line += str(measurement_number) + "\n"
 
                 txt_file.write(measurement_line)
