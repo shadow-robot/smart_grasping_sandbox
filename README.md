@@ -37,7 +37,7 @@ help(SmartGrasper)
 The next time you want to restart this container you just have to run:
 
 ```
-docker start -a sgs
+docker start sgs
 ```
 
 And you will be able to connect to [localhost:8080](http://localhost:8080) and [localhost:8888](http://localhost:8888) again.
