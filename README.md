@@ -42,6 +42,22 @@ docker start sgs
 
 And you will be able to connect to [localhost:8080](http://localhost:8080) and [localhost:8888](http://localhost:8888) again.
 
+If on startup you get the following error: 
+```
+[Err] [RenderEngine.cc:734] Can't open display: :1.0
+```
+The camera topics will not be published. This error is caused by an erratic closure of the X server processes. In order to fix it run the following command on your host:
+```
+docker exec -it sgs bash
+```
+then run:
+
+```
+rm /tmp/.X1-lock
+```
+
+Finally restart the container.
+
 ## More advanced use
 
 A Cloud9IDE editor is also available for the more advanced user on [localhost:8181](http://localhost:8181).

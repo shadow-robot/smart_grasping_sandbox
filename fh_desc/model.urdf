@@ -37,7 +37,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/collision/base.dae"/>
+        <mesh filename="package://ur_description/meshes/ur10/collision/base.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -65,7 +65,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/collision/shoulder.dae"/>
+        <mesh filename="package://ur_description/meshes/ur10/collision/shoulder.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -93,7 +93,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/collision/upperarm.dae"/>
+        <mesh filename="package://ur_description/meshes/ur10/collision/upperarm.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -121,7 +121,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/collision/forearm.dae"/>
+        <mesh filename="package://ur_description/meshes/ur10/collision/forearm.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -149,7 +149,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/collision/wrist1.dae"/>
+        <mesh filename="package://ur_description/meshes/ur10/collision/wrist1.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -177,7 +177,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/collision/wrist2.dae"/>
+        <mesh filename="package://ur_description/meshes/ur10/collision/wrist2.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -205,7 +205,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://ur_description/meshes/ur10/collision/wrist3.dae"/>
+        <mesh filename="package://ur_description/meshes/ur10/collision/wrist3.stl"/>
       </geometry>
     </collision>
     <inertial>
