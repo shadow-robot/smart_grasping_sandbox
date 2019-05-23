@@ -1,12 +1,12 @@
 settings:
   machine_type: small
   ubuntu:
-    version: trusty
+    version: xenial
   ros:
-    release: indigo
+    release: kinetic
   docker:
     image: shadowrobot/build-tools
-    tag: trusty-indigo
+    tag: xenial-kinetic
   template_project_name: template_unit_tests_and_code_coverage
   toolset:
     modules:
@@ -19,13 +19,6 @@ trunks:
       - name: code_coverage
       - name: style_check
         settings:
-          ubuntu:
-            version: xenial
-          ros:
-            release: kinetic
-          docker:
-            image: shadowrobot/build-tools
-            tag: xenial-kinetic
           toolset:
             modules:
               - code_style_check
